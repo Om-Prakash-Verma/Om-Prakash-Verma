@@ -1,31 +1,29 @@
 # 👋 Hi, I'm Om Prakash
 
 
-🎓 Computer Science Engineering Student | 💻 Web, AI & Python Developer
+🎓 Computer Science Engineering Student | 🚀 AI-Assisted Web App Builder
 
 
-## 🚀 About Me
-I am a CSE student passionate about building modern web applications, intelligent systems, and developer tools. I enjoy solving problems using Python, designing scalable architectures, and leveraging AI to accelerate development.
+## 🧠 About Me
+I build functional web applications using AI-assisted development workflows. I focus on system design, feature planning, and rapid execution by leveraging modern AI tools rather than writing everything manually. I am comfortable understanding, modifying, and extending AI-generated codebases.
 
 
-## 🛠️ Tech Stack
-- **Languages:** Python, JavaScript, C
-- **Frontend:** HTML, CSS, React, Next.js
-- **Backend:** FastAPI, Firebase
-- **Data & AI:** NumPy, Pandas, Matplotlib, Gemini API
-- **CS Fundamentals:** DSA, COA, File Systems
+## 🛠️ What I Work With
+- AI-assisted coding & prompt engineering
+- Web application architecture (frontend + backend concepts)
+- Firebase, APIs, and modern web stacks via AI-generated code
+- System design thinking and problem decomposition
 
 
-## 📌 Featured Projects
-- **AetherSchedule** – AI-powered academic scheduling & simulation platform
-- **AI Developer Tools** – Code beautifiers, generators, and migration systems
-- **Python Automation** – File handling, CSV analytics, DataFrames
+## 📌 Featured Work
+- **AetherSchedule** – AI-built academic scheduling & simulation platform
+- **AI Web Apps** – Multiple experimental tools and utilities built using AI workflows
 
 
-## 📈 What I’m Learning
-- Advanced full-stack patterns
-- System design fundamentals
-- Scalable AI-assisted workflows
+## 📈 Currently Improving
+- Deeper understanding of generated code
+- Software architecture & system design
+- Best practices for maintainable AI-assisted development
 
 
 ## 📫 Connect With Me
