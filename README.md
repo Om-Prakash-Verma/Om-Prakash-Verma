@@ -1,3 +1,4 @@
+
 # 👋 Hi, I'm Om Prakash
 
 🎓 **Computer Science Engineering Student**  
@@ -72,6 +73,7 @@ I leverage modern AI tools to **generate code**, then **understand, modify, debu
 - Writing cleaner prompts for maintainable code output  
 
 ---
+<div align="center">
 
 ## 🌐 Connect With Me
 
