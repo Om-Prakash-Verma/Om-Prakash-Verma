@@ -1,4 +1,4 @@
-<h1 align="center">Hi 👋, I'm Om Prakash Verma</h1>
+<h1 align="center">Hi 👋 I'm Om Prakash Verma</h1>
 
 <h3 align="center">
 🚀 Software Developer | Full Stack | Frontend
