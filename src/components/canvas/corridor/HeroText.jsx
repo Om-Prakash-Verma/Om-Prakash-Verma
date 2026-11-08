@@ -53,37 +53,6 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
     const floatY = useRef(0);
     const worldPosVec = useRef(new THREE.Vector3());
 
-    // Name elements configuration (OM PRAKASH on top, VERMA below)
-    const nameWords = useMemo(() => [
-        { 
-            text: 'OM', 
-            baseX: -0.82, 
-            baseY: 0.22, 
-            fontSize: 0.56, 
-            splitDirX: -1.5, 
-            splitDirY: 0.4,
-            anchorX: 'center'
-        },
-        { 
-            text: 'PRAKASH', 
-            baseX: 0.22, 
-            baseY: 0.22, 
-            fontSize: 0.56, 
-            splitDirX: 1.5, 
-            splitDirY: 0.4,
-            anchorX: 'center'
-        },
-        { 
-            text: 'VERMA', 
-            baseX: 0, 
-            baseY: -0.22, 
-            fontSize: 0.64, 
-            splitDirX: 0, 
-            splitDirY: -1.0,
-            anchorX: 'center'
-        },
-    ], []);
-
     // Tagline words for split effect
     const taglineWords = useMemo(() => [
         { text: '<', baseX: -0.85, splitDir: -1.5 },
@@ -102,10 +71,10 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
         groupRef.current.getWorldPosition(worldPosVec.current);
         const distance = camera.position.z - worldPosVec.current.z;
 
-        const SPLIT_START = 3;
-        const SPLIT_PEAK = 0;
+        const SPLIT_START = 3.5;
+        const SPLIT_PEAK = 0.5;
         const SPLIT_END = -2;
-        const SPLIT_AMOUNT = 0.9;
+        const SPLIT_AMOUNT = 0.8;
 
         if (distance > SPLIT_PEAK && distance < SPLIT_START) {
             const t = (SPLIT_START - distance) / (SPLIT_START - SPLIT_PEAK);
@@ -119,17 +88,13 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
 
         splitAmount.current = THREE.MathUtils.lerp(splitAmount.current, targetSplit.current, 0.08);
 
-        // Apply split and floating animation to OM PRAKASH VERMA words
-        nameRefs.current.forEach((ref, i) => {
-            if (ref) {
-                if (ref.material) ref.material.opacity = 1;
-
-                const item = nameWords[i];
-                ref.position.x = item.baseX + item.splitDirX * splitAmount.current;
-                ref.position.y = item.baseY + item.splitDirY * splitAmount.current + Math.sin(time * 0.7 + i * 0.6) * 0.015;
-                ref.rotation.z = Math.sin(time * 0.5 + i) * 0.015 * (1 + splitAmount.current);
-            }
-        });
+        // Apply elevation & dodge to main hero name on approach
+        if (nameRefs.current[0]) {
+            const nameEl = nameRefs.current[0];
+            nameEl.position.y = 0.62 + splitAmount.current * 0.45 + Math.sin(time * 0.7) * 0.015;
+            nameEl.rotation.z = Math.sin(time * 0.5) * 0.015;
+            if (nameEl.material) nameEl.material.opacity = 1;
+        }
 
         // Apply split to tagline words
         taglineRefs.current.forEach((ref, i) => {
@@ -149,24 +114,23 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
 
     return (
         <group ref={groupRef} position={position} scale={[scale, scale, 1]}>
-            {/* OM PRAKASH VERMA - Rubik Scribble Sketch Font */}
-            {nameWords.map((item, i) => (
-                <Text
-                    key={item.text}
-                    ref={(el) => (nameRefs.current[i] = el)}
-                    position={[item.baseX, item.baseY, 0]}
-                    fontSize={item.fontSize}
-                    font={RUBIK_SCRIBBLE_URL}
-                    color="#ffffff"
-                    outlineWidth={0.012}
-                    outlineColor="#1a1a1a"
-                    anchorX={item.anchorX}
-                    anchorY="middle"
-                    letterSpacing={0.02}
-                >
-                    {item.text}
-                </Text>
-            ))}
+            {/* OM PRAKASH VERMA - Unified Single Hero Title in Rubik Scribble Font */}
+            <Text
+                ref={(el) => (nameRefs.current[0] = el)}
+                position={[0, 0.62, 0]}
+                fontSize={0.42}
+                font={RUBIK_SCRIBBLE_URL}
+                color="#ffffff"
+                outlineWidth={0.012}
+                outlineColor="#1a1a1a"
+                anchorX="center"
+                anchorY="middle"
+                letterSpacing={0.03}
+                maxWidth={3.2}
+                textAlign="center"
+            >
+                OM PRAKASH VERMA
+            </Text>
 
             {/* Tagline words - Cabin Sketch font */}
             {taglineWords.map((word, i) => (
@@ -186,8 +150,8 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
             ))}
 
             {/* Small decorative stars around name */}
-            <SmallStar position={[-1.4, 0.55, 0]} scale={0.07} />
-            <SmallStar position={[1.4, 0.45, 0]} scale={0.05} />
+            <SmallStar position={[-1.4, 0.68, 0]} scale={0.07} />
+            <SmallStar position={[1.4, 0.68, 0]} scale={0.05} />
             <SmallStar position={[-1.2, -0.4, 0]} scale={0.04} />
             <SmallStar position={[1.2, -0.4, 0]} scale={0.035} />
         </group>

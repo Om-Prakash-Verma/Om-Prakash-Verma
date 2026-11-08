@@ -33,7 +33,7 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
         }
     }, [onReady]);
 
-    // Academic cards data
+    // Academic cards data - 2 primary pillars: B.Tech Degree & Schooling
     const cards = useMemo(() => [
         {
             id: 'degree',
@@ -43,9 +43,9 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
             affiliation: 'AKTU (Dr. A.P.J. Abdul Kalam Technical University)',
             tagline: 'Computer Science & Engineering',
             desc: '4-year engineering program specializing in computer systems, algorithms, operating systems, and distributed networks.',
-            x: -4.2,
+            x: -2.5,
             y: 0.4,
-            z: -7.5,
+            z: -8.0,
             accent: '#3b82f6',
             highlights: ['Data Structures & Algorithms', 'Operating Systems', 'Computer Networks', 'Database Management Systems']
         },
@@ -57,25 +57,11 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
             affiliation: 'Primary to Higher Secondary (Class 12)',
             tagline: 'Foundation & Academic Excellence',
             desc: 'Comprehensive 11-year schooling foundation culminating in Higher Secondary (Class 12) education with a strong emphasis on Mathematics and Sciences.',
-            x: 0,
-            y: 0.7,
-            z: -8.5,
+            x: 2.5,
+            y: 0.4,
+            z: -8.0,
             accent: '#10b981',
             highlights: ['Higher Secondary (Class 12)', 'Mathematics & Physical Sciences', 'Foundational Logic & Computing', 'Academic Discipline']
-        },
-        {
-            id: 'systems-ai',
-            title: 'CORE SYSTEMS & AI',
-            subtitle: 'Specialization',
-            institution: 'Applied Systems & Research',
-            affiliation: 'High-Scale Edge & Full-Stack Systems',
-            tagline: 'Applied Engineering',
-            desc: 'Designing high-performance full-stack architectures, AI reasoning pipelines, vector search engines, and serverless edge databases.',
-            x: 4.2,
-            y: 0.4,
-            z: -7.5,
-            accent: '#8b5cf6',
-            highlights: ['Full-Stack (React 19, Next.js, Node)', 'AI Reasoning Pipelines (Gemini 32k)', 'Cloudflare Edge & Serverless D1', '3D WebGL & Three.js Graphics']
         }
     ], []);
 
@@ -127,7 +113,7 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
                         anchorX="center"
                         anchorY="middle"
                     >
-                        EDUCATION & SYSTEMS
+                        EDUCATION
                     </Text>
                     <Text
                         font={CABIN_SKETCH}
