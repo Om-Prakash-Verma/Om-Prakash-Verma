@@ -235,10 +235,7 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
 
                     {/* === SKILLS MILESTONE === */}
 
-                    <SkillsMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 135)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
+                    {/* Skills milestone removed */}
                 </group>
             ))}
         </group>

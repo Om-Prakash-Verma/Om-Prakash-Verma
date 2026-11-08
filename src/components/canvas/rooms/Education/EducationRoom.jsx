@@ -42,9 +42,9 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
             affiliation: 'AKTU (Dr. A.P.J. Abdul Kalam Technical University)',
             tagline: 'Computer Science & Engineering',
             desc: '4-year engineering program specializing in computer systems, algorithms, operating systems, and distributed networks.',
-            x: -4.5,
-            y: 0.8,
-            z: -7,
+            x: -4.2,
+            y: 0.4,
+            z: -7.5,
             accent: '#3b82f6',
             highlights: ['Data Structures & Algorithms', 'Operating Systems', 'Compilers & Lexers', 'Distributed Systems']
         },
@@ -57,7 +57,7 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
             tagline: 'Under the Runtime',
             desc: 'Comprehensive study of computer architecture, memory models, compiler design, process scheduling, and network protocols.',
             x: 0,
-            y: 1.2,
+            y: 0.7,
             z: -8.5,
             accent: '#10b981',
             highlights: ['Memory Allocation', 'AST & Parsers', 'Socket Programming', 'Thread Synchronization']
@@ -70,9 +70,9 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
             affiliation: 'High-Scale Edge & Vector Retrieval',
             tagline: 'Applied Engineering',
             desc: 'Production deployments of AI reasoning pipelines (Gemini 32k thinking), vector retrieval, and serverless edge databases (Cloudflare D1).',
-            x: 4.5,
-            y: 0.8,
-            z: -7,
+            x: 4.2,
+            y: 0.4,
+            z: -7.5,
             accent: '#8b5cf6',
             highlights: ['Vector Search in RAM', 'Cloudflare Workers/D1', 'Offline-First IndexedDB', 'Microsecond Edge Caching']
         }

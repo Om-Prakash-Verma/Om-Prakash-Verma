@@ -71,7 +71,7 @@ const CorridorSegment = ({
                 label: 'EDUCATION',
                 icon: '🎓',
                 color: '#e6f5ef',
-                enterDistance: 15
+                enterDistance: 6
             },
             {
                 id: `connect-${segmentIndex}`,
