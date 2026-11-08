@@ -1,0 +1,203 @@
+================================================================================
+                    OM PRAKRAKSH VERMA - MASTER PORTFOLIO PROFILE
+================================================================================
+
+1. PERSONAL & PROFESSIONAL IDENTITY
+--------------------------------------------------------------------------------
+- Full Name:        Om Prakash Verma
+- Profession:       Software Developer | Full-Stack Engineer | Frontend Developer
+- Core Specialization: Full-Stack & Frontend Engineering, Creative 3D Web, Systems & Edge
+- Education:        B.Tech in Computer Science & Engineering (2022 - 2026)
+- Institution:      ABES Engineering College
+- Affiliation:      Dr. A.P.J. Abdul Kalam Technical University (AKTU), India
+- Location:         India
+- GitHub:           https://github.com/Om-Prakash-Verma
+- LinkedIn:         https://www.linkedin.com/in/om-prakash-verma-9a6741270/
+- Email:            omprakash.verma.dev@gmail.com
+
+PERSONAL POSITIONING & SLOGAN:
+"An engineer by curiosity, a developer by passion, and a builder by nature."
+
+BIO & CORE PHILOSOPHY:
+I am a Computer Science Engineering student and software developer from India who 
+enjoys turning ideas into functional, meaningful digital experiences.
+
+I am passionate about technology, software engineering, and understanding how things 
+work beneath the surface. I enjoy experimenting with new technologies, exploring 
+unconventional ideas, solving complex problems, and building products that solve 
+real-world problems.
+
+I believe in learning by building. Rather than simply using tools and frameworks, 
+I enjoy understanding the engineering principles behind them.
+
+I don't see development as simply writing code. I see it as a process of 
+understanding problems, designing solutions, making thoughtful engineering decisions, 
+and continuously refining the result.
+
+MY DEVELOPMENT PHILOSOPHY REVOLVES AROUND:
+- Curiosity: Always exploring and questioning.
+- Engineering: Understanding what happens beneath the interface.
+- Experimentation: Learning by building and testing.
+- Simplicity: Solving complex problems with clean solutions.
+- Creativity: Combining engineering with thoughtful design.
+- Continuous Growth: Improving through every project and challenge.
+
+BEYOND CODING:
+Creative technology, visual experiences, UI/UX design, 3D environments, 
+interactive storytelling, fitness, photography, and entrepreneurship.
+
+
+2. TECHNICAL SKILLS & DOMAIN EXPERTISE
+--------------------------------------------------------------------------------
+- Languages:        TypeScript, JavaScript (ESNext), Python, Kotlin, HTML5, CSS3, C/C++, SQL
+- Frontend:         React 19, Next.js 15, Astro, Angular, Vite, Tailwind CSS (v4), Three.js / WebGL, GSAP, Framer Motion
+- Mobile & Native:  Android (Kotlin Native, Jetpack Compose, Room SQLite, WorkManager)
+- Backend & Edge:   Node.js, Express, Cloudflare Workers & Pages Functions, Hono v4, RESTful APIs, Server Actions
+- Databases:        Cloudflare D1 (Serverless SQLite), Firebase Firestore, IndexedDB (Dexie.js), PostgreSQL, Room DB
+- AI & Vector:      Google Gemini API (Gemini 3 Pro, 2.5 Flash), Vector Embeddings (Gemini Embedding 2), In-Memory Cosine Engines
+- Tooling & Infra:  Git, Webpack, Puppeteer, Docker, Web Audio API, Web Crypto API, Chrome Extensions API (MV3)
+
+
+3. FEATURED PROJECTS REPOSITORY
+--------------------------------------------------------------------------------
+
+[PROJECT 1] GIT FORENSICS
+- Category: AI & Systems Architecture
+- Tagline: Enterprise-Grade AI Time-Travel Debugger & Architectural Audit Console
+- Engineering Metric: 32k Thinking Budget // D3.js Force Graphs
+- Tech Stack: React 19, TypeScript, D3.js, Node.js, Vercel Serverless, Gemini 3 Pro, Tailwind CSS
+- Summary: Visualizes git repository histories as interactive timelines, quantifies code volatility, and maps structural dependency blast radiuses using a multi-pass AI reasoning pipeline.
+- Architecture:
+    [Browser Client / D3.js Workspace]
+           │
+           ▼
+    [Vercel Serverless Function: /api/analyze]
+           ├── Pass 1 (Extractive Scan) ──► [Gemini 3 Flash: Logic Delta Map]
+           └── Pass 2 (Deep Reasoning)  ──► [Gemini 3 Pro: 32k Thinking Budget]
+                                                   │
+                                                   ▼
+                                      [Structured Forensic Audit Report]
+- GitHub: https://github.com/Om-Prakash-Verma/GIT-FORENSICS
+- Live URL: https://git-forensics.vercel.app
+
+[PROJECT 2] AETHERSCHEDULE
+- Category: AI Operations & Algorithms
+- Tagline: AI Academic Operations Platform & Digital Twin Constraint Simulator
+- Engineering Metric: NP-Complete Hybrid Solver // Zero Conflict Matrix
+- Tech Stack: React 18, TypeScript, Firebase Firestore, Gemini API, Recharts, Tailwind CSS, Vite
+- Summary: Solves the NP-complete University Course Timetabling Problem (UCTP) using hybrid LLM cognitive heuristics combined with deterministic TypeScript conflict-repair matrices.
+- Architecture:
+    [Institution Constraints & Prefs] ──► [Gemini 3.0 Pro Reasoning] ──► [Candidate Schedule]
+                                                                            │
+    [Deterministic Repair Matrix: validateAndRepairSchedule()] ◄────────────┘
+            │
+            ▼ (Guaranteed 0-conflict allocation)
+    [Firebase Firestore Reactive Store] ──► [Optimistic UI + Telemetry Dashboard]
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 3] PIXSORT
+- Category: AI Intelligence & Vector Search
+- Tagline: Personal Photo Intelligence with Multimodal Vector Search & Pooled Cloud Storage
+- Engineering Metric: ~3ms In-Memory Cosine Ranker // $0 Cloud Query Cost
+- Tech Stack: React 19, TypeScript, Google Gemini 2.5 Flash, Gemini Embedding 2, Google Drive REST API, Cloud Firestore
+- Summary: Institutional Capstone Project enabling natural language conversational photo retrieval using 3072-D Gemini embeddings and decentralized Google Drive storage pooling.
+- Architecture:
+    [Raw Photo Ingestion] ──► [Gemini 2.5 Flash (Vision OCR)] ──► [3072-D Normalized Vector]
+                                                                          │
+    [Conversational Query] ──► [Local RAM In-Memory Cosine Engine (~3ms)] ◄┘
+                                           │
+                                           ▼
+                           [Direct REST v3 Binary Stream from Pooled Drives]
+- GitHub: https://github.com/Om-Prakash-Verma/PixSort
+
+[PROJECT 4] RAILSURE 🚆
+- Category: Edge Infrastructure & Reverse Engineering
+- Tagline: Real-Time Indian Railways Chart Vacancy & Visual Seat Map Explorer
+- Engineering Metric: ~15ms Edge Cache // 6,563 Pre-Indexed Trains
+- Tech Stack: Astro, React, Tailwind CSS, Cloudflare Pages, Node/Express Proxy, Cloudflare Cron
+- Summary: High-speed train chart vacancy engine built with Astro SSR on Cloudflare Pages, reverse-engineered IRCTC endpoints, and an edge proxy kept alive via Cloudflare Cron Triggers.
+- Architecture:
+    [User Search] ──► [Astro on Cloudflare Pages (Edge SSR)]
+                            │
+           ├── Cache Hit (15ms): Instant Vacancy Response
+           └── Cache Miss ──► [Render Singapore Proxy] ──► [IRCTC Online Chart APIs]
+                                         ▲
+                               [Cloudflare Cron (14-min keep-alive)]
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 5] GHOSTPOCKET 👻💰
+- Category: Mobile & Edge Sync
+- Tagline: Minimal Spooky Student Expense Tracker & Bilateral Debt Ledger
+- Engineering Metric: Atomic 2-Way Sync // Integer Paise Precision
+- Tech Stack: Kotlin Native, Jetpack Compose, Room DB, Cloudflare Workers, Cloudflare D1, Hono v4
+- Summary: Native Android application built with Jetpack Compose, Room SQLite, and a cost-optimized Cloudflare D1 serverless edge backend with reactive mascot moods.
+- Architecture:
+    [Jetpack Compose UI (Bento Grid)] ──► [Room SQLite (Paise Math)]
+                                                    │
+    [WorkManager Background Sync] ◄────────────────┘
+            │
+            ▼ (Single-Roundtrip Atomic Sync: POST /api/sync)
+    [Cloudflare Workers + Hono] ──► [Cloudflare D1 (Serverless SQLite)]
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 6] K9 SNIPERS 🐕
+- Category: Edge Security & E-Commerce
+- Tagline: Offline-First E-Commerce & Pet Shipping Logistics Platform
+- Engineering Metric: RS256 Web Crypto // SWR Local Cache with LRU Eviction
+- Tech Stack: React 19, TypeScript, Dexie.js (IndexedDB), Cloudflare Pages Functions, Firestore REST, Razorpay, Tailwind v4
+- Summary: High-performance e-commerce platform with an offline-first SWR IndexedDB synchronization engine and Node-free Cloudflare Pages Functions edge backend.
+- Architecture:
+    [Client Dexie.js (IndexedDB)] ──► SWR Delta Sync ◄── [Firestore Metadata Version]
+            │
+            ▼ (Checkout)
+    [Cloudflare Pages Functions (V8 Worker Sandbox)]
+            ├── Web Crypto RS256 JWT Generation (Google Service Account)
+            ├── Server-Side Price & Coupon Re-Audit (Anti-Tampering)
+            └── HMAC-SHA256 Razorpay Signature Verification
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 7] ABES MODERN STUDENT PORTAL 🎓
+- Category: PWA & Creative UI
+- Tagline: Tactile Claymorphic PWA with 3D Login Companion & Edge Proxy
+- Engineering Metric: <90 KB Gzipped Bundle // Sub-second Edge Load
+- Tech Stack: React 19, Vite, Tailwind CSS, Cloudflare Pages Functions, PWA / Service Worker
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 8] SEOFORGE 🔍
+- Category: Edge Crawlers & Automation
+- Tagline: Technical SEO Audit Suite & Programmatic SEO Platform
+- Engineering Metric: 100/100 Lighthouse // 2,200+ Programmatic Routes
+- Tech Stack: React 19, TypeScript, Cloudflare Pages Functions, Puppeteer, Tailwind CSS, jsPDF
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 9] ORDERCRAFT 🏭
+- Category: Industrial Manufacturing & Local Systems
+- Tagline: Industrial Manufacturing Order Management System (OMS)
+- Engineering Metric: Zero-Backend IndexedDB // Multi-Tier BOM Explosion
+- Tech Stack: Angular, TypeScript, Dexie.js (IndexedDB), Tailwind CSS
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 10] SNAPGALLERY 🖼️
+- Category: Browser Extensions
+- Tagline: High-Performance Chrome Extension Media Scraper & Downloader
+- Engineering Metric: Manifest V3 // Debounced DOM Mutation Observer
+- Tech Stack: TypeScript, Webpack 5, Chrome Extensions API (MV3), CSS Rules Parser
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 11] CROCKERYHUB 🍽️
+- Category: Full-Stack Enterprise CMS
+- Tagline: Enterprise Catalog & Real-Time Content Management System
+- Engineering Metric: Next.js 15 Server Actions // Runtime Zod Schema Extension
+- Tech Stack: Next.js 15, React 18, TypeScript, Firebase Firestore, Tailwind CSS, Zod
+- GitHub: https://github.com/Om-Prakash-Verma
+
+[PROJECT 12] ABTALKS 60-DAY CHALLENGE 💻
+- Category: Community & Synthesizer
+- Tagline: Daily Proof-of-Work Engineering Streak Platform
+- Engineering Metric: 14,200+ Students // Web Audio API Pink Noise Synthesizer
+- Tech Stack: React 18, TypeScript, Tailwind CSS, Web Audio API, Vite
+- GitHub: https://github.com/Om-Prakash-Verma
+
+================================================================================
+                    END OF PROFILE SPECIFICATION
+================================================================================

@@ -1,134 +1,116 @@
 @import "tailwindcss";
 
-@theme {
-  --breakpoint-xs: 480px;
-}
-
 @layer base {
   :root {
-    color-scheme: dark;
-    --color-bg: #090a0f;
-    --color-surface: #10121a;
-    --color-surface-raised: #151822;
-    --color-border: rgba(255, 255, 255, 0.08);
-    --color-text-main: #f1f5f9;
-    --color-text-muted: #94a3b8;
+    --paper-bg: #f8f6f0;
+    --ink-black: #1a1a1a;
+    --ink-gray: #555555;
+    --paper-card: #ffffff;
+    --wood-board: #d6b280;
   }
 
-  html {
-    scroll-behavior: smooth;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    scrollbar-width: thin;
-    scrollbar-color: #272b38 #090a0f;
-  }
-
-  body {
-    background-color: var(--color-bg);
-    color: var(--color-text-main);
-  }
-
-  ::selection {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--paper-bg);
+    color: var(--ink-black);
+    font-family: 'Patrick Hand', cursive, -apple-system, sans-serif;
   }
 }
 
-/* Tactile / Claymorphism Utilities */
-dialog:modal {
-  overscroll-behavior: contain;
+/* Typography Utility Classes */
+.font-sketch {
+  font-family: 'Patrick Hand', cursive, sans-serif;
 }
 
-dialog::backdrop {
-  overflow: hidden;
-  overscroll-behavior: contain;
-  background: rgba(3, 4, 7, 0.85);
-  backdrop-filter: blur(12px);
+.font-marker {
+  font-family: 'Permanent Marker', cursive, sans-serif;
 }
 
-.clay-card {
-  background: linear-gradient(135deg, rgba(26, 30, 42, 0.8) 0%, rgba(15, 17, 24, 0.95) 100%);
-  box-shadow: 
-    10px 14px 30px rgba(0, 0, 0, 0.65),
-    -4px -4px 16px rgba(255, 255, 255, 0.03),
-    inset 1px 1px 1px rgba(255, 255, 255, 0.12),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(12px);
-  border-radius: 1.25rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.clay-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    12px 18px 36px rgba(0, 0, 0, 0.75),
-    -4px -4px 18px rgba(255, 255, 255, 0.05),
-    inset 1px 1px 1px rgba(255, 255, 255, 0.16),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.7);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.clay-button {
-  background: linear-gradient(145deg, #1f2432, #141722);
-  box-shadow: 
-    6px 6px 14px rgba(0, 0, 0, 0.6),
-    -2px -2px 8px rgba(255, 255, 255, 0.04),
-    inset 1px 1px 1px rgba(255, 255, 255, 0.15),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 9999px;
-  transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
-}
-
-.clay-button:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(145deg, #272e3f, #181c2a);
-  border-color: rgba(255, 255, 255, 0.16);
-  box-shadow: 
-    8px 8px 18px rgba(0, 0, 0, 0.7),
-    -3px -3px 10px rgba(255, 255, 255, 0.06),
-    inset 1px 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-.clay-button:active {
-  transform: translateY(1px);
-  box-shadow: 
-    2px 2px 6px rgba(0, 0, 0, 0.7),
-    inset 2px 2px 4px rgba(0, 0, 0, 0.6),
-    inset -1px -1px 2px rgba(255, 255, 255, 0.08);
-}
-
-.clay-button-primary {
-  background: linear-gradient(145deg, #ffffff, #dcdfe6);
-  color: #0b0c10;
-  box-shadow: 
-    6px 6px 16px rgba(0, 0, 0, 0.5),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.8),
-    inset -1px -1px 2px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.clay-button-primary:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(145deg, #ffffff, #f0f2f7);
-  box-shadow: 
-    8px 10px 22px rgba(255, 255, 255, 0.15),
-    6px 6px 18px rgba(0, 0, 0, 0.6);
-}
-
-.clay-button-primary:active {
-  transform: translateY(1px);
-  box-shadow: 
-    2px 2px 6px rgba(0, 0, 0, 0.5),
-    inset 2px 2px 4px rgba(0, 0, 0, 0.2);
+.font-hand {
+  font-family: 'Caveat', cursive, sans-serif;
 }
 
 .font-mono-code {
   font-family: 'JetBrains Mono', monospace;
 }
 
-.font-heading {
-  font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+/* Hand-Drawn Paper Card & Torn Edge Effects */
+.paper-box {
+  background-color: #ffffff;
+  border: 2px solid #1c1c1c;
+  box-shadow: 
+    3px 4px 0px #1c1c1c,
+    6px 8px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+.paper-torn {
+  background-color: #ffffff;
+  border: 2px solid #1c1c1c;
+  position: relative;
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.1);
+  clip-path: polygon(
+    0% 3px, 2% 0px, 5% 4px, 8% 1px, 12% 4px, 16% 0px, 20% 3px, 24% 1px, 28% 4px, 32% 0px,
+    36% 3px, 40% 1px, 44% 4px, 48% 0px, 52% 3px, 56% 1px, 60% 4px, 64% 0px, 68% 3px, 72% 1px,
+    76% 4px, 80% 0px, 84% 3px, 88% 1px, 92% 4px, 96% 0px, 100% 3px,
+    99% 25%, 100% 50%, 99% 75%, 100% 100%,
+    97% 97%, 94% 100%, 90% 96%, 86% 99%, 82% 96%, 78% 100%, 74% 97%, 70% 99%, 66% 96%, 62% 100%,
+    58% 97%, 54% 99%, 50% 96%, 46% 100%, 42% 97%, 38% 99%, 34% 96%, 30% 100%, 26% 97%, 22% 99%,
+    18% 96%, 14% 100%, 10% 97%, 6% 99%, 2% 96%, 0% 100%,
+    1% 75%, 0% 50%, 1% 25%
+  );
+}
+
+.paper-button {
+  background-color: #ffffff;
+  border: 2px solid #1c1c1c;
+  box-shadow: 2px 3px 0px #1c1c1c;
+  transition: all 0.12s ease-in-out;
+  cursor: pointer;
+}
+
+.paper-button:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 4px 0px #1c1c1c;
+  background-color: #faf9f5;
+}
+
+.paper-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px #1c1c1c;
+}
+
+/* Hand-drawn wooden sign plaque */
+.wood-sign {
+  background: linear-gradient(180deg, #dfc093 0%, #c9a36f 100%);
+  border: 3px solid #3d2b1f;
+  box-shadow: 3px 4px 0px #241912, 0 8px 16px rgba(0,0,0,0.15);
+  border-radius: 6px;
+}
+
+/* Hand-drawn animated wiggle effect on hover */
+@keyframes sketch-wiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(0.8deg); }
+  50% { transform: rotate(-0.8deg); }
+  75% { transform: rotate(0.5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.hover-wiggle:hover {
+  animation: sketch-wiggle 0.3s ease infinite;
+}
+
+/* Crumpled Paper Background Texture Pattern */
+.bg-crumpled-paper {
+  background-color: #f7f5ee;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, transparent 80%),
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
 }
