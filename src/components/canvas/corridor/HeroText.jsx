@@ -7,22 +7,22 @@ import * as THREE from 'three';
 const RUBIK_SCRIBBLE_URL = '/fonts/RubikScribble-Regular.ttf';
 const CABIN_SKETCH_URL = '/fonts/CabinSketch-Regular.ttf';
 
-// Global flag - draw animation only happens ONCE per page load
-let hasPlayedDrawAnimation = false;
-
 /**
  * HeroText Component - Hand-drawn Style with Sketch Fonts
  * 
- * WOW Effects for Awwwards SOTD:
- * - ITOM in Rubik Scribble font (splits into letters during scroll)
- * - Creative developer in Cabin Sketch font (also splits)
+ * Displays full name: OM PRAKASH VERMA
+ * - Line 1: OM PRAKASH
+ * - Line 2: VERMA
+ * - Line 3: < software developer />
+ * 
+ * Features:
+ * - Parallax 3D split & dodge effect on camera approach
  * - Floating micro-animations
- * - Parallax split effect
- * - RESPONSIVE: scales down on mobile
+ * - Responsive fluid scale for mobile & desktop
  */
 const HeroText = ({ position = [0, 0.3, 0] }) => {
     const groupRef = useRef();
-    const letterRefs = useRef([]);
+    const nameRefs = useRef([]);
     const taglineRefs = useRef([]);
     const { camera } = useThree();
 
@@ -51,25 +51,49 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
     const splitAmount = useRef(0);
     const targetSplit = useRef(0);
     const floatY = useRef(0);
-    // Pre-allocate Vector3 to avoid per-frame garbage collection
     const worldPosVec = useRef(new THREE.Vector3());
 
-    // Letter positions for ITOM split effect
-    const letters = useMemo(() => [
-        { char: 'O', baseX: -0.4, splitDir: -1.0, delay: 0 },
-        { char: 'M', baseX: 0.4, splitDir: 1.0, delay: 0 },
+    // Name elements configuration (OM PRAKASH on top, VERMA below)
+    const nameWords = useMemo(() => [
+        { 
+            text: 'OM', 
+            baseX: -0.82, 
+            baseY: 0.22, 
+            fontSize: 0.56, 
+            splitDirX: -1.5, 
+            splitDirY: 0.4,
+            anchorX: 'center'
+        },
+        { 
+            text: 'PRAKASH', 
+            baseX: 0.22, 
+            baseY: 0.22, 
+            fontSize: 0.56, 
+            splitDirX: 1.5, 
+            splitDirY: 0.4,
+            anchorX: 'center'
+        },
+        { 
+            text: 'VERMA', 
+            baseX: 0, 
+            baseY: -0.22, 
+            fontSize: 0.64, 
+            splitDirX: 0, 
+            splitDirY: -1.0,
+            anchorX: 'center'
+        },
     ], []);
 
     // Tagline words for split effect
     const taglineWords = useMemo(() => [
-        { text: '<', baseX: -0.85, splitDir: -1.5, delay: 0 },
-        { text: 'software', baseX: -0.4, splitDir: -0.8, delay: 0 },
-        { text: 'developer', baseX: 0.4, splitDir: 0.8, delay: 0 },
-        { text: '/>', baseX: 0.85, splitDir: 1.5, delay: 0 },
+        { text: '<', baseX: -0.85, splitDir: -1.5 },
+        { text: 'software', baseX: -0.4, splitDir: -0.8 },
+        { text: 'developer', baseX: 0.4, splitDir: 0.8 },
+        { text: '/>', baseX: 0.85, splitDir: 1.5 },
     ], []);
 
     // Animation loop
-    useFrame((state, delta) => {
+    useFrame((state) => {
         if (!groupRef.current) return;
 
         const time = state.clock.elapsedTime;
@@ -95,65 +119,61 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
 
         splitAmount.current = THREE.MathUtils.lerp(splitAmount.current, targetSplit.current, 0.08);
 
-        // Apply split to each letter of ITOM
-        letterRefs.current.forEach((ref, i) => {
+        // Apply split and floating animation to OM PRAKASH VERMA words
+        nameRefs.current.forEach((ref, i) => {
             if (ref) {
-                // Ensure opacity is 1
                 if (ref.material) ref.material.opacity = 1;
-                ref.scale.setScalar(1); // Ensure scale is 1, no lingering pop effect
 
-                const letter = letters[i];
-                ref.position.x = letter.baseX + letter.splitDir * splitAmount.current;
-                ref.position.y = 0.2 + Math.sin(time * 0.7 + i * 0.5) * 0.015;
-                ref.rotation.z = Math.sin(time * 0.5 + i) * 0.02 * (1 + splitAmount.current);
+                const item = nameWords[i];
+                ref.position.x = item.baseX + item.splitDirX * splitAmount.current;
+                ref.position.y = item.baseY + item.splitDirY * splitAmount.current + Math.sin(time * 0.7 + i * 0.6) * 0.015;
+                ref.rotation.z = Math.sin(time * 0.5 + i) * 0.015 * (1 + splitAmount.current);
             }
         });
 
         // Apply split to tagline words
         taglineRefs.current.forEach((ref, i) => {
             if (ref) {
-                // Ensure opacity is 1
                 if (ref.material) ref.material.opacity = 1;
 
                 const word = taglineWords[i];
                 ref.position.x = word.baseX + word.splitDir * splitAmount.current * 0.6;
-                ref.position.y = -0.45 + Math.sin(time * 0.6 + i * 0.3) * 0.008;
+                ref.position.y = -0.58 + Math.sin(time * 0.6 + i * 0.3) * 0.008;
             }
         });
 
-        // === FLOATING ANIMATION ===
+        // Floating animation
         floatY.current = Math.sin(time * 0.5) * 0.02;
-        // Don't override Y position entirely, add to base
         groupRef.current.position.y = position[1] + floatY.current;
     });
 
     return (
         <group ref={groupRef} position={position} scale={[scale, scale, 1]}>
-            {/* ITOM Letters - Rubik Scribble font with fade-in animation */}
-            {letters.map((letter, i) => (
+            {/* OM PRAKASH VERMA - Rubik Scribble Sketch Font */}
+            {nameWords.map((item, i) => (
                 <Text
-                    key={letter.char}
-                    ref={(el) => (letterRefs.current[i] = el)}
-                    position={[letter.baseX, 0.2, 0]}
-                    fontSize={0.9}
+                    key={item.text}
+                    ref={(el) => (nameRefs.current[i] = el)}
+                    position={[item.baseX, item.baseY, 0]}
+                    fontSize={item.fontSize}
                     font={RUBIK_SCRIBBLE_URL}
                     color="#ffffff"
                     outlineWidth={0.012}
                     outlineColor="#1a1a1a"
-                    anchorX="center"
+                    anchorX={item.anchorX}
                     anchorY="middle"
-                    letterSpacing={0}
+                    letterSpacing={0.02}
                 >
-                    {letter.char}
+                    {item.text}
                 </Text>
             ))}
 
-            {/* Tagline words - Cabin Sketch font with fade-in animation */}
+            {/* Tagline words - Cabin Sketch font */}
             {taglineWords.map((word, i) => (
                 <Text
                     key={word.text}
                     ref={(el) => (taglineRefs.current[i] = el)}
-                    position={[word.baseX, -0.55, 0.3]}
+                    position={[word.baseX, -0.58, 0.3]}
                     fontSize={0.16}
                     font={CABIN_SKETCH_URL}
                     color="#555555"
@@ -165,11 +185,11 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
                 </Text>
             ))}
 
-            {/* Small decorative doodles around title */}
-            <SmallStar position={[-1.2, 0.55, 0]} scale={0.07} />
-            <SmallStar position={[1.25, 0.45, 0]} scale={0.05} />
-            <SmallStar position={[-1.0, -0.6, 0]} scale={0.04} />
-            <SmallStar position={[1.1, -0.55, 0]} scale={0.035} />
+            {/* Small decorative stars around name */}
+            <SmallStar position={[-1.4, 0.55, 0]} scale={0.07} />
+            <SmallStar position={[1.4, 0.45, 0]} scale={0.05} />
+            <SmallStar position={[-1.2, -0.4, 0]} scale={0.04} />
+            <SmallStar position={[1.2, -0.4, 0]} scale={0.035} />
         </group>
     );
 };
@@ -179,7 +199,6 @@ const easeOutQuad = (t) => t * (2 - t);
 
 /**
  * Small decorative star - STATIC to avoid useFrame overhead
- * Parent HeroText already handles all animations
  */
 const SmallStar = ({ position, scale = 0.1 }) => {
     return (
