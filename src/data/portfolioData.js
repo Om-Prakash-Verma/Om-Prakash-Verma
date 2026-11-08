@@ -30,7 +30,7 @@ export const GLOBAL_INFO = {
     class12Percentage: "68.4%",
     institution: "ABES Engineering College",
     affiliation: "Dr. A.P.J. Abdul Kalam Technical University (AKTU), India",
-    email: "omprakash.verma.dev@gmail.com",
+    email: "omprakashverma.in@gmail.com",
     githubUrl: "https://github.com/Om-Prakash-Verma",
     linkedinUrl: "https://www.linkedin.com/in/om-prakash-verma-9a6741270/",
     skills: {
@@ -378,6 +378,6 @@ export const FAQ_LIST = [
     },
     {
         question: "How can I contact or hire Om Prakash Verma?",
-        answer: "You can reach out directly via email at omprakash.verma.dev@gmail.com, on LinkedIn at https://www.linkedin.com/in/om-prakash-verma-9a6741270/, or review open-source code on GitHub at https://github.com/Om-Prakash-Verma."
+        answer: "You can reach out directly via email at omprakashverma.in@gmail.com, on LinkedIn at https://www.linkedin.com/in/om-prakash-verma-9a6741270/, or review open-source code on GitHub at https://github.com/Om-Prakash-Verma."
     }
 ];

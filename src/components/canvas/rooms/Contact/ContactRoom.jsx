@@ -3,7 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { Text, PositionalAudio } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
-import MessagePaper from './MessagePaper';
+
 import SocialBarrel from './SocialBarrel';
 import { useScene } from '../../../../context/SceneContext';
 import GalleryClouds from '../Gallery/GalleryClouds';
@@ -249,7 +249,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
 
     const handleMailSelect = () => {
         // Awaryjne przekierowanie mailto:
-        window.location.href = 'mailto:omprakash.verma.dev@gmail.com';
+        window.location.href = 'mailto:omprakashverma.in@gmail.com';
 
         /* 
         setShowSelection(false);
@@ -398,53 +398,43 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
             </group>
 
             {/* 🛢️ SOCIAL BARRELS (Floating in water) */}
-            {/* LINKEDIN */}
-            <SocialBarrel
-                position={isMobile ? [-1.2, 0.5, -10] : [-3, 0.5, -10]}
-                rotation={[0, 0.2, 0]}
-                texturePath="/textures/contact/beczka.webp"
-                label="LINKEDIN"
-                onClick={() => window.open('https://www.linkedin.com/in/om-prakash-verma-9a6741270/', '_blank')}
-                paintOnBeforeCompile={onBeforeCompile}
-                paintUniforms={uniformsData}
-            />
             {/* GITHUB */}
             <SocialBarrel
-                position={isMobile ? [-1.5, -0.3, -7] : [-5, -0.3, -8]}
-                rotation={[0, 0.3, 0]}
+                position={isMobile ? [-1.6, -0.2, -8] : [-4, 0.1, -9]}
+                rotation={[0, 0.25, 0]}
                 texturePath="/textures/contact/beczka.webp"
                 label="GITHUB"
                 onClick={() => window.open('https://github.com/Om-Prakash-Verma', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
-            {/* FACEBOOK */}
+            {/* LINKEDIN */}
             <SocialBarrel
-                position={isMobile ? [1.2, 0.5, -10] : [3, 0.5, -10]}
-                rotation={[0, -0.2, 0]}
+                position={isMobile ? [-0.6, 0.5, -10] : [-1.5, 0.4, -10.5]}
+                rotation={[0, 0.1, 0]}
                 texturePath="/textures/contact/beczka.webp"
-                label="DIRECT EMAIL"
-                onClick={() => window.open('mailto:omprakash.verma.dev@gmail.com', '_blank')}
+                label="LINKEDIN"
+                onClick={() => window.open('https://www.linkedin.com/in/om-prakash-verma-9a6741270/', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
-            {/* INSTAGRAM */}
+            {/* EMAIL */}
             <SocialBarrel
-                position={isMobile ? [1.5, -0.3, -7] : [5, -0.3, -8]}
-                rotation={[0, -0.3, 0]}
+                position={isMobile ? [0.6, 0.5, -10] : [1.5, 0.4, -10.5]}
+                rotation={[0, -0.1, 0]}
+                texturePath="/textures/contact/beczka.webp"
+                label="EMAIL"
+                onClick={() => window.open('mailto:omprakashverma.in@gmail.com', '_blank')}
+                paintOnBeforeCompile={onBeforeCompile}
+                paintUniforms={uniformsData}
+            />
+            {/* PROJECTS */}
+            <SocialBarrel
+                position={isMobile ? [1.6, -0.2, -8] : [4, 0.1, -9]}
+                rotation={[0, -0.25, 0]}
                 texturePath="/textures/contact/beczka.webp"
                 label="PROJECTS"
                 onClick={() => window.open('https://github.com/Om-Prakash-Verma', '_blank')}
-                paintOnBeforeCompile={onBeforeCompile}
-                paintUniforms={uniformsData}
-            />
-            {/* MAIL (Triggers animation) */}
-            <SocialBarrel
-                position={isMobile ? [0, -0.7, -6] : [0, -0.7, -7]}
-                rotation={[0, 0, 0]}
-                texturePath="/textures/contact/beczka.webp"
-                label="MESSAGE"
-                onClick={handleMailSelect}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -497,19 +487,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 />
             </mesh>
 
-            {/* 📜 INTERACTIVE MESSAGE PAPER */}
-            {/* Only show when not selecting or when diving in? 
-                Actually we want it there but enabled only after selection
-            */}
-            <group visible={!showSelection}>
-                <MessagePaper
-                    position={[0, 0.07, 2]}
-                    onSend={(data) => {
-                        // console.log('📬 Contact form submitted:', data);
-                        unlockAchievement('contact_submit');
-                    }}
-                />
-            </group>
+            {/* Message paper removed */}
 
 
         </group>

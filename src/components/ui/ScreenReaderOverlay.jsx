@@ -103,7 +103,7 @@ const ScreenReaderOverlay = () => {
                         {currentRoom === 'contact' && (
                             <div aria-label="Contact options">
                                 <h3>Contact Me</h3>
-                                <p>Connect with Om Prakash Verma on LinkedIn, GitHub, or directly via email at omprakash.verma.dev@gmail.com.</p>
+                                <p>Connect with Om Prakash Verma on LinkedIn, GitHub, or directly via email at omprakashverma.in@gmail.com.</p>
                             </div>
                         )}
 
