@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'portfolio-itom',
 
-  projectId: 'kv5wjjmj',
+  projectId: 'p6mxvprp',
   dataset: 'production',
 
   plugins: [
