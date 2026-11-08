@@ -401,7 +401,7 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
                             aria-label="Close"
                         >
                             <svg viewBox="0 0 24 24">
-                                <path d="M18 6L6 18M6 6l12 12" />
+                                <divath d="M18 6L6 18M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
@@ -513,8 +513,8 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
                             </div>
 
                             {/* Description */}
-                            <p 
-                                ref={descriptionRef}
+                            <div 
+
                                 style={{
                                 lineHeight: 1.6,
                                 color: '#333',
@@ -523,8 +523,29 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
                                 minHeight: '80px', // Prevent layout jump while typing
                                 ...getStaggerStyle(300)
                             }}>
-                                {content.description}
-                            </p>
+                                {content.description && <span style={{ display: 'block', marginBottom: '0.8rem', fontWeight: 500 }}>{content.description}</span>}
+                                {content.details && content.details.length > 0 && (
+                                    <span style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem', background: '#f5f5f5', padding: '0.8rem', borderRadius: '6px', border: '1px dashed #ccc', marginBottom: '0.8rem' }}>
+                                        {content.details.map((d, i) => (
+                                            <span key={i} style={{ display: 'flex', gap: '0.5rem', fontSize: '0.88rem' }}>
+                                                <strong style={{ color: '#1a1a1a', minWidth: '95px' }}>{d.label}:</strong>
+                                                <span style={{ color: '#444' }}>{d.value}</span>
+                                            </span>
+                                        ))}
+                                    </span>
+                                )}
+                                {content.bulletPoints && content.bulletPoints.length > 0 && (
+                                    <span style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                                        <strong style={{ fontSize: '0.85rem', textTransform: 'uppercase', color: '#666', letterSpacing: '0.5px' }}>Key Highlights:</strong>
+                                        {content.bulletPoints.map((pt, i) => (
+                                            <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem' }}>
+                                                <span style={{ color: '#16a34a' }}>✔</span>
+                                                <span>{pt.replace(/^•\s*/, '')}</span>
+                                            </span>
+                                        ))}
+                                    </span>
+                                )}
+                            </div>
 
                             {/* Action Button */}
                             <div style={{

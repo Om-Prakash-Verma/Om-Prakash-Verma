@@ -414,7 +414,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 rotation={[0, 0.1, 0]}
                 texturePath="/textures/contact/beczka.webp"
                 label="LINKEDIN"
-                onClick={() => window.open('https://www.linkedin.com/in/om-prakash-verma-9a6741270/', '_blank')}
+                onClick={() => window.open('https://www.linkedin.com/in/om-prakash-verma/', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />
@@ -434,7 +434,7 @@ const ContactRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 rotation={[0, -0.25, 0]}
                 texturePath="/textures/contact/beczka.webp"
                 label="PROJECTS"
-                onClick={() => window.open('https://github.com/Om-Prakash-Verma', '_blank')}
+                onClick={() => window.open('https://github.com/Om-Prakash-Verma?tab=repositories', '_blank')}
                 paintOnBeforeCompile={onBeforeCompile}
                 paintUniforms={uniformsData}
             />

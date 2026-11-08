@@ -87,7 +87,13 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
         openOverlay({
             title: `${card.title} — ${card.institution}`,
             date: card.badge,
-            description: `${card.desc} Performance: ${card.scoreDetail}. Affiliation: ${card.affiliation}. Key coursework: ${card.bulletPoints.join(' | ')}.`,
+            description: card.desc,
+            details: [
+                { label: 'Institution', value: card.institution },
+                { label: 'Affiliation', value: card.affiliation },
+                { label: 'Performance', value: card.scoreDetail }
+            ],
+            bulletPoints: card.bulletPoints,
             url: 'https://github.com/Om-Prakash-Verma',
             platformConfig: {
                 label: 'ACADEMIC RECORD'
