@@ -23,7 +23,8 @@ export const GLOBAL_INFO = {
     ],
     beyondCoding: "Creative technology, visual experiences, UI/UX design, 3D environments, interactive storytelling, fitness, photography, and entrepreneurship.",
     location: "India",
-    education: "B.Tech in Computer Science & Engineering (2022 - 2026)",
+    education: "B.Tech in Computer Science & Engineering (2024 - 2028)",
+    schooling: "Shree Jain Vidyalaya, Kolkata (2012 - 2023, Class 12)",
     institution: "ABES Engineering College",
     affiliation: "Dr. A.P.J. Abdul Kalam Technical University (AKTU), India",
     email: "omprakash.verma.dev@gmail.com",
@@ -308,9 +309,9 @@ export const AWARDS_DATA = {
         layout: 'certificate_grid',
         title: 'Education & Credentials',
         items: [
-            { label: 'B.Tech CSE — ABES Engineering College (AKTU)', date: '2022 - 2026', image: '/textures/about/SOTYCODROPS.webp', url: 'https://github.com/Om-Prakash-Verma' },
-            { label: 'Core Engineering: Compilers, Distributed Systems & Algorithmic Design', date: '2022 - 2026', image: '/textures/about/SOTYCODROPS.webp', url: 'https://github.com/Om-Prakash-Verma' },
-            { label: 'Cloudflare Edge Infrastructure & Serverless Architectures', date: '2024 - 2026', image: '/textures/about/SOTYCODROPS.webp', url: 'https://github.com/Om-Prakash-Verma' }
+            { label: 'B.Tech CSE — ABES Engineering College (AKTU)', date: '2024 - 2028', image: '/textures/about/SOTYCODROPS.webp', url: 'https://github.com/Om-Prakash-Verma' },
+            { label: 'Schooling (Till Class 12) — Shree Jain Vidyalaya, Kolkata', date: '2012 - 2023', image: '/textures/about/SOTYCODROPS.webp', url: 'https://github.com/Om-Prakash-Verma' },
+            { label: 'Cloudflare Edge Infrastructure & Serverless Architectures', date: '2024 - 2028', image: '/textures/about/SOTYCODROPS.webp', url: 'https://github.com/Om-Prakash-Verma' }
         ],
         platformConfig: {
             color: '#1a1a1a',
@@ -323,11 +324,18 @@ export const AWARDS_DATA = {
 
 export const JOURNEY_MILESTONES = [
     {
-        year: "2022 - 2026",
+        year: "2024 - 2028",
         label: "B.Tech CSE",
         title: "Computer Science Engineering",
         institution: "ABES Engineering College (AKTU)",
-        detail: "Deep dive into Data Structures, Algorithms, Operating Systems, Compilers, and Distributed Systems. Built 15+ production-grade systems."
+        detail: "Deep dive into Data Structures, Algorithms, Operating Systems, Computer Networks, and Distributed Systems. Engineering production-grade software."
+    },
+    {
+        year: "2012 - 2023",
+        label: "SCHOOLING",
+        title: "Primary to Higher Secondary (Class 12)",
+        institution: "Shree Jain Vidyalaya, Kolkata",
+        detail: "11 years of schooling foundation in Science & Mathematics, establishing deep logical problem-solving rigor."
     },
     {
         year: "2023 - 2024",

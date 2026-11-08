@@ -94,8 +94,9 @@ const ScreenReaderOverlay = () => {
                         {currentRoom === 'education' && (
                             <div aria-label="Education section">
                                 <h3>Education & Academic Foundation</h3>
-                                <p>B.Tech in Computer Science & Engineering (2022 - 2026), ABES Engineering College, AKTU, India.</p>
-                                <p>Focused on Data Structures, Algorithms, Operating Systems, Compilers, and Distributed Systems.</p>
+                                <p>B.Tech in Computer Science & Engineering (2024 - 2028), ABES Engineering College, AKTU, India.</p>
+                                <p>Schooling from Shree Jain Vidyalaya, Kolkata (2012 - 2023) up to Class 12.</p>
+                                <p>Focused on Data Structures, Algorithms, Operating Systems, Computer Networks, and Distributed Systems.</p>
                             </div>
                         )}
 

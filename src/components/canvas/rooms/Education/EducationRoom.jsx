@@ -13,8 +13,9 @@ const CABIN_REGULAR = '/fonts/CabinSketch-Regular.ttf';
  * EducationRoom Component
  * 
  * Interactive 3D chamber showcasing academic foundation and engineering credentials:
- * - Degree: B.Tech Computer Science & Engineering (2022 - 2026)
+ * - Degree: B.Tech Computer Science & Engineering (2024 - 2028)
  * - College: ABES Engineering College (AKTU)
+ * - Schooling: Shree Jain Vidyalaya, Kolkata (2012 - 2023, Class 12)
  * - Core Computer Science pillars & technical coursework
  */
 const EducationRoom = ({ showRoom, onReady, isExiting }) => {
@@ -37,7 +38,7 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
         {
             id: 'degree',
             title: 'B.TECH CSE',
-            subtitle: '2022 - 2026',
+            subtitle: '2024 - 2028',
             institution: 'ABES Engineering College',
             affiliation: 'AKTU (Dr. A.P.J. Abdul Kalam Technical University)',
             tagline: 'Computer Science & Engineering',
@@ -46,35 +47,35 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
             y: 0.4,
             z: -7.5,
             accent: '#3b82f6',
-            highlights: ['Data Structures & Algorithms', 'Operating Systems', 'Compilers & Lexers', 'Distributed Systems']
+            highlights: ['Data Structures & Algorithms', 'Operating Systems', 'Computer Networks', 'Database Management Systems']
         },
         {
-            id: 'systems',
-            title: 'CORE SYSTEMS',
-            subtitle: 'Foundations',
-            institution: 'Computer Architecture',
-            affiliation: 'Theory of Computation & Low-Level Design',
-            tagline: 'Under the Runtime',
-            desc: 'Comprehensive study of computer architecture, memory models, compiler design, process scheduling, and network protocols.',
+            id: 'schooling',
+            title: 'SCHOOLING',
+            subtitle: '2012 - 2023',
+            institution: 'Shree Jain Vidyalaya, Kolkata',
+            affiliation: 'Primary to Higher Secondary (Class 12)',
+            tagline: 'Foundation & Academic Excellence',
+            desc: 'Comprehensive 11-year schooling foundation culminating in Higher Secondary (Class 12) education with a strong emphasis on Mathematics and Sciences.',
             x: 0,
             y: 0.7,
             z: -8.5,
             accent: '#10b981',
-            highlights: ['Memory Allocation', 'AST & Parsers', 'Socket Programming', 'Thread Synchronization']
+            highlights: ['Higher Secondary (Class 12)', 'Mathematics & Physical Sciences', 'Foundational Logic & Computing', 'Academic Discipline']
         },
         {
-            id: 'edge-ai',
-            title: 'AI & CLOUD EDGE',
+            id: 'systems-ai',
+            title: 'CORE SYSTEMS & AI',
             subtitle: 'Specialization',
             institution: 'Applied Systems & Research',
-            affiliation: 'High-Scale Edge & Vector Retrieval',
+            affiliation: 'High-Scale Edge & Full-Stack Systems',
             tagline: 'Applied Engineering',
-            desc: 'Production deployments of AI reasoning pipelines (Gemini 32k thinking), vector retrieval, and serverless edge databases (Cloudflare D1).',
+            desc: 'Designing high-performance full-stack architectures, AI reasoning pipelines, vector search engines, and serverless edge databases.',
             x: 4.2,
             y: 0.4,
             z: -7.5,
             accent: '#8b5cf6',
-            highlights: ['Vector Search in RAM', 'Cloudflare Workers/D1', 'Offline-First IndexedDB', 'Microsecond Edge Caching']
+            highlights: ['Full-Stack (React 19, Next.js, Node)', 'AI Reasoning Pipelines (Gemini 32k)', 'Cloudflare Edge & Serverless D1', '3D WebGL & Three.js Graphics']
         }
     ], []);
 
@@ -130,13 +131,13 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
                     </Text>
                     <Text
                         font={CABIN_SKETCH}
-                        fontSize={0.32}
+                        fontSize={0.28}
                         color="#444444"
                         position={[0, -0.65, 0.05]}
                         anchorX="center"
                         anchorY="middle"
                     >
-                        ABES Engineering College • AKTU (2022 - 2026)
+                        ABES Engineering College (2024 - 2028) • Shree Jain Vidyalaya, Kolkata (2012 - 2023)
                     </Text>
                 </group>
             </Float>
