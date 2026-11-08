@@ -513,8 +513,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                     <primitive object={materials.threshold} />
                 </mesh>
 
-                {/* === OPTION 1: 3D CYLINDRICAL RING CAROUSEL === */}
-                <group position={[0, 1.55, -3.72]}>
+                {/* === OPTION 1: 3D CYLINDRICAL RING CAROUSEL (Elevated in open sky) === */}
+                <group position={[0, 2.45, -3.65]}>
                     {/* Project Cards */}
                     {projects.map((project, i) => (
                         <ProjectCard
@@ -710,6 +710,7 @@ const CABIN_REGULAR = '/fonts/CabinSketch-Regular.ttf';
 
 const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isSelected, scrollToIndex, onClick, isMobile }, ref) => {
     const cardGroupRef = useRef();
+    const hazeRef = useRef();
     const paperAudioRef = useRef();
     const { openOverlay } = useScene();
     const { globalVolume, isMuted } = useAudio();
@@ -743,27 +744,27 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
 
     // Dynamic title sizing: prevents ANY title from overflowing or wrapping awkwardly
     const titleLength = project.title ? project.title.length : 10;
-    const titleFontSize = titleLength > 16 ? 0.14 : titleLength > 12 ? 0.16 : 0.20;
+    const titleFontSize = titleLength > 16 ? 0.135 : titleLength > 12 ? 0.155 : 0.19;
 
     // 3D Cylindrical Ring positioning & perspective
     useFrame((state) => {
         if (!cardGroupRef.current) return;
 
-        const RADIUS = 4.8;
+        const RADIUS = 5.8;
         const ANGLE_STEP = (Math.PI * 2) / total;
 
         let diff = ((index - currentScroll.current) % total + total) % total;
         if (diff > total / 2) diff -= total;
 
         // Culling: hide cards behind viewer or beyond the amphitheater arc
-        const isVisible = Math.abs(diff) < 2.6;
+        const isVisible = Math.abs(diff) < 2.5;
         cardGroupRef.current.visible = isVisible;
         if (!isVisible) return;
 
         const phi = diff * ANGLE_STEP;
         const targetX = Math.sin(phi) * RADIUS;
-        const targetZ = (Math.cos(phi) - 1) * (RADIUS * 0.70);
-        const targetRotY = -phi * 0.75;
+        const targetZ = (Math.cos(phi) - 1) * (RADIUS * 0.45);
+        const targetRotY = -phi * 0.70;
 
         // Smooth positional & rotational tracking
         cardGroupRef.current.position.x = THREE.MathUtils.lerp(cardGroupRef.current.position.x, targetX, 0.18);
@@ -774,11 +775,18 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
         const isNearCenter = Math.abs(diff) < 0.45;
         const breath = Math.sin(state.clock.elapsedTime * 1.5 + index * 0.4) * 0.015;
 
-        const targetY = (isNearCenter ? 0.05 : -Math.abs(diff) * 0.06) + breath;
+        const targetY = (isNearCenter ? 0.05 : -Math.abs(diff) * 0.05) + breath;
         cardGroupRef.current.position.y = THREE.MathUtils.lerp(cardGroupRef.current.position.y, targetY, 0.18);
 
-        const targetScale = isNearCenter ? 1.05 : Math.max(0.78, 1.0 - Math.abs(diff) * 0.10);
+        const targetScale = isNearCenter ? 1.05 : Math.max(0.74, 1.0 - Math.abs(diff) * 0.14);
         cardGroupRef.current.scale.lerp(_tempScale.set(targetScale, targetScale, 1), 0.15);
+
+        // Depth haze: subtly softens peripheral cards so the hero card takes center stage
+        if (hazeRef.current) {
+            const targetHaze = isNearCenter ? 0 : Math.min(0.40, Math.abs(diff) * 0.25);
+            hazeRef.current.material.opacity = THREE.MathUtils.lerp(hazeRef.current.material.opacity, targetHaze, 0.15);
+            hazeRef.current.visible = hazeRef.current.material.opacity > 0.01;
+        }
     });
 
     const handleCardClick = (e) => {
@@ -840,40 +848,40 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
         >
             {/* Card Drop Shadow */}
             <mesh position={[0.06, -0.06, -0.01]}>
-                <planeGeometry args={[2.4, 2.3]} />
+                <planeGeometry args={[2.25, 2.35]} />
                 <meshBasicMaterial color="#d4d4d4" transparent opacity={0.6} side={THREE.DoubleSide} />
             </mesh>
 
             {/* Main Parchment Plaque */}
             <mesh position={[0, 0, 0]}>
-                <planeGeometry args={[2.4, 2.3]} />
+                <planeGeometry args={[2.25, 2.35]} />
                 <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} />
             </mesh>
 
             {/* Hand-drawn Outline Border */}
             <lineSegments>
-                <edgesGeometry args={[new THREE.PlaneGeometry(2.4, 2.3)]} />
+                <edgesGeometry args={[new THREE.PlaneGeometry(2.25, 2.35)]} />
                 <lineBasicMaterial color={hovered ? '#000000' : '#1a1a1a'} linewidth={hovered ? 2.5 : 1.5} />
             </lineSegments>
 
             {/* Top Category & Index Pill */}
-            <group position={[0, 0.90, 0.02]}>
+            <group position={[0, 0.92, 0.02]}>
                 <mesh>
-                    <planeGeometry args={[2.15, 0.22]} />
+                    <planeGeometry args={[2.05, 0.20]} />
                     <meshBasicMaterial color="#f4f4f4" />
                 </mesh>
                 <lineSegments>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(2.15, 0.22)]} />
+                    <edgesGeometry args={[new THREE.PlaneGeometry(2.05, 0.20)]} />
                     <lineBasicMaterial color="#333333" linewidth={1} />
                 </lineSegments>
                 <Text
                     font={CABIN_SKETCH}
-                    fontSize={0.11}
+                    fontSize={0.105}
                     color="#444444"
                     position={[0, 0, 0.01]}
                     anchorX="center"
                     anchorY="middle"
-                    letterSpacing={0.05}
+                    letterSpacing={0.04}
                 >
                     {`#${String(index + 1).padStart(2, '0')} • ${project.category || 'SYSTEMS ARCHITECTURE'}`}
                 </Text>
@@ -884,10 +892,10 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
                 font={CABIN_SKETCH}
                 fontSize={titleFontSize}
                 color="#1a1a1a"
-                position={[0, 0.64, 0.02]}
+                position={[0, 0.68, 0.02]}
                 anchorX="center"
                 anchorY="middle"
-                maxWidth={2.2}
+                maxWidth={2.1}
                 textAlign="center"
                 letterSpacing={0.03}
             >
@@ -895,36 +903,37 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
             </Text>
 
             {/* Architectural Blueprint Viewport Frame */}
-            <group position={[0, 0.12, 0.02]}>
+            <group position={[0, 0.15, 0.02]}>
                 {/* Blueprint background grid */}
                 <mesh>
-                    <planeGeometry args={[2.15, 0.65]} />
+                    <planeGeometry args={[2.05, 0.58]} />
                     <meshBasicMaterial color="#fafafa" />
                 </mesh>
                 <lineSegments>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(2.15, 0.65)]} />
-                    <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
+                    <edgesGeometry args={[new THREE.PlaneGeometry(2.05, 0.58)]} />
+                    <lineBasicMaterial color="#1a1a1a" linewidth={1.2} />
                 </lineSegments>
 
                 {/* Inscribed Metric Tag */}
-                <group position={[0, 0.10, 0.01]}>
+                <group position={[0, 0.12, 0.01]}>
                     <mesh>
-                        <planeGeometry args={[2.0, 0.28]} />
+                        <planeGeometry args={[1.92, 0.25]} />
                         <meshBasicMaterial color="#f0fdf4" />
                     </mesh>
                     <lineSegments>
-                        <edgesGeometry args={[new THREE.PlaneGeometry(2.0, 0.28)]} />
+                        <edgesGeometry args={[new THREE.PlaneGeometry(1.92, 0.25)]} />
                         <lineBasicMaterial color="#16a34a" linewidth={1.2} />
                     </lineSegments>
                     <Text
                         font={CABIN_SKETCH}
-                        fontSize={0.115}
+                        fontSize={0.10}
                         color="#15803d"
                         position={[0, 0, 0.01]}
-                        maxWidth={1.9}
+                        maxWidth={1.85}
                         textAlign="center"
                         anchorX="center"
                         anchorY="middle"
+                        lineHeight={1.1}
                     >
                         {project.metric || 'High-Throughput Distributed Pipeline'}
                     </Text>
@@ -933,13 +942,14 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
                 {/* Subtitle / Highlight */}
                 <Text
                     font={CABIN_REGULAR}
-                    fontSize={0.095}
+                    fontSize={0.088}
                     color="#555555"
-                    position={[0, -0.16, 0.01]}
-                    maxWidth={2.0}
+                    position={[0, -0.14, 0.01]}
+                    maxWidth={1.9}
                     textAlign="center"
                     anchorX="center"
                     anchorY="middle"
+                    lineHeight={1.15}
                 >
                     {project.highlight || 'Zero-latency edge routing & robust verification'}
                 </Text>
@@ -948,27 +958,27 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
             {/* Project Tagline Description */}
             <Text
                 font={CABIN_REGULAR}
-                fontSize={0.105}
+                fontSize={0.098}
                 color="#333333"
-                position={[0, -0.42, 0.02]}
-                maxWidth={2.15}
+                position={[0, -0.36, 0.02]}
+                maxWidth={2.05}
                 textAlign="center"
                 anchorX="center"
                 anchorY="middle"
-                lineHeight={1.3}
+                lineHeight={1.25}
             >
                 {project.tagline || project.description}
             </Text>
 
             {/* Bottom Action Bar: Open URL & Inspect Case Study */}
-            <group position={[0, -0.84, 0.02]}>
+            <group position={[0, -0.85, 0.02]}>
                 {/* Click to Inspect Pill */}
                 <group
-                    position={[-0.55, 0, 0]}
+                    position={[-0.52, 0, 0]}
                     onClick={handleInspect}
                 >
                     <mesh>
-                        <planeGeometry args={[0.95, 0.30]} />
+                        <planeGeometry args={[0.90, 0.30]} />
                         <meshBasicMaterial color="#1a1a1a" />
                     </mesh>
                     <Text
@@ -985,15 +995,15 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
 
                 {/* Direct Link Button */}
                 <group
-                    position={[0.55, 0, 0]}
+                    position={[0.52, 0, 0]}
                     onClick={handleOpenLink}
                 >
                     <mesh>
-                        <planeGeometry args={[0.95, 0.30]} />
+                        <planeGeometry args={[0.90, 0.30]} />
                         <meshBasicMaterial color="#f4f4f4" />
                     </mesh>
                     <lineSegments>
-                        <edgesGeometry args={[new THREE.PlaneGeometry(0.95, 0.30)]} />
+                        <edgesGeometry args={[new THREE.PlaneGeometry(0.90, 0.30)]} />
                         <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
                     </lineSegments>
                     <Text
@@ -1008,6 +1018,12 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
                     </Text>
                 </group>
             </group>
+
+            {/* Peripheral Depth Haze Overlay (Dims side cards so hero card pops) */}
+            <mesh ref={hazeRef} position={[0, 0, 0.035]}>
+                <planeGeometry args={[2.26, 2.36]} />
+                <meshBasicMaterial color="#ffffff" transparent opacity={0} side={THREE.DoubleSide} />
+            </mesh>
 
             {/* Positional Audio */}
             <PositionalAudio
@@ -1101,9 +1117,9 @@ const NavIndicator = ({ currentScroll, total, projects }) => {
 
 const GalleryNavigation = ({ currentScroll, total, projects, onPrev, onNext }) => {
     return (
-        <group position={[0, -1.25, 0.05]}>
+        <group position={[0, -1.35, 0.08]}>
             {/* Prev Button */}
-            <NavButton label="‹ PREV" position={[-1.45, 0, 0]} onClick={onPrev} />
+            <NavButton label="‹ PREV" position={[-1.40, 0, 0]} onClick={onPrev} />
 
             {/* Center Active Project Status Pill */}
             <group position={[0, 0, 0]}>
@@ -1119,20 +1135,30 @@ const GalleryNavigation = ({ currentScroll, total, projects, onPrev, onNext }) =
             </group>
 
             {/* Next Button */}
-            <NavButton label="NEXT ›" position={[1.45, 0, 0]} onClick={onNext} />
+            <NavButton label="NEXT ›" position={[1.40, 0, 0]} onClick={onNext} />
 
-            {/* Interaction Hint */}
-            <Text
-                font={CABIN_REGULAR}
-                fontSize={0.08}
-                color="#777777"
-                position={[0, -0.22, 0.02]}
-                anchorX="center"
-                anchorY="middle"
-                letterSpacing={0.05}
-            >
-                DRAG / SCROLL TO BROWSE • CLICK CARD TO INSPECT
-            </Text>
+            {/* Interaction Hint with solid opaque backing */}
+            <group position={[0, -0.28, 0]}>
+                <mesh position={[0, 0, 0]}>
+                    <planeGeometry args={[2.5, 0.20]} />
+                    <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} />
+                </mesh>
+                <lineSegments position={[0, 0, 0.01]}>
+                    <edgesGeometry args={[new THREE.PlaneGeometry(2.5, 0.20)]} />
+                    <lineBasicMaterial color="#cccccc" linewidth={1} />
+                </lineSegments>
+                <Text
+                    font={CABIN_REGULAR}
+                    fontSize={0.075}
+                    color="#555555"
+                    position={[0, 0, 0.02]}
+                    anchorX="center"
+                    anchorY="middle"
+                    letterSpacing={0.04}
+                >
+                    DRAG / SCROLL TO BROWSE • CLICK CARD TO INSPECT
+                </Text>
+            </group>
         </group>
     );
 };
