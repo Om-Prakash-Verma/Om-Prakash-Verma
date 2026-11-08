@@ -477,6 +477,16 @@ const CorridorWalls = ({ zStart = 10, length = 80, doorPositions = [], zClip = 1
                                     side={THREE.DoubleSide}
                                 />
                             </mesh>
+
+                            {/* Chair Rail (Dado Trim Line) - waist height architectural division */}
+                            <mesh position={[bbOffsetX, -0.15, 0.01]}>
+                                <planeGeometry args={[bbWidth, 0.045]} />
+                                <meshBasicMaterial color="#d0d0d0"
+                                    map={bbTexture}
+                                    roughness={0.8}
+                                    side={THREE.DoubleSide}
+                                />
+                            </mesh>
                         </group>
                     );
                 })}

@@ -95,6 +95,57 @@ const PictureContent = ({ imagePath, imagePaintedPath, width, height, isPainted 
     );
 };
 
+const StickyNote = ({ side, wallX, y, z, rotationZ = 0, color = "#fef08a", lines = [], font }) => {
+    const rotY = side === 'left' ? Math.PI / 2 : -Math.PI / 2;
+    const posX = side === 'left' ? -wallX + 0.03 : wallX - 0.03;
+    const [hovered, setHovered] = useState(false);
+
+    return (
+        <group
+            position={[posX, y, z]}
+            rotation={[0, rotY, rotationZ]}
+            onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
+            onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
+            scale={hovered ? 1.08 : 1}
+        >
+            {/* Note shadow */}
+            <mesh position={[0.015, -0.015, -0.002]}>
+                <planeGeometry args={[0.55, 0.55]} />
+                <meshBasicMaterial color="#000000" transparent opacity={0.15} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Note paper */}
+            <mesh position={[0, 0, 0]}>
+                <planeGeometry args={[0.55, 0.55]} />
+                <meshBasicMaterial color={color} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Semi-transparent tape piece at top */}
+            <mesh position={[0, 0.25, 0.002]}>
+                <planeGeometry args={[0.18, 0.06]} />
+                <meshBasicMaterial color="#ffffff" transparent opacity={0.75} side={THREE.DoubleSide} />
+            </mesh>
+            {/* Hand-drawn pencil border */}
+            <lineSegments>
+                <edgesGeometry args={[new THREE.PlaneGeometry(0.55, 0.55)]} />
+                <lineBasicMaterial color="#333333" linewidth={1} />
+            </lineSegments>
+            {/* Memo text */}
+            <Text
+                font={font}
+                fontSize={0.075}
+                color="#1a1a1a"
+                position={[0, 0.03, 0.01]}
+                maxWidth={0.48}
+                textAlign="center"
+                anchorX="center"
+                anchorY="middle"
+                lineHeight={1.25}
+            >
+                {lines.join('\n')}
+            </Text>
+        </group>
+    );
+};
+
 const InspectableFrame = ({ frame, wallX, frameTexture, framePaintedTexture, CABIN_SKETCH_URL, setCameraOverride }) => {
     const { camera, viewport } = useThree();
     const groupRef = useRef();
@@ -398,30 +449,40 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
             offsetFromWall: 0.1
         },
         {
-            z: zOffset - 40,         // Między Studio a About (relZ -34 do -46)
+            z: zOffset - 22,         // Right wall between Gallery & About
+            side: 'right',
+            width: 2.3,
+            height: 2.3 / 1.785,
+            y: 0.25,
+            id: 'frame-idea',
+            image: '/textures/corridor/decorations/idea_process.webp',
+            imageWidth: 1.5,
+            imageHeight: 1.0,
+            offsetFromWall: 0.1
+        },
+        {
+            z: zOffset - 40,         // Between About and Education
             side: 'right',
             width: 2.5,
             height: 2.5 / 1.785,
             y: 0.25,
             id: 'frame-3',
-            signature: "Empty canvas!\nWant your art here?\nContact me!",
-            signatureX: 0,
-            signatureY: 0,
-            signatureSize: 0.12,
-            signatureColor: '#333333'
+            image: '/textures/corridor/decorations/while_true_loop.webp',
+            imageWidth: 1.6,
+            imageHeight: 1.1,
+            offsetFromWall: 0.1
         },
         {
-            z: zOffset - 55,         // Między About a Connect (relZ -50 do -60)
+            z: zOffset - 55,         // Between Education and Connect
             side: 'left',
             width: 2.5,
             height: 2.5 / 1.785,
             y: 0.35,
             id: 'frame-4',
-            signature: "Empty canvas!\nWant your art here?\nContact me!",
-            signatureX: 0,
-            signatureY: 0,
-            signatureSize: 0.12,
-            signatureColor: '#333333'
+            image: '/textures/corridor/decorations/coffee_debug.webp',
+            imageWidth: 1.6,
+            imageHeight: 1.1,
+            offsetFromWall: 0.1
         },
     ], [zOffset]);
 
@@ -673,6 +734,63 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                     </mesh>
                 );
             })}
+
+            {/* === DEVELOPER MEMO & STICKY NOTES === */}
+            <StickyNote
+                side="right"
+                wallX={wallX}
+                y={0.25}
+                z={zOffset - 15}
+                rotationZ={0.06}
+                color="#fef08a"
+                lines={["// TODO:", "drink coffee ☕", "ship to prod 🚀"]}
+                font={CABIN_SKETCH_URL}
+            />
+            <StickyNote
+                side="left"
+                wallX={wallX}
+                y={0.15}
+                z={zOffset - 28}
+                rotationZ={-0.05}
+                color="#bae6fd"
+                lines={["There's no place", "like 127.0.0.1 🏠"]}
+                font={CABIN_SKETCH_URL}
+            />
+            <StickyNote
+                side="right"
+                wallX={wallX}
+                y={0.30}
+                z={zOffset - 35}
+                rotationZ={0.04}
+                color="#bbf7d0"
+                lines={["while(alive) {", "  code();", "} 💡"]}
+                font={CABIN_SKETCH_URL}
+            />
+            <StickyNote
+                side="left"
+                wallX={wallX}
+                y={0.22}
+                z={zOffset - 46}
+                rotationZ={-0.04}
+                color="#fbcfe8"
+                lines={["git commit -m", "'it works now!' ✨"]}
+                font={CABIN_SKETCH_URL}
+            />
+
+            {/* === POTTED TREE NEAR CORRIDOR START === */}
+            <mesh
+                position={[wallX - 0.7, floorY + 1.2, zOffset - 14]}
+                rotation={[0, -Math.PI / 4, 0]}
+            >
+                <planeGeometry args={[1.4, 1.4 / 0.602]} />
+                <meshBasicMaterial color="#e0e0e0"
+                    map={treeTexture}
+                    transparent={true}
+                    alphaTest={0.1}
+                    side={THREE.DoubleSide}
+                    roughness={0.8}
+                />
+            </mesh>
 
         </group >
     );
