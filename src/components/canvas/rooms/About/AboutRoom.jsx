@@ -26,9 +26,9 @@ export const AUDIO_SETTINGS = {
 // Using CHUNK_LENGTH to create looping story (every ~40 units restarts)
 const STORY_MILESTONES = [
     { id: 'intro', position: [0, 0, -15], type: 'intro', title: 'OM PRAKASH VERMA', subtitle: '< software developer & systems builder />' },
-    { id: 'awards', position: [0, 0, -55], type: 'awards', title: 'AWARDS', subtitle: '1x SOTD Winner • 1x CSS Winner' },
-    { id: 'journey', position: [0, 0, -95], type: 'journey', title: 'JOURNEY', subtitle: 'B.Tech CSE @ ABES Engineering College' },
-    { id: 'skills', position: [0, 0, -135], type: 'skills', title: 'SKILLS', subtitle: 'C++ • Python • React • Three.js • Systems' },
+
+    { id: 'journey', position: [0, 0, -65], type: 'journey', title: 'JOURNEY', subtitle: 'B.Tech CSE @ ABES Engineering College' },
+    { id: 'skills', position: [0, 0, -115], type: 'skills', title: 'SKILLS', subtitle: 'C++ • Python • React • Three.js • Systems' },
 ];
 
 const AboutRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {

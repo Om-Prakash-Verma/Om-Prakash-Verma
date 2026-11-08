@@ -142,7 +142,7 @@ const AwardButton = ({ onClick, texture, paintedTexture, width, height, position
 
 // Story milestones configuration
 // Each milestone appears once per "story cycle" (4 chunks = 160 units)
-const STORY_CYCLE_LENGTH = 160;
+const STORY_CYCLE_LENGTH = 150;
 
 // === TWARDA LINIA ZANIKANIA DLA MILESTONES (WORLD SPACE) ===
 // Pokój About jest na Z = -25, więc -25 to drzwi pokoju
@@ -229,21 +229,17 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
                         scrollProgressRef={scrollProgressRef}
                     />
 
-                    {/* === AWARDS MILESTONE (Milestone 2 - Untouched) === */}
-                    <AwardsMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 55)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
+
 
                     {/* === JOURNEY MILESTONE (Milestone 3) === */}
                     <JourneyMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 95)}
+                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 65)}
                         scrollProgressRef={scrollProgressRef}
                     />
 
                     {/* === SKILLS MILESTONE (Milestone 4) === */}
                     <SkillsMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 135)}
+                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 115)}
                         scrollProgressRef={scrollProgressRef}
                     />
                 </group>
@@ -981,7 +977,7 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
             {/* Title */}
             <Text
                 position={[0, 5.2, 0.3]}
-                fontSize={1.2}
+                fontSize={1.25}
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
@@ -992,8 +988,8 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
 
             {/* Subtitle */}
             <Text
-                position={[0, 4.4, 0.3]}
-                fontSize={0.35}
+                position={[0, 4.55, 0.3]}
+                fontSize={0.34}
                 color="#555555"
                 anchorX="center"
                 anchorY="middle"
@@ -1002,22 +998,68 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                 From Kolkata foundations to Engineering & Builder Systems
             </Text>
 
+            {/* === SCHOOLING FOUNDATION PLAQUE (Prominent, High Center - Above Paper Airplane) === */}
+            <group
+                position={[0, 3.65, 0.25]}
+                onClick={handleSchoolClick}
+                onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
+                onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
+            >
+                <mesh position={[0, 0, -0.01]}>
+                    <planeGeometry args={[7.8, 0.72]} />
+                    <meshBasicMaterial color="#ffffff" transparent opacity={0.96} side={THREE.DoubleSide} />
+                </mesh>
+                <lineSegments>
+                    <edgesGeometry args={[new THREE.PlaneGeometry(7.8, 0.72)]} />
+                    <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
+                </lineSegments>
+                <Text
+                    font="/fonts/CabinSketch-Bold.ttf"
+                    fontSize={0.24}
+                    color="#111111"
+                    position={[0, 0.12, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    🏫 FOUNDATION: SHREE JAIN VIDYALAYA, KOLKATA (2012 - 2023)
+                </Text>
+                <Text
+                    font="/fonts/CabinSketch-Regular.ttf"
+                    fontSize={0.17}
+                    color="#444444"
+                    position={[0, -0.13, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    Class 10: 76.5% • Class 12: 68.4% (Science PCM) • [ Click to View Record ↗ ]
+                </Text>
+            </group>
+
             {/* === ABES EC ISLAND (Left) === */}
             <group
                 ref={uoRef}
-                position={[-3.6, -0.9, 0]}
+                position={[-4.0, -0.7, 0]}
                 onClick={handleAbesClick}
                 onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
                 onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
             >
-                {/* Plaque Header */}
-                <group position={[0, 1.9, 0.1]}>
+                {/* Plaque Header - High above rock art to prevent clashing */}
+                <group position={[0, 2.7, 0.15]}>
+                    <mesh position={[0, 0, -0.01]}>
+                        <planeGeometry args={[4.4, 0.95]} />
+                        <meshBasicMaterial color="#ffffff" transparent opacity={0.96} side={THREE.DoubleSide} />
+                    </mesh>
+                    <lineSegments>
+                        <edgesGeometry args={[new THREE.PlaneGeometry(4.4, 0.95)]} />
+                        <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
+                    </lineSegments>
                     <Text
                         font="/fonts/CabinSketch-Bold.ttf"
-                        fontSize={0.28}
+                        fontSize={0.27}
                         color="#111111"
+                        position={[0, 0.22, 0.01]}
                         anchorX="center"
-                        anchorY="bottom"
+                        anchorY="middle"
                     >
                         ABES ENGINEERING COLLEGE
                     </Text>
@@ -1025,11 +1067,21 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         font="/fonts/CabinSketch-Regular.ttf"
                         fontSize={0.19}
                         color="#444444"
-                        position={[0, -0.08, 0]}
+                        position={[0, -0.04, 0.01]}
                         anchorX="center"
-                        anchorY="top"
+                        anchorY="middle"
                     >
-                        B.Tech CSE • CGPA: 6.43 • [Inspect ↗]
+                        B.Tech Computer Science (2024 - 2028)
+                    </Text>
+                    <Text
+                        font="/fonts/CabinSketch-Bold.ttf"
+                        fontSize={0.16}
+                        color="#15803d"
+                        position={[0, -0.27, 0.01]}
+                        anchorX="center"
+                        anchorY="middle"
+                    >
+                        ★ Current CGPA: 6.43 • [ Inspect ↗ ]
                     </Text>
                 </group>
 
@@ -1041,35 +1093,54 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* Year Badge on Island */}
-                <Text
-                    position={[0.1, -0.85, 0.1]}
-                    fontSize={0.38}
-                    color="#1a1a1a"
-                    anchorX="center"
-                    anchorY="middle"
-                    font="/fonts/CabinSketch-Bold.ttf"
-                >
-                    2024-2028
-                </Text>
+                {/* Year Badge on Island with white background frame */}
+                <group position={[0.1, -0.85, 0.1]}>
+                    <mesh position={[0, 0, -0.01]}>
+                        <planeGeometry args={[1.8, 0.42]} />
+                        <meshBasicMaterial color="#ffffff" transparent opacity={0.92} side={THREE.DoubleSide} />
+                    </mesh>
+                    <lineSegments>
+                        <edgesGeometry args={[new THREE.PlaneGeometry(1.8, 0.42)]} />
+                        <lineBasicMaterial color="#333333" linewidth={1.2} />
+                    </lineSegments>
+                    <Text
+                        fontSize={0.28}
+                        color="#1a1a1a"
+                        position={[0, 0, 0.01]}
+                        anchorX="center"
+                        anchorY="middle"
+                        font="/fonts/CabinSketch-Bold.ttf"
+                    >
+                        2024 - 2028
+                    </Text>
+                </group>
             </group>
 
             {/* === BUILDER / SOFTWARE ISLAND (Right) === */}
             <group
                 ref={freelanceRef}
-                position={[3.6, -1.8, 0.5]}
+                position={[4.0, -1.5, 0.5]}
                 onClick={handleBuilderClick}
                 onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
                 onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
             >
-                {/* Plaque Header */}
-                <group position={[0, 1.9, 0.1]}>
+                {/* Plaque Header - High above rock art to prevent clashing */}
+                <group position={[0, 2.7, 0.15]}>
+                    <mesh position={[0, 0, -0.01]}>
+                        <planeGeometry args={[4.5, 0.95]} />
+                        <meshBasicMaterial color="#ffffff" transparent opacity={0.96} side={THREE.DoubleSide} />
+                    </mesh>
+                    <lineSegments>
+                        <edgesGeometry args={[new THREE.PlaneGeometry(4.5, 0.95)]} />
+                        <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
+                    </lineSegments>
                     <Text
                         font="/fonts/CabinSketch-Bold.ttf"
-                        fontSize={0.28}
+                        fontSize={0.27}
                         color="#111111"
+                        position={[0, 0.22, 0.01]}
                         anchorX="center"
-                        anchorY="bottom"
+                        anchorY="middle"
                     >
                         SOFTWARE & SYSTEMS BUILDER
                     </Text>
@@ -1077,11 +1148,21 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         font="/fonts/CabinSketch-Regular.ttf"
                         fontSize={0.19}
                         color="#444444"
-                        position={[0, -0.08, 0]}
+                        position={[0, -0.04, 0.01]}
                         anchorX="center"
-                        anchorY="top"
+                        anchorY="middle"
                     >
-                        Full-Stack & 3D Web • [Inspect ↗]
+                        Full-Stack, AI & 3D Web
+                    </Text>
+                    <Text
+                        font="/fonts/CabinSketch-Bold.ttf"
+                        fontSize={0.16}
+                        color="#15803d"
+                        position={[0, -0.27, 0.01]}
+                        anchorX="center"
+                        anchorY="middle"
+                    >
+                        ★ 10+ Production Projects • [ Inspect ↗ ]
                     </Text>
                 </group>
 
@@ -1093,54 +1174,27 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* Year Badge on Island */}
-                <Text
-                    position={[0, -0.65, 0.1]}
-                    fontSize={0.42}
-                    color="#1a1a1a"
-                    anchorX="center"
-                    anchorY="middle"
-                    font="/fonts/CabinSketch-Bold.ttf"
-                >
-                    2023-PRESENT
-                </Text>
-            </group>
-
-            {/* === SCHOOLING FOUNDATION PLAQUE (Center) === */}
-            <group
-                position={[0, -3.2, 0.2]}
-                onClick={handleSchoolClick}
-                onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
-                onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
-            >
-                <mesh position={[0, 0, -0.01]}>
-                    <planeGeometry args={[7.2, 0.65]} />
-                    <meshBasicMaterial color="#ffffff" transparent opacity={0.9} side={THREE.DoubleSide} />
-                </mesh>
-                <lineSegments>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(7.2, 0.65)]} />
-                    <lineBasicMaterial color="#333333" linewidth={1.2} />
-                </lineSegments>
-                <Text
-                    font="/fonts/CabinSketch-Bold.ttf"
-                    fontSize={0.22}
-                    color="#111111"
-                    position={[0, 0.11, 0.01]}
-                    anchorX="center"
-                    anchorY="middle"
-                >
-                    FOUNDATION: SHREE JAIN VIDYALAYA, KOLKATA (2012 - 2023)
-                </Text>
-                <Text
-                    font="/fonts/CabinSketch-Regular.ttf"
-                    fontSize={0.16}
-                    color="#444444"
-                    position={[0, -0.11, 0.01]}
-                    anchorX="center"
-                    anchorY="middle"
-                >
-                    Class 10: 76.5% • Class 12: 68.4% (Science PCM) • [Click to View Record]
-                </Text>
+                {/* Year Badge on Island with white background frame */}
+                <group position={[0, -0.65, 0.1]}>
+                    <mesh position={[0, 0, -0.01]}>
+                        <planeGeometry args={[2.2, 0.42]} />
+                        <meshBasicMaterial color="#ffffff" transparent opacity={0.92} side={THREE.DoubleSide} />
+                    </mesh>
+                    <lineSegments>
+                        <edgesGeometry args={[new THREE.PlaneGeometry(2.2, 0.42)]} />
+                        <lineBasicMaterial color="#333333" linewidth={1.2} />
+                    </lineSegments>
+                    <Text
+                        fontSize={0.28}
+                        color="#1a1a1a"
+                        position={[0, 0, 0.01]}
+                        anchorX="center"
+                        anchorY="middle"
+                        font="/fonts/CabinSketch-Bold.ttf"
+                    >
+                        2023 - PRESENT
+                    </Text>
+                </group>
             </group>
         </group>
     );
