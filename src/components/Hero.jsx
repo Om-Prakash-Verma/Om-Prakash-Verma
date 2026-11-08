@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import HeroVisual from './HeroVisual';
+import MascotTour from './MascotTour';
 import { 
   ArrowUpRight, 
   Terminal, 
@@ -8,8 +8,7 @@ import {
   Cpu, 
   Sparkles,
   Download,
-  Check,
-  Code2
+  Check
 } from 'lucide-react';
 
 function GithubIcon({ className = "w-4 h-4" }) {
@@ -166,44 +165,9 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Column: 3D Interactive Terminal Inspector */}
+          {/* Right Column: 3D Interactive Mascot Tour Assistant */}
           <div className="md:col-span-5 w-full flex flex-col items-center justify-center mt-4 md:mt-0">
-            
-            {/* The Lab Inspector Container */}
-            <div className="clay-card w-full max-w-md md:max-w-none p-2.5 sm:p-3.5 relative">
-              
-              {/* Header Inspector Bar */}
-              <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-white/5 mb-2 font-mono-code text-[11px] text-slate-400">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-slate-700 inline-block"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-slate-800 inline-block"></span>
-                  <span className="text-slate-300 font-medium pl-1 text-[11px]">core_engine.mesh</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-emerald-400 text-[10px] font-semibold tracking-wider">WebGL 2.0</span>
-                </div>
-              </div>
-
-              {/* Responsive 3D Canvas Box */}
-              <div className="relative w-full h-[240px] xs:h-[280px] sm:h-[300px] md:h-[320px] lg:h-[380px] rounded-xl overflow-hidden bg-[#0a0c12]/90 flex items-center justify-center border border-white/5">
-                <HeroVisual />
-
-                {/* Interaction Hint Overlay */}
-                <div className="absolute bottom-2.5 right-2.5 text-[9px] sm:text-[10px] font-mono-code text-slate-400 bg-slate-900/80 px-2 py-1 rounded border border-white/10 backdrop-blur-md pointer-events-none select-none">
-                  [touch / drag to rotate]
-                </div>
-              </div>
-
-              {/* Bottom Interactive Code Snippet */}
-              <div className="mt-2.5 px-3 py-2 rounded-lg bg-black/40 border border-white/5 font-mono-code text-[11px] text-slate-300 flex items-center justify-between gap-2 overflow-hidden">
-                <div className="flex items-center gap-2 truncate">
-                  <span className="text-emerald-400 select-none">$</span>
-                  <span className="text-slate-300 truncate">om.motto = &ldquo;learn_by_building&rdquo;</span>
-                </div>
-                <span className="text-[10px] text-slate-400 shrink-0 font-medium">READY</span>
-              </div>
-
-            </div>
+            <MascotTour />
 
             {/* Social Channels Row */}
             <div className="flex items-center justify-center gap-2.5 mt-3 sm:mt-4 w-full">
@@ -237,7 +201,6 @@ export default function Hero() {
                 ABES Engineering College
               </span>
             </div>
-
           </div>
 
         </div>
