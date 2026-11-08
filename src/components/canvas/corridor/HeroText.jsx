@@ -56,16 +56,14 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
 
     // Letter positions for ITOM split effect
     const letters = useMemo(() => [
-        { char: 'I', baseX: -0.95, splitDir: -1.6, delay: 0 },
-        { char: 'T', baseX: -0.43, splitDir: -0.6, delay: 0 },
-        { char: 'O', baseX: 0.23, splitDir: 0.6, delay: 0 },
-        { char: 'M', baseX: 0.95, splitDir: 1.8, delay: 0 },
+        { char: 'O', baseX: -0.4, splitDir: -1.0, delay: 0 },
+        { char: 'M', baseX: 0.4, splitDir: 1.0, delay: 0 },
     ], []);
 
     // Tagline words for split effect
     const taglineWords = useMemo(() => [
         { text: '<', baseX: -0.85, splitDir: -1.5, delay: 0 },
-        { text: 'creative', baseX: -0.4, splitDir: -0.8, delay: 0 },
+        { text: 'software', baseX: -0.4, splitDir: -0.8, delay: 0 },
         { text: 'developer', baseX: 0.4, splitDir: 0.8, delay: 0 },
         { text: '/>', baseX: 0.85, splitDir: 1.5, delay: 0 },
     ], []);
