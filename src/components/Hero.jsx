@@ -1,14 +1,17 @@
 import { useState } from 'react';
-import MascotTour from './MascotTour';
+import FreeFloatingMascot from './FreeFloatingMascot';
 import { 
   ArrowUpRight, 
   Terminal, 
   Mail, 
   Layers, 
   Cpu, 
-  Sparkles,
-  Download,
-  Check
+  Sparkles, 
+  Download, 
+  Check, 
+  Activity,
+  Code2,
+  Boxes
 } from 'lucide-react';
 
 function GithubIcon({ className = "w-4 h-4" }) {
@@ -32,6 +35,7 @@ function LinkedinIcon({ className = "w-4 h-4" }) {
 
 export default function Hero() {
   const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState('system');
   const email = "omprakash.cse.dev@gmail.com";
 
   const handleCopyEmail = () => {
@@ -43,17 +47,19 @@ export default function Hero() {
   return (
     <section className="relative min-h-[100dvh] flex items-center justify-center pt-20 sm:pt-24 pb-8 sm:pb-12 px-4 sm:px-6 md:px-8 lg:px-12 overflow-hidden">
       
+      {/* 3D FREE-FLOATING MASCOT (Unconstrained, flies freely across the entire hero) */}
+      <FreeFloatingMascot />
+
       {/* Background Subtle Ambient Glow */}
       <div 
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[500px] lg:w-[650px] aspect-square bg-gradient-to-tr from-slate-900/40 via-slate-800/15 to-transparent rounded-full blur-[100px] sm:blur-[140px] pointer-events-none -z-10"
         aria-hidden="true"
       />
 
-      <div className="max-w-7xl mx-auto w-full">
-        {/* Changed from lg:grid-cols-12 to md:grid-cols-12 so side-by-side layout activates on tablets and scaled laptops */}
+      <div className="max-w-7xl mx-auto w-full z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-6 lg:gap-10 items-center">
           
-          {/* Left Column: Identity, Philosophy & Quick Actions */}
+          {/* Left Column: Narrative, Philosophy & Actions */}
           <div className="md:col-span-7 flex flex-col items-start w-full">
             
             {/* Status Pill */}
@@ -67,7 +73,7 @@ export default function Hero() {
               <span className="text-slate-400 hidden xs:inline truncate">Software Developer</span>
             </div>
 
-            {/* Responsive Scaled Heading */}
+            {/* Scaled Responsive Heading */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white font-heading leading-[1.08] mb-3 sm:mb-4">
               Om Prakash <br className="hidden sm:inline" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
@@ -92,7 +98,7 @@ export default function Hero() {
               system architecture and performance tuning to immersive WebGL interactions.
             </p>
 
-            {/* Tactile Action Buttons - Responsive Wrapping */}
+            {/* Tactile Action Buttons */}
             <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 mb-6 sm:mb-8 w-full">
               <a 
                 href="#projects" 
@@ -139,7 +145,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Engineering Snapshot Cards */}
+            {/* Snapshot Cards */}
             <div className="grid grid-cols-1 xs:grid-cols-3 gap-2.5 w-full max-w-xl">
               <div className="clay-card p-3 flex items-center xs:flex-col xs:items-start gap-2 xs:gap-1">
                 <span className="text-[10px] sm:text-[11px] font-mono-code uppercase tracking-wider text-slate-400 flex items-center gap-1.5 shrink-0">
@@ -165,9 +171,109 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Column: 3D Interactive Mascot Tour Assistant */}
+          {/* Right Column: Tactile Architecture Console (Clean background anchor) */}
           <div className="md:col-span-5 w-full flex flex-col items-center justify-center mt-4 md:mt-0">
-            <MascotTour />
+            <div className="clay-card w-full max-w-md md:max-w-none p-3.5 sm:p-5 relative">
+              
+              {/* Terminal Title Bar */}
+              <div className="flex items-center justify-between px-2 pb-3 border-b border-white/5 mb-3 font-mono-code text-[11px] text-slate-400">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-700"></span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-800"></span>
+                  <span className="text-slate-300 font-medium pl-1">om_lab.sys</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span className="text-[10px] text-emerald-400 font-semibold">ACTIVE</span>
+                </div>
+              </div>
+
+              {/* Console Tabs */}
+              <div className="flex items-center gap-1 p-1 rounded-xl bg-black/40 border border-white/5 font-mono-code text-[11px] mb-3">
+                <button
+                  onClick={() => setActiveTab('system')}
+                  className={`flex-1 py-1 px-2 rounded-lg transition-colors flex items-center justify-center gap-1.5 ${
+                    activeTab === 'system' ? 'clay-button !bg-slate-800 text-white font-medium' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Activity className="w-3 h-3 text-cyan-400" />
+                  <span>Telemetry</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('philosophy')}
+                  className={`flex-1 py-1 px-2 rounded-lg transition-colors flex items-center justify-center gap-1.5 ${
+                    activeTab === 'philosophy' ? 'clay-button !bg-slate-800 text-white font-medium' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Code2 className="w-3 h-3 text-emerald-400" />
+                  <span>Philosophy</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('stack')}
+                  className={`flex-1 py-1 px-2 rounded-lg transition-colors flex items-center justify-center gap-1.5 ${
+                    activeTab === 'stack' ? 'clay-button !bg-slate-800 text-white font-medium' : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Boxes className="w-3 h-3 text-amber-400" />
+                  <span>Core</span>
+                </button>
+              </div>
+
+              {/* Tab Contents */}
+              <div className="p-3.5 rounded-xl bg-[#090b10]/90 border border-white/5 font-mono-code text-xs space-y-2.5 min-h-[160px] flex flex-col justify-center">
+                {activeTab === 'system' && (
+                  <>
+                    <div className="flex justify-between items-center text-slate-400 text-[11px]">
+                      <span>ENGINEERING_STATUS:</span>
+                      <span className="text-cyan-300 font-medium">Ready to Build</span>
+                    </div>
+                    <div className="flex justify-between items-center text-slate-400 text-[11px]">
+                      <span>CURRENT_LOCATION:</span>
+                      <span className="text-slate-200">India</span>
+                    </div>
+                    <div className="flex justify-between items-center text-slate-400 text-[11px]">
+                      <span>EDUCATION:</span>
+                      <span className="text-slate-200">ABES Engineering College</span>
+                    </div>
+                    <div className="flex justify-between items-center text-slate-400 text-[11px]">
+                      <span>3D_COMPANION:</span>
+                      <span className="text-emerald-400">Spark (Autonomous)</span>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'philosophy' && (
+                  <div className="space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
+                    <p className="text-emerald-400">// Core approach</p>
+                    <p className="text-slate-300">&ldquo;I don&apos;t see development as simply writing code. I see it as understanding problems, designing resilient architectures, and learning by building.&rdquo;</p>
+                  </div>
+                )}
+
+                {activeTab === 'stack' && (
+                  <div className="space-y-1.5 text-[11px]">
+                    <div className="text-slate-400 flex items-center justify-between">
+                      <span>Frontend:</span>
+                      <span className="text-slate-200">React, Next.js, WebGL/Three.js</span>
+                    </div>
+                    <div className="text-slate-400 flex items-center justify-between">
+                      <span>Backend:</span>
+                      <span className="text-slate-200">Node.js, APIs, System Design</span>
+                    </div>
+                    <div className="text-slate-400 flex items-center justify-between">
+                      <span>Interests:</span>
+                      <span className="text-cyan-300">Compilers, 3D Web, Systems</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Console Footnote */}
+              <div className="mt-3 pt-2 border-t border-white/5 flex items-center justify-between text-[10px] font-mono-code text-slate-400">
+                <span className="text-slate-400">v1.0.0 &bull; verified build</span>
+                <span className="text-cyan-400">touch / click anywhere</span>
+              </div>
+
+            </div>
 
             {/* Social Channels Row */}
             <div className="flex items-center justify-center gap-2.5 mt-3 sm:mt-4 w-full">
@@ -201,6 +307,7 @@ export default function Hero() {
                 ABES Engineering College
               </span>
             </div>
+
           </div>
 
         </div>

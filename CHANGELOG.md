@@ -9,12 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0] - 2026-11-08
 ### Added
-- **Interactive 3D Mascot ("Spark"):**
-  - Autonomous 3D clay-styled floating robot with procedural matte body, glowing LED expressive eyes, and thruster pulse.
-  - Interactive storytelling tour that starts automatically on load, guiding visitors through Om's philosophy, technical focus, and projects.
-  - Dynamic waypoint navigation: the mascot glides across designated positions in the hero space as the narrative unfolds.
-  - Interactive speech bubble with auto-advancing progress, manual navigation ("Next", "Replay", "Dismiss"), and click reaction physics.
-  - Direct interaction: clicking the mascot triggers an excited spin / barrel-roll and reactive dialogue.
+- **Unconstrained Free-Floating 3D Mascot ("Spark"):**
+  - Released Spark from any bounding card box: Spark now flies freely across the entire hero viewport in 3D space with a full-bleed transparent WebGL canvas.
+  - Dynamic 3D-to-2D screen projection: the speech bubble dynamically tracks Spark's real-time head coordinates wherever it flies.
+  - Added multi-tab tactile architecture console on the right column (`Telemetry`, `Philosophy`, `Core`) providing rich engineering telemetry while Spark navigates freely.
+  - Interactive click / raycaster support directly on the 3D bot triggers barrel-roll spins and reactive toasts.
 
 ---
 
