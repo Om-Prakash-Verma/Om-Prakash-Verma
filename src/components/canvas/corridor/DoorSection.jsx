@@ -86,6 +86,7 @@ const DoorSection = ({
     const handleHideDelayRef = useRef(); // Track pending gsap.delayedCall for handle visibility
     const [isHovered, setIsHovered] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const isOpenRef = useRef(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const isNearRef = useRef(false);
     const [isInsideRoom, setIsInsideRoom] = useState(false);
@@ -153,6 +154,7 @@ const DoorSection = ({
 
             // 1. Reset Internal State immediately
             setIsOpen(false);
+            isOpenRef.current = false;
             setIsInsideRoom(false);
             setIsAnimating(false);
             setShouldRenderRoom(false); // Unmount room content
@@ -529,6 +531,7 @@ const DoorSection = ({
         if (!doorRef.current) return;
 
         setIsOpen(true);
+        isOpenRef.current = true;
         const openAngle = side === 'left' ? Math.PI * 0.6 : -Math.PI * 0.6;
 
         if (!fastMode && openAudioRef.current) {
@@ -755,7 +758,12 @@ const DoorSection = ({
     }, [exitRequested, isInsideRoom, isAnimating, exitRoom]);
 
     const closeDoor = useCallback((onDoorClosed) => {
-        if (!doorRef.current || !isOpen) return;
+        if (!doorRef.current) return;
+        if (!isOpen && !isOpenRef.current && Math.abs(doorRef.current.rotation.y) < 0.01) {
+            setShouldRenderRoom(false);
+            onDoorClosed?.();
+            return;
+        }
         if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
         if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
 
@@ -811,6 +819,9 @@ const DoorSection = ({
             ease: 'power2.in',
             onComplete: () => {
                 setIsOpen(false);
+            isOpenRef.current = false;
+                isOpenRef.current = false;
+                setShouldRenderRoom(false);
                 setIsAnimating(false);
                 // Call optional completion callback
                 onDoorClosed?.();

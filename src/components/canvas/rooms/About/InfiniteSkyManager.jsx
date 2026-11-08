@@ -229,13 +229,23 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
                         scrollProgressRef={scrollProgressRef}
                     />
 
-                    
+                    {/* === AWARDS MILESTONE (Milestone 2 - Untouched) === */}
+                    <AwardsMilestone
+                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 55)}
+                        scrollProgressRef={scrollProgressRef}
+                    />
 
-                    
+                    {/* === JOURNEY MILESTONE (Milestone 3) === */}
+                    <JourneyMilestone
+                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 95)}
+                        scrollProgressRef={scrollProgressRef}
+                    />
 
-                    {/* === SKILLS MILESTONE === */}
-
-                    {/* Skills milestone removed */}
+                    {/* === SKILLS MILESTONE (Milestone 4) === */}
+                    <SkillsMilestone
+                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 135)}
+                        scrollProgressRef={scrollProgressRef}
+                    />
                 </group>
             ))}
         </group>
@@ -395,6 +405,28 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
             >
                 and a builder by nature."
             </Text>
+
+            {/* Scroll flight guidance indicator */}
+            <group position={[0, -1.2, 0.1]}>
+                <mesh position={[0, 0, -0.01]}>
+                    <planeGeometry args={[3.4, 0.45]} />
+                    <meshBasicMaterial color="#ffffff" transparent opacity={0.85} side={THREE.DoubleSide} />
+                </mesh>
+                <lineSegments>
+                    <edgesGeometry args={[new THREE.PlaneGeometry(3.4, 0.45)]} />
+                    <lineBasicMaterial color="#333333" linewidth={1.2} />
+                </lineSegments>
+                <Text
+                    font="/fonts/CabinSketch-Bold.ttf"
+                    fontSize={0.19}
+                    color="#222222"
+                    position={[0, 0, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    ↓ SCROLL TO FLY THROUGH SKY ↓
+                </Text>
+            </group>
         </group>
     );
 };
@@ -807,6 +839,7 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
  */
 const JourneyMilestone = ({ z, scrollProgressRef }) => {
     const { camera, viewport } = useThree();
+    const { openOverlay } = useScene();
     const isTouch = isTouchDevice();
     const groupRef = useRef();
     const uoRef = useRef();
@@ -881,11 +914,73 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
         }
     });
 
+    const handleAbesClick = (e) => {
+        e?.stopPropagation?.();
+        openOverlay({
+            title: 'B.TECH CSE — ABES Engineering College',
+            date: '2024 - 2028',
+            description: 'Pursuing Bachelor of Technology in Computer Science & Engineering. Rigorous foundation in core computing, systems design, operating systems, and distributed algorithms.',
+            details: [
+                { label: 'Institution', value: 'ABES Engineering College, Ghaziabad' },
+                { label: 'Affiliation', value: 'AKTU (Dr. A.P.J. Abdul Kalam Technical University)' },
+                { label: 'Performance', value: 'Current CGPA: 6.43 / 10.0' }
+            ],
+            bulletPoints: [
+                'Data Structures, Algorithms & Object-Oriented System Architecture.',
+                'Low-level systems, operating system fundamentals, and networking.',
+                'Active exploration of scalable distributed backends and WebGL graphics.'
+            ],
+            url: 'https://abes.ac.in',
+            platformConfig: { label: 'ACADEMICS', color: '#1a1a1a', icon: '🎓' }
+        });
+    };
+
+    const handleBuilderClick = (e) => {
+        e?.stopPropagation?.();
+        openOverlay({
+            title: 'Software Developer & Systems Builder',
+            date: '2023 - Present',
+            description: 'Designing and engineering production full-stack architectures, sub-millisecond algorithms, AI vector intelligence, and bespoke 3D WebGL user experiences.',
+            details: [
+                { label: 'Focus', value: 'Full-Stack, Distributed Systems & 3D Web' },
+                { label: 'Core Stack', value: 'C++, Python, React, Three.js, GSAP, Node.js' },
+                { label: 'Output', value: '10+ High-Performance Projects Shipped' }
+            ],
+            bulletPoints: [
+                'Engineered zero-conflict scheduling engines and vector photo search systems.',
+                'Pioneered interactive hand-drawn sketch 3D interfaces with 60 FPS performance.',
+                'Committed to first-principles thinking and clean architectural foundations.'
+            ],
+            url: 'https://github.com/Om-Prakash-Verma',
+            platformConfig: { label: 'BUILDER', color: '#1a1a1a', icon: '💻' }
+        });
+    };
+
+    const handleSchoolClick = (e) => {
+        e?.stopPropagation?.();
+        openOverlay({
+            title: 'Schooling — Shree Jain Vidyalaya, Kolkata',
+            date: '2012 - 2023',
+            description: 'Comprehensive 11-year foundational schooling culminating in Higher Secondary Class 12 with strong mathematical rigor and scientific analytical problem solving.',
+            details: [
+                { label: 'School', value: 'Shree Jain Vidyalaya, Kolkata' },
+                { label: 'Class 10 (Secondary)', value: '76.5%' },
+                { label: 'Class 12 (Higher Secondary)', value: '68.4% (Science PCM)' }
+            ],
+            bulletPoints: [
+                'Strong background in Physics, Chemistry, and Advanced Mathematics.',
+                'Fostered first-principles analytical logic and algorithmic curiosity.',
+                'Active participant in regional science, computing, and logic challenges.'
+            ],
+            platformConfig: { label: 'FOUNDATION', color: '#1a1a1a', icon: '📚' }
+        });
+    };
+
     return (
         <group ref={groupRef} position={[0, 0, z]}>
             {/* Title */}
             <Text
-                position={[0, 5, 0.3]}
+                position={[0, 5.2, 0.3]}
                 fontSize={1.2}
                 color="#1a1a1a"
                 anchorX="center"
@@ -897,18 +992,47 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
 
             {/* Subtitle */}
             <Text
-                position={[0, 4.2, 0.3]}
+                position={[0, 4.4, 0.3]}
                 fontSize={0.35}
                 color="#555555"
                 anchorX="center"
                 anchorY="middle"
                 font="/fonts/CabinSketch-Regular.ttf"
             >
-                My path so far...
+                From Kolkata foundations to Engineering & Builder Systems
             </Text>
 
-            {/* === UO ISLAND (Left) === */}
-            <group ref={uoRef} position={[-3.5, -1, 0]}>
+            {/* === ABES EC ISLAND (Left) === */}
+            <group
+                ref={uoRef}
+                position={[-3.6, -0.9, 0]}
+                onClick={handleAbesClick}
+                onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
+                onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
+            >
+                {/* Plaque Header */}
+                <group position={[0, 1.9, 0.1]}>
+                    <Text
+                        font="/fonts/CabinSketch-Bold.ttf"
+                        fontSize={0.28}
+                        color="#111111"
+                        anchorX="center"
+                        anchorY="bottom"
+                    >
+                        ABES ENGINEERING COLLEGE
+                    </Text>
+                    <Text
+                        font="/fonts/CabinSketch-Regular.ttf"
+                        fontSize={0.19}
+                        color="#444444"
+                        position={[0, -0.08, 0]}
+                        anchorX="center"
+                        anchorY="top"
+                    >
+                        B.Tech CSE • CGPA: 6.43 • [Inspect ↗]
+                    </Text>
+                </group>
+
                 <mesh>
                     <planeGeometry args={[islandHeight * uoAspect, islandHeight]} />
                     <meshBasicMaterial color="#e0e0e0"
@@ -917,21 +1041,50 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* NAPIS NA WYSPIE (UO) - EDYTUJ TUTAJ */}
+                {/* Year Badge on Island */}
                 <Text
-                    position={[0.1, -0.85, 0.1]} // POZYCJA (X, Y, Z)
-                    fontSize={0.4}           // WIELKOŚĆ
+                    position={[0.1, -0.85, 0.1]}
+                    fontSize={0.38}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    2025-NOW
+                    2024-2028
                 </Text>
             </group>
 
-            {/* === FREELANCE ISLAND (Right) === */}
-            <group ref={freelanceRef} position={[3.5, -2, 0.5]}>
+            {/* === BUILDER / SOFTWARE ISLAND (Right) === */}
+            <group
+                ref={freelanceRef}
+                position={[3.6, -1.8, 0.5]}
+                onClick={handleBuilderClick}
+                onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
+                onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
+            >
+                {/* Plaque Header */}
+                <group position={[0, 1.9, 0.1]}>
+                    <Text
+                        font="/fonts/CabinSketch-Bold.ttf"
+                        fontSize={0.28}
+                        color="#111111"
+                        anchorX="center"
+                        anchorY="bottom"
+                    >
+                        SOFTWARE & SYSTEMS BUILDER
+                    </Text>
+                    <Text
+                        font="/fonts/CabinSketch-Regular.ttf"
+                        fontSize={0.19}
+                        color="#444444"
+                        position={[0, -0.08, 0]}
+                        anchorX="center"
+                        anchorY="top"
+                    >
+                        Full-Stack & 3D Web • [Inspect ↗]
+                    </Text>
+                </group>
+
                 <mesh>
                     <planeGeometry args={[islandHeight * freelanceAspect, islandHeight]} />
                     <meshBasicMaterial color="#e0e0e0"
@@ -940,16 +1093,53 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
                         side={THREE.DoubleSide}
                     />
                 </mesh>
-                {/* NAPIS NA WYSPIE (Freelance) - EDYTUJ TUTAJ */}
+                {/* Year Badge on Island */}
                 <Text
-                    position={[0, -0.65, 0.1]} // POZYCJA (X, Y, Z)
-                    fontSize={0.5}           // WIELKOŚĆ
+                    position={[0, -0.65, 0.1]}
+                    fontSize={0.42}
                     color="#1a1a1a"
                     anchorX="center"
                     anchorY="middle"
                     font="/fonts/CabinSketch-Bold.ttf"
                 >
-                    2023-NOW
+                    2023-PRESENT
+                </Text>
+            </group>
+
+            {/* === SCHOOLING FOUNDATION PLAQUE (Center) === */}
+            <group
+                position={[0, -3.2, 0.2]}
+                onClick={handleSchoolClick}
+                onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
+                onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
+            >
+                <mesh position={[0, 0, -0.01]}>
+                    <planeGeometry args={[7.2, 0.65]} />
+                    <meshBasicMaterial color="#ffffff" transparent opacity={0.9} side={THREE.DoubleSide} />
+                </mesh>
+                <lineSegments>
+                    <edgesGeometry args={[new THREE.PlaneGeometry(7.2, 0.65)]} />
+                    <lineBasicMaterial color="#333333" linewidth={1.2} />
+                </lineSegments>
+                <Text
+                    font="/fonts/CabinSketch-Bold.ttf"
+                    fontSize={0.22}
+                    color="#111111"
+                    position={[0, 0.11, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    FOUNDATION: SHREE JAIN VIDYALAYA, KOLKATA (2012 - 2023)
+                </Text>
+                <Text
+                    font="/fonts/CabinSketch-Regular.ttf"
+                    fontSize={0.16}
+                    color="#444444"
+                    position={[0, -0.11, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    Class 10: 76.5% • Class 12: 68.4% (Science PCM) • [Click to View Record]
                 </Text>
             </group>
         </group>
@@ -1322,6 +1512,7 @@ const SkillBalloon = ({ config, revealFactorRef, spreadFactorRef, timeRef }) => 
 
 const SkillsMilestone = ({ z, scrollProgressRef }) => {
     const { camera, viewport } = useThree();
+    const { openOverlay } = useScene();
     const isTouch = isTouchDevice();
     const groupRef = useRef();
     // P2: Use refs instead of state to avoid 60 re-renders/sec inside useFrame
@@ -1377,11 +1568,33 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
         spreadFactorRef.current = newSpreadFactor;
     });
 
+    const handleResumeClick = (e) => {
+        e?.stopPropagation?.();
+        openOverlay({
+            title: 'OM PRAKASH VERMA — CURRICULUM VITAE',
+            date: '2026',
+            description: 'Software Developer & Systems Builder pursuing B.Tech CSE at ABES Engineering College, Ghaziabad. Focused on high-performance algorithms, AI vector intelligence, distributed systems, and creative 3D WebGL code.',
+            details: [
+                { label: 'Role', value: 'Software Developer & Systems Builder' },
+                { label: 'Education', value: 'B.Tech CSE (2024 - 2028), ABES EC / AKTU' },
+                { label: 'Email', value: 'omprakashverma.in@gmail.com' }
+            ],
+            bulletPoints: [
+                'Core proficiency in C++, Python, JavaScript, TypeScript, and SQL databases.',
+                'Production WebGL, Three.js, GSAP, React, Next.js, and Node.js architectures.',
+                'Shipped 10+ projects including PixSort (vector photo retrieval) and AetherSchedule.',
+                'Dedicated to low-latency edge caching and mathematical problem solving.'
+            ],
+            url: 'https://github.com/Om-Prakash-Verma',
+            platformConfig: { label: 'RESUME', color: '#1a1a1a', icon: '📄' }
+        });
+    };
+
     return (
         <group ref={groupRef} position={[0, 0, z]}>
             {/* Title */}
             <Text
-                position={[0, 6, 0.5]}
+                position={[0, 6.2, 0.5]}
                 fontSize={1.2}
                 color="#1a1a1a"
                 anchorX="center"
@@ -1393,14 +1606,14 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
 
             {/* Subtitle */}
             <Text
-                position={[0, 5.2, 0.5]}
-                fontSize={0.35}
+                position={[0, 5.4, 0.5]}
+                fontSize={0.34}
                 color="#555555"
                 anchorX="center"
                 anchorY="middle"
                 font="/fonts/CabinSketch-Regular.ttf"
             >
-                Technologies I love working with
+                Click balloons to pop & reveal • Full-Stack, Systems & AI Stack
             </Text>
 
             {/* === FLOATING BALLOONS === */}
@@ -1413,6 +1626,94 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
                     timeRef={timeRef}
                 />
             ))}
+
+            {/* === COMPREHENSIVE TECH STACK PLAQUES (Below balloons) === */}
+            {/* Plaque 1: Core Languages & AI */}
+            <group position={[-3.3, -1.8, 0.2]}>
+                <mesh position={[0, 0, -0.01]}>
+                    <planeGeometry args={[5.2, 1.0]} />
+                    <meshBasicMaterial color="#ffffff" transparent opacity={0.9} side={THREE.DoubleSide} />
+                </mesh>
+                <lineSegments>
+                    <edgesGeometry args={[new THREE.PlaneGeometry(5.2, 1.0)]} />
+                    <lineBasicMaterial color="#333333" linewidth={1.2} />
+                </lineSegments>
+                <Text
+                    font="/fonts/CabinSketch-Bold.ttf"
+                    fontSize={0.24}
+                    color="#111111"
+                    position={[0, 0.22, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    CORE LANGUAGES & AI
+                </Text>
+                <Text
+                    font="/fonts/CabinSketch-Regular.ttf"
+                    fontSize={0.18}
+                    color="#444444"
+                    position={[0, -0.15, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    C++ • Python • JavaScript • TypeScript • SQL • Vector Search
+                </Text>
+            </group>
+
+            {/* Plaque 2: 3D & Systems Infra */}
+            <group position={[3.3, -1.8, 0.2]}>
+                <mesh position={[0, 0, -0.01]}>
+                    <planeGeometry args={[5.2, 1.0]} />
+                    <meshBasicMaterial color="#ffffff" transparent opacity={0.9} side={THREE.DoubleSide} />
+                </mesh>
+                <lineSegments>
+                    <edgesGeometry args={[new THREE.PlaneGeometry(5.2, 1.0)]} />
+                    <lineBasicMaterial color="#333333" linewidth={1.2} />
+                </lineSegments>
+                <Text
+                    font="/fonts/CabinSketch-Bold.ttf"
+                    fontSize={0.24}
+                    color="#111111"
+                    position={[0, 0.22, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    3D WEB & SYSTEMS INFRA
+                </Text>
+                <Text
+                    font="/fonts/CabinSketch-Regular.ttf"
+                    fontSize={0.18}
+                    color="#444444"
+                    position={[0, -0.15, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    Three.js • WebGL • GSAP • React • Node.js • PostgreSQL • Docker
+                </Text>
+            </group>
+
+            {/* Plaque 3: Interactive Resume Scroll */}
+            <group
+                position={[0, -3.1, 0.3]}
+                onClick={handleResumeClick}
+                onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
+                onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
+            >
+                <mesh position={[0, 0, -0.01]}>
+                    <planeGeometry args={[4.8, 0.7]} />
+                    <meshBasicMaterial color="#1a1a1a" side={THREE.DoubleSide} />
+                </mesh>
+                <Text
+                    font="/fonts/CabinSketch-Bold.ttf"
+                    fontSize={0.24}
+                    color="#ffffff"
+                    position={[0, 0, 0.01]}
+                    anchorX="center"
+                    anchorY="middle"
+                >
+                    📄 [ VIEW & DOWNLOAD CURRICULUM VITAE ]
+                </Text>
+            </group>
         </group>
     );
 };

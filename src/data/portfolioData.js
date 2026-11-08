@@ -97,7 +97,7 @@ export const GALLERY_PROJECTS = [
             '/textures/gallery/jslogo.webp',
             '/textures/gallery/htmllogo.webp'
         ],
-        highlight: '~3ms In-Memory Cosine Ranker in RAM ($0 Cloud Cost)'
+        highlight: 'Multimodal Vector Search & Decentralized Cloud Pooling'
     },
     {
         id: 'railsure',
