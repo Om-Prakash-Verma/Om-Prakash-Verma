@@ -766,16 +766,6 @@ const CorridorDecorations = ({ segmentLength, zOffset, corridorWidth = 4, corrid
                 lines={["while(alive) {", "  code();", "} 💡"]}
                 font={CABIN_SKETCH_URL}
             />
-            <StickyNote
-                side="left"
-                wallX={wallX}
-                y={0.22}
-                z={zOffset - 46}
-                rotationZ={-0.04}
-                color="#fbcfe8"
-                lines={["git commit -m", "'it works now!' ✨"]}
-                font={CABIN_SKETCH_URL}
-            />
 
             {/* === POTTED TREE NEAR CORRIDOR START === */}
             <mesh
