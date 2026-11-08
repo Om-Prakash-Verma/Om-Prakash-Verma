@@ -7,7 +7,8 @@ import {
   RotateCcw, 
   X, 
   MessageSquare,
-  Bot
+  Bot,
+  Heart
 } from 'lucide-react';
 
 export default function FreeFloatingMascot() {
@@ -19,60 +20,76 @@ export default function FreeFloatingMascot() {
   const [botReaction, setBotReaction] = useState(null);
   const [progress, setProgress] = useState(0);
 
-  // References to communicate between React & Three.js loop
   const stepRef = useRef(0);
   const spinRef = useRef(0);
   const mouseRef = useRef({ x: 0, y: 0 });
   const mascotPos3D = useRef(new THREE.Vector3());
 
+  // Personal, human-to-human narrative describing Om as a friend/advocate would
   const tourSteps = [
     {
-      title: "Hey there! 👋",
-      tag: "Spark // Assistant",
-      message: "I'm Spark, Om's lab assistant! Welcome to his digital workshop.",
-      // 3D destination coordinates in world space (x, y, z, rotY)
+      stepLabel: "Meet Om",
+      tag: "Introducing Om",
+      headline: "Hey! Come on in 👋",
+      message: "Let me introduce you to Om! If you're looking for someone who genuinely cares about craft and problem-solving, you're in the right place.",
       target: { x: 2.2, y: 0.6, z: 0, rotY: -0.25, rotX: 0 },
     },
     {
-      title: "Curiosity-Driven 🧠",
-      tag: "Engineering Mindset",
-      message: "Om doesn't just use tools—he digs beneath the surface to understand compilers, architecture & internals.",
+      stepLabel: "How He Thinks",
+      tag: "The Mindset",
+      headline: "He never just stays on the surface 🔍",
+      message: "The first thing you'll notice about Om: he's obsessively curious. While most people just import packages, Om is the person who wants to know: 'How does the compiler actually parse this? What's the engine doing beneath the hood?'",
       target: { x: -0.5, y: 1.1, z: 0.5, rotY: 0.35, rotX: 0.1 },
     },
     {
-      title: "Full-Stack & 3D 🛠️",
-      tag: "The Craft",
-      message: "From scalable full-stack backends to interactive 3D WebGL experiences, he turns ideas into resilient products.",
-      target: { x: -0.8, y: -0.8, z: 0.3, rotY: 0.45, rotX: -0.1 },
+      stepLabel: "How He Learns",
+      tag: "The Builder",
+      headline: "His golden rule: Learn by Building 🛠️",
+      message: "He doesn't just read tutorials. If he wants to master something—whether it's resilient full-stack systems or interactive 3D WebGL scenes—he rolls up his sleeves and builds working products from scratch.",
+      target: { x: -0.8, y: -0.6, z: 0.3, rotY: 0.45, rotX: -0.1 },
     },
     {
-      title: "Let's Build! 🚀",
-      tag: "Explore Work",
-      message: "Feel free to check out his projects, inspect his code, or click on me anytime for a trick! Have fun exploring!",
-      target: { x: 1.6, y: -0.4, z: 0.2, rotY: -0.15, rotX: 0 },
+      stepLabel: "His Foundation",
+      tag: "Engineering Base",
+      headline: "Rigorous fundamentals 🎓",
+      message: "He's pursuing his B.Tech in Computer Science at ABES Engineering College here in India. He blends strong computer science fundamentals with modern software craftsmanship.",
+      target: { x: 0.8, y: -0.9, z: 0.2, rotY: -0.2, rotX: 0.05 },
+    },
+    {
+      stepLabel: "Beyond The Code",
+      tag: "The Person",
+      headline: "He's more than just a terminal ⚡",
+      message: "Beyond coding, Om is super grounded—he's passionate about fitness, photography, and creative design. He brings that same discipline and eye for detail to everything he touches.",
+      target: { x: 2.0, y: -0.3, z: 0.1, rotY: -0.15, rotX: 0 },
+    },
+    {
+      stepLabel: "Collaborate",
+      tag: "Work Together",
+      headline: "He's ready to build with you 🚀",
+      message: "He's currently open for high-impact roles and collaborations. Check out his work below, grab his resume, or hit his email—and tap me anytime if you want to say hi!",
+      target: { x: -0.4, y: 0.2, z: 0.3, rotY: 0.2, rotX: 0 },
     },
   ];
 
   const funReactions = [
-    "Whoosh! 🌀 Let's build something epic!",
-    "Om loves fitness, photography & 3D art! 📸",
-    "Curiosity is the engine of engineering! ⚡",
-    "All systems nominal! Ready to collaborate. 🤝",
+    "Haha, Om told me you might tap me! Want to hear more about him?",
+    "Honestly, Om is one of the most dedicated builders I know. 💯",
+    "Ask Om about compilers or 3D web—he could talk about that for hours! ⚡",
+    "Fun fact: When Om tackles a bug, he doesn't stop until he understands the root cause! 🧠",
   ];
 
-  // Sync stepRef
   useEffect(() => {
     stepRef.current = currentStep;
   }, [currentStep]);
 
-  // Auto-advance dialogue timer (6.5s)
+  // Auto-advance dialogue timer (7.5s per beat so the user can comfortably read)
   useEffect(() => {
     if (!isAutoPlaying || isMinimized) {
       setProgress(0);
       return;
     }
 
-    const duration = 6500;
+    const duration = 7500;
     const interval = 50;
     const increment = (interval / duration) * 100;
 
@@ -123,7 +140,7 @@ export default function FreeFloatingMascot() {
     spinRef.current += Math.PI * 2;
     const randomReaction = funReactions[Math.floor(Math.random() * funReactions.length)];
     setBotReaction(randomReaction);
-    setTimeout(() => setBotReaction(null), 3200);
+    setTimeout(() => setBotReaction(null), 3600);
   };
 
   // Three.js Scene Setup (Transparent, Unconstrained across Hero)
@@ -343,7 +360,6 @@ export default function FreeFloatingMascot() {
       const currentStepIdx = stepRef.current;
       const targetWp = tourSteps[currentStepIdx]?.target || tourSteps[0].target;
 
-      // On narrow mobile screens, adapt X coordinate so it doesn't fly off-screen
       const isMobile = window.innerWidth < 768;
       const adaptedTargetX = isMobile ? targetWp.x * 0.45 : targetWp.x;
       const adaptedTargetY = isMobile ? targetWp.y * 0.65 : targetWp.y;
@@ -362,7 +378,7 @@ export default function FreeFloatingMascot() {
       // Smooth Rotation
       const targetRotY = targetWp.rotY + (mouseRef.current.x * 0.6) + currentSpin;
       const targetRotX = targetWp.rotX + (mouseRef.current.y * 0.4) + Math.sin(elapsedTime * 2.0) * 0.06;
-      const targetRotZ = (adaptedTargetX - mascotGroup.position.x) * -0.3; // Banking bank angle
+      const targetRotZ = (adaptedTargetX - mascotGroup.position.x) * -0.3;
 
       mascotGroup.rotation.y += (targetRotY - mascotGroup.rotation.y) * 0.06;
       mascotGroup.rotation.x += (targetRotX - mascotGroup.rotation.x) * 0.06;
@@ -398,7 +414,6 @@ export default function FreeFloatingMascot() {
       screenProjectTimer++;
       if (screenProjectTimer % 2 === 0) {
         mascotGroup.getWorldPosition(mascotPos3D.current);
-        // Offset upward for head
         mascotPos3D.current.y += 0.8;
         const projected = mascotPos3D.current.clone().project(camera);
 
@@ -453,29 +468,28 @@ export default function FreeFloatingMascot() {
       <div 
         ref={mountRef}
         className="absolute inset-0 z-20 pointer-events-auto cursor-pointer overflow-hidden"
-        title="Click Spark the Droid!"
+        title="Tap Spark to interact!"
         aria-hidden="true"
       />
 
-      {/* 2. Floating Speech Bubble dynamically following Spark across the screen */}
+      {/* 2. Floating Speech Bubble with personal human introduction tone */}
       {bubblePos.visible && !isMinimized && (
         <div 
           className="absolute z-30 pointer-events-auto transition-all duration-300 ease-out"
           style={{
-            // Position bubble neatly above or beside Spark with bounds protection
-            left: `${Math.min(Math.max(bubblePos.x - 140, 16), window.innerWidth - 320)}px`,
-            top: `${Math.max(bubblePos.y - 180, 80)}px`,
-            width: '290px',
+            left: `${Math.min(Math.max(bubblePos.x - 150, 16), window.innerWidth - 340)}px`,
+            top: `${Math.max(bubblePos.y - 200, 80)}px`,
+            width: '320px',
           }}
         >
           {/* Tactile Speech Bubble */}
-          <div className="clay-card p-3.5 border border-cyan-500/20 bg-[#0d101a]/95 backdrop-blur-2xl shadow-2xl relative">
+          <div className="clay-card p-4 border border-cyan-500/25 bg-[#0b0e17]/95 backdrop-blur-2xl shadow-2xl relative">
             
             {/* Auto-Advance Progress Bar */}
             {isAutoPlaying && (
-              <div className="w-full bg-slate-800/80 h-1 rounded-full overflow-hidden mb-2">
+              <div className="w-full bg-slate-800/80 h-1 rounded-full overflow-hidden mb-2.5">
                 <div 
-                  className="bg-gradient-to-r from-cyan-400 to-emerald-400 h-full transition-all duration-75 ease-linear"
+                  className="bg-gradient-to-r from-cyan-400 via-sky-300 to-emerald-400 h-full transition-all duration-75 ease-linear"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -484,43 +498,49 @@ export default function FreeFloatingMascot() {
             {/* Bubble Header */}
             <div className="flex items-center justify-between gap-2 mb-1.5">
               <div className="flex items-center gap-1.5">
-                <span className="text-[9px] font-mono-code px-1.5 py-0.5 rounded bg-cyan-950/90 border border-cyan-800/50 text-cyan-300 font-semibold">
+                <span className="text-[10px] font-mono-code px-2 py-0.5 rounded-full bg-cyan-950/90 border border-cyan-800/60 text-cyan-300 font-semibold">
                   {currentDialogue.tag}
                 </span>
-                <span className="text-xs font-bold text-slate-100 font-heading">
-                  {currentDialogue.title}
+                <span className="text-[11px] font-mono-code text-slate-400">
+                  {currentStep + 1} of {tourSteps.length}
                 </span>
               </div>
               <button
                 onClick={() => setIsMinimized(true)}
-                className="text-slate-400 hover:text-white p-0.5 rounded hover:bg-white/10"
+                className="text-slate-400 hover:text-white p-1 rounded-md hover:bg-white/10 transition-colors"
                 title="Minimize tour"
+                aria-label="Minimize tour"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            {/* Bubble Dialogue Message */}
-            <p className="text-xs text-slate-300 leading-relaxed mb-2.5">
+            {/* Headline */}
+            <h4 className="text-xs sm:text-sm font-bold text-slate-100 font-heading mb-1.5 flex items-center gap-1.5">
+              <span>{currentDialogue.headline}</span>
+            </h4>
+
+            {/* Narrative Message in Human Voice */}
+            <p className="text-xs text-slate-300 leading-relaxed mb-3">
               {currentDialogue.message}
             </p>
 
             {/* Bubble Controls */}
-            <div className="flex items-center justify-between pt-1 border-t border-white/5 text-xs">
+            <div className="flex items-center justify-between pt-1.5 border-t border-white/5 text-xs">
               <button
                 onClick={handleReplay}
-                className="text-[10px] font-mono-code text-slate-400 hover:text-white flex items-center gap-1"
-                title="Restart Tour"
+                className="text-[10px] font-mono-code text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                title="Start from beginning"
               >
                 <RotateCcw className="w-3 h-3" />
-                <span>Replay</span>
+                <span>Restart</span>
               </button>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 {currentStep > 0 && (
                   <button
                     onClick={handlePrev}
-                    className="clay-button p-1 text-slate-300 hover:text-white"
+                    className="clay-button p-1.5 text-slate-300 hover:text-white"
                     title="Previous step"
                     aria-label="Previous step"
                   >
@@ -531,7 +551,7 @@ export default function FreeFloatingMascot() {
                 {currentStep < tourSteps.length - 1 ? (
                   <button
                     onClick={handleNext}
-                    className="clay-button-primary px-2.5 py-1 rounded-lg text-[10px] flex items-center gap-1 font-semibold"
+                    className="clay-button-primary px-3 py-1 rounded-lg text-[11px] flex items-center gap-1 font-semibold"
                   >
                     <span>Next</span>
                     <ChevronRight className="w-3 h-3" />
@@ -539,9 +559,9 @@ export default function FreeFloatingMascot() {
                 ) : (
                   <button
                     onClick={() => setIsMinimized(true)}
-                    className="clay-button-primary px-2.5 py-1 rounded-lg text-[10px] font-semibold"
+                    className="clay-button-primary px-3 py-1 rounded-lg text-[11px] font-semibold"
                   >
-                    Got it! 👍
+                    Explore Om&apos;s Work 🚀
                   </button>
                 )}
               </div>
@@ -549,7 +569,7 @@ export default function FreeFloatingMascot() {
 
             {/* Speech Bubble Arrow pointing toward Spark */}
             <div 
-              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 bg-[#0d101a] border-r border-b border-cyan-500/20 rotate-45"
+              className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 bg-[#0b0e17] border-r border-b border-cyan-500/25 rotate-45"
               aria-hidden="true"
             />
           </div>
@@ -561,25 +581,25 @@ export default function FreeFloatingMascot() {
         <div 
           className="absolute z-40 pointer-events-none transition-all duration-300 ease-out"
           style={{
-            left: `${Math.min(Math.max(bubblePos.x - 110, 16), window.innerWidth - 240)}px`,
-            top: `${Math.max(bubblePos.y - 60, 40)}px`,
+            left: `${Math.min(Math.max(bubblePos.x - 120, 16), window.innerWidth - 260)}px`,
+            top: `${Math.max(bubblePos.y - 70, 40)}px`,
           }}
         >
-          <div className="bg-slate-900/95 border border-cyan-400/50 text-cyan-200 text-xs font-mono-code px-3 py-1.5 rounded-xl backdrop-blur-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200 text-center">
+          <div className="bg-slate-900/95 border border-cyan-400/60 text-cyan-200 text-xs font-mono-code px-3.5 py-2 rounded-xl backdrop-blur-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200 text-center max-w-xs">
             {botReaction}
           </div>
         </div>
       )}
 
-      {/* Minimized Floating Tour Trigger (bottom-right pill when user minimizes) */}
+      {/* Minimized Floating Tour Trigger */}
       {isMinimized && (
         <button
           onClick={() => setIsMinimized(false)}
-          className="fixed bottom-6 right-6 z-40 clay-button-primary px-3.5 py-2 rounded-full text-xs flex items-center gap-2 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-300"
-          title="Open Spark Tour"
+          className="fixed bottom-6 right-6 z-40 clay-button-primary px-4 py-2.5 rounded-full text-xs flex items-center gap-2 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-300 font-semibold"
+          title="Open tour with Spark"
         >
           <Bot className="w-4 h-4 text-cyan-900" />
-          <span>Talk with Spark</span>
+          <span>About Om (from Spark)</span>
         </button>
       )}
     </>
