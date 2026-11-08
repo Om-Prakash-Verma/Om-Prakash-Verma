@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight, Gamepad2 } from 'lucide-react';
 
-export default function Navbar() {
+export default function Navbar({ onSwitchToSpatialView }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -59,8 +59,19 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Action Button */}
-        <div className="hidden sm:flex items-center gap-3">
+        {/* Action Button & 3D Spatial World Switcher */}
+        <div className="hidden sm:flex items-center gap-2.5">
+          {onSwitchToSpatialView && (
+            <button
+              onClick={onSwitchToSpatialView}
+              className="clay-button px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 font-mono-code text-cyan-300 hover:text-white transition-colors cursor-pointer border border-cyan-500/20"
+              title="Enter 3D Spatial Walkthrough"
+            >
+              <Gamepad2 className="w-3.5 h-3.5 text-cyan-400" />
+              <span>3D Spatial Lab</span>
+            </button>
+          )}
+
           <a
             href="#contact"
             className="clay-button-primary px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 font-semibold"
@@ -100,10 +111,22 @@ export default function Navbar() {
                 {link.name}
               </a>
             ))}
+            {onSwitchToSpatialView && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onSwitchToSpatialView();
+                }}
+                className="clay-button py-2.5 px-3 rounded-xl text-center text-xs flex items-center justify-center gap-2 text-cyan-300 font-semibold"
+              >
+                <Gamepad2 className="w-4 h-4 text-cyan-400" />
+                <span>Enter 3D Spatial Lab</span>
+              </button>
+            )}
             <a
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="clay-button-primary py-3 rounded-xl text-center text-xs mt-2 font-semibold"
+              className="clay-button-primary py-3 rounded-xl text-center text-xs mt-1 font-semibold"
             >
               Let&apos;s Build
             </a>

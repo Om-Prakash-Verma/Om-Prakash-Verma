@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.5.0] - 2026-11-08
+### Added
+- **itomdev-Style 3D Spatial Laboratory World (`SpatialLabWorld.jsx`):**
+  - Continuous 3D camera spline flight trajectory curving through a dark claymorphic architectural corridor.
+  - Multi-input navigation controls: mouse wheel scrolling, touch swipe, and `W/S` / `↑/↓` arrow keys scrub smoothly along the flight path.
+  - Spark the Droid flies as an autonomous in-world flight companion ahead of the camera, turning to face the user and narrating each room in a friendly voice.
+  - 5 Physical 3D Chambers:
+    1. *The Core:* Floating crystal pedestal introducing Om's curiosity-driven engineering philosophy.
+    2. *The Workshop (AI & Algorithms):* Physical terminal desks for Git Forensics, AetherSchedule, and PixSort with rotating beacon octahedrons.
+    3. *The Workshop (Edge & Mobile):* Physical terminal desks for RailSure, GhostPocket, and K9 SNIPERS.
+    4. *The Engine Room:* Modular server blade racks with blinking status LEDs representing Om's core system capabilities.
+    5. *Transmission Hub:* Central console for contact, resume download, and communications.
+  - Interactive 3D Raycasting: Hovering over any station highlights its title badge; clicking zooms into the station and opens the native `<dialog>` architecture inspection drawer.
+  - Dual Mode Switcher: One-click toggle between `🎮 3D Spatial Lab` and `📄 Fast Recruiter View` ensuring instant accessibility on mobile or fast recruiter review.
+
 ## [0.4.0] - 2026-11-08
 ### Added
 - **The Workshop (Featured Projects Section):**
