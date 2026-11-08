@@ -33,7 +33,7 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
         }
     }, [onReady]);
 
-    // Academic cards data - 2 primary pillars: B.Tech Degree & Schooling
+    // Academic cards data - 2 primary pillars: B.Tech Degree & Schooling with grades
     const cards = useMemo(() => [
         {
             id: 'degree',
@@ -42,50 +42,42 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
             institution: 'ABES Engineering College',
             affiliation: 'AKTU (Dr. A.P.J. Abdul Kalam Technical University)',
             tagline: 'Computer Science & Engineering',
-            desc: '4-year engineering program specializing in computer systems, algorithms, operating systems, and distributed networks.',
+            badge: 'Current CGPA: 6.43',
+            scoreDetail: 'Current CGPA: 6.43 / 10.0',
+            desc: '4-year B.Tech program in Computer Science & Engineering. Current CGPA: 6.43. Focus on Data Structures, Algorithms, Operating Systems, Computer Networks, and Distributed Systems.',
             x: -2.5,
             y: 0.4,
             z: -8.0,
             accent: '#3b82f6',
-            highlights: ['Data Structures & Algorithms', 'Operating Systems', 'Computer Networks', 'Database Management Systems']
+            highlights: ['Current CGPA: 6.43', 'Data Structures & Algorithms', 'Operating Systems', 'Computer Networks']
         },
         {
             id: 'schooling',
             title: 'SCHOOLING',
             subtitle: '2012 - 2023',
             institution: 'Shree Jain Vidyalaya, Kolkata',
-            affiliation: 'Primary to Higher Secondary (Class 12)',
-            tagline: 'Foundation & Academic Excellence',
-            desc: 'Comprehensive 11-year schooling foundation culminating in Higher Secondary (Class 12) education with a strong emphasis on Mathematics and Sciences.',
+            affiliation: 'Secondary & Higher Secondary (Class 10 & 12)',
+            tagline: 'Foundation & Academic Rigor',
+            badge: '10th: 76.5% • 12th: 68.4%',
+            scoreDetail: 'Class 10 (Secondary): 76.5% | Class 12 (Higher Secondary): 68.4%',
+            desc: 'Schooling from Shree Jain Vidyalaya, Kolkata. Scored 76.5% in Class 10 (Secondary) and 68.4% in Class 12 (Higher Secondary) in Science & Mathematics stream.',
             x: 2.5,
             y: 0.4,
             z: -8.0,
             accent: '#10b981',
-            highlights: ['Higher Secondary (Class 12)', 'Mathematics & Physical Sciences', 'Foundational Logic & Computing', 'Academic Discipline']
+            highlights: ['Class 10: 76.5%', 'Class 12: 68.4%', 'Science & Mathematics', 'Foundational Physics & Computing']
         }
     ], []);
 
     const handleCardClick = (card) => {
         openOverlay({
             title: `${card.title} — ${card.institution}`,
-            subtitle: `${card.tagline} (${card.subtitle})`,
-            content: (
-                <div style={{ color: '#1a1a1a', lineHeight: '1.6', fontFamily: 'inherit' }}>
-                    <p style={{ fontSize: '1.1rem', marginBottom: '1rem', fontWeight: '500' }}>
-                        {card.desc}
-                    </p>
-                    <div style={{ marginBottom: '1.5rem', background: '#f5f5f5', padding: '1rem', borderRadius: '8px' }}>
-                        <p style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Institution & Board:</p>
-                        <p style={{ margin: 0 }}>{card.institution} — {card.affiliation}</p>
-                    </div>
-                    <p style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Core Modules & Competencies:</p>
-                    <ul style={{ paddingLeft: '1.2rem', margin: 0 }}>
-                        {card.highlights.map((h, i) => (
-                            <li key={i} style={{ marginBottom: '0.3rem' }}>{h}</li>
-                        ))}
-                    </ul>
-                </div>
-            )
+            date: card.badge,
+            description: `${card.desc} Performance: ${card.scoreDetail}. Affiliation: ${card.affiliation}.`,
+            url: 'https://github.com/Om-Prakash-Verma',
+            platformConfig: {
+                label: 'ACADEMIC RECORD'
+            }
         });
     };
 
@@ -195,12 +187,34 @@ const EducationRoom = ({ showRoom, onReady, isExiting }) => {
                             {card.institution}
                         </Text>
 
+                        {/* Score / Grade Badge */}
+                        <group position={[0, 0.12, 0.02]}>
+                            <mesh>
+                                <planeGeometry args={[2.4, 0.34]} />
+                                <meshBasicMaterial color="#f5f7fa" />
+                            </mesh>
+                            <lineSegments>
+                                <edgesGeometry args={[new THREE.PlaneGeometry(2.4, 0.34)]} />
+                                <lineBasicMaterial color={card.accent} linewidth={1.5} />
+                            </lineSegments>
+                            <Text
+                                font={CABIN_SKETCH}
+                                fontSize={0.17}
+                                color="#1a1a1a"
+                                position={[0, 0, 0.01]}
+                                anchorX="center"
+                                anchorY="middle"
+                            >
+                                {card.badge}
+                            </Text>
+                        </group>
+
                         {/* Description Summary */}
                         <Text
                             font={CABIN_REGULAR}
-                            fontSize={0.15}
+                            fontSize={0.14}
                             color="#444444"
-                            position={[0, -0.2, 0.02]}
+                            position={[0, -0.42, 0.02]}
                             maxWidth={2.7}
                             textAlign="center"
                             anchorX="center"

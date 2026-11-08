@@ -91,8 +91,8 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
         // Apply elevation & dodge to main hero name on approach
         if (nameRefs.current[0]) {
             const nameEl = nameRefs.current[0];
-            nameEl.position.y = 0.62 + splitAmount.current * 0.45 + Math.sin(time * 0.7) * 0.015;
-            nameEl.rotation.z = Math.sin(time * 0.5) * 0.015;
+            nameEl.position.y = 0.70 + splitAmount.current * 0.40 + Math.sin(time * 0.7) * 0.015;
+            nameEl.rotation.z = Math.sin(time * 0.5) * 0.012;
             if (nameEl.material) nameEl.material.opacity = 1;
         }
 
@@ -114,19 +114,18 @@ const HeroText = ({ position = [0, 0.3, 0] }) => {
 
     return (
         <group ref={groupRef} position={position} scale={[scale, scale, 1]}>
-            {/* OM PRAKASH VERMA - Unified Single Hero Title in Rubik Scribble Font */}
+            {/* OM PRAKASH VERMA - Single Unbroken Hero Title Floating Above Character */}
             <Text
                 ref={(el) => (nameRefs.current[0] = el)}
-                position={[0, 0.62, 0]}
-                fontSize={0.42}
+                position={[0, 0.70, 0]}
+                fontSize={0.29}
                 font={RUBIK_SCRIBBLE_URL}
                 color="#ffffff"
-                outlineWidth={0.012}
+                outlineWidth={0.009}
                 outlineColor="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
-                letterSpacing={0.03}
-                maxWidth={3.2}
+                letterSpacing={0.04}
                 textAlign="center"
             >
                 OM PRAKASH VERMA
