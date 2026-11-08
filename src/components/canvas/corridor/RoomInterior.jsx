@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import GalleryRoom from '../rooms/Gallery/GalleryRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
+import EducationRoom from '../rooms/Education/EducationRoom';
 
 // Room configurations
 const ROOM_CONFIG = {
@@ -204,6 +205,13 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
                         <group position={[0, -0.5, -corridorDepth]}>
                             <Suspense fallback={null}>
                                 <AboutRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
+                            </Suspense>
+                        </group>
+                    ) : label === 'EDUCATION' ? (
+                        // === EDUCATION ROOM ===
+                        <group position={[0, -0.5, -corridorDepth]}>
+                            <Suspense fallback={null}>
+                                <EducationRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
                     ) : label === "LET'S CONNECT" ? (

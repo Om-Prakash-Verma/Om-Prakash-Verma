@@ -56,12 +56,22 @@ const CorridorSegment = ({
             {
                 id: `about-${segmentIndex}`,
                 roomId: 'about',
-                relativeZ: -48,
-                side: 'left',
+                relativeZ: -32,
+                side: 'right',
                 label: 'THE ABOUT',
                 icon: '★',
                 color: '#efe6f5',
                 enterDistance: 25 // Enter deep into the room (clouds are far back)
+            },
+            {
+                id: `education-${segmentIndex}`,
+                roomId: 'education',
+                relativeZ: -48,
+                side: 'left',
+                label: 'EDUCATION',
+                icon: '🎓',
+                color: '#e6f5ef',
+                enterDistance: 15
             },
             {
                 id: `connect-${segmentIndex}`,

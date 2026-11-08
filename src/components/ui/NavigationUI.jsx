@@ -11,10 +11,10 @@ import '../../styles/components/NavigationUI.scss';
 // Room data for the map - positions are percentages on the map image
 // These positions correspond to the visual elements on the map
 const ROOMS = [
-    { id: 'about', label: 'About', x: 43, y: 38 },      // Paper airplane (left side)
-    { id: 'gallery', label: 'Gallery', x: 43, y: 72 },  // City buildings (bottom left)
-    { id: 'contact', label: 'Contact', x: 57, y: 25 },  // Pier/dock (top right)
-
+    { id: 'gallery', label: 'Gallery', x: 43, y: 72 },    // City buildings (bottom left)
+    { id: 'about', label: 'About', x: 57, y: 55 },        // Moved to right side
+    { id: 'education', label: 'Education', x: 43, y: 38 },// Left side (airplane zone)
+    { id: 'contact', label: 'Contact', x: 57, y: 25 },    // Pier/dock (top right)
 ];
 
 // Pin starting position - the dashed circle at the bottom of the tower
@@ -63,7 +63,7 @@ const NavigationUI = () => {
         // -> X: 10% to 40%, Y: 20% to 55%
         if (paintedMapsRefs.about.current) {
             gsap.to(paintedMapsRefs.about.current, {
-                clipPath: (hoveredRoom === 'about' || currentRoom === 'about')
+                clipPath: (hoveredRoom === 'education' || currentRoom === 'education')
                     ? 'polygon(10% 20%, 40% 20%, 40% 55%, 10% 55%)'
                     : 'polygon(10% 20%, 10% 20%, 10% 55%, 10% 55%)',
                 duration: 0.5,
@@ -99,7 +99,7 @@ const NavigationUI = () => {
         // -> X: 60% to 85% (since right=15% means left is 100-15-25=60%), Y: 41% to 81% (since bottom=19% means top is 100-19-40=41%)
         if (paintedMapsRefs.studio.current) {
             gsap.to(paintedMapsRefs.studio.current, {
-                clipPath: (hoveredRoom === 'studio' || currentRoom === 'studio')
+                clipPath: (hoveredRoom === 'about' || currentRoom === 'about')
                     ? 'polygon(60% 41%, 85% 41%, 85% 81%, 60% 81%)'
                     : 'polygon(85% 41%, 85% 41%, 85% 81%, 85% 81%)',
                 duration: 0.5,
@@ -340,15 +340,15 @@ const NavigationUI = () => {
                             <img ref={paintedMapsRefs.studio} src="/images/map_studio_painted.webp" alt="" className="painted-map-layer" style={{ clipPath: 'polygon(85% 41%, 85% 41%, 85% 81%, 85% 81%)' }} />
 
                             {/* Hover Zones — 4 quadrants covering the map */}
-                            <button
+                                                        <button
                                 type="button"
                                 className="map-hover-zone zone-about"
-                                onMouseEnter={() => setHoveredRoom('about')}
+                                onMouseEnter={() => setHoveredRoom('education')}
                                 onMouseLeave={() => setHoveredRoom(null)}
-                                onFocus={() => setHoveredRoom('about')}
+                                onFocus={() => setHoveredRoom('education')}
                                 onBlur={() => setHoveredRoom(null)}
-                                onClick={() => handleRoomClick('about')}
-                                aria-label="Teleport to About room"
+                                onClick={() => handleRoomClick('education')}
+                                aria-label="Teleport to Education room"
                             />
                             <button
                                 type="button"
@@ -370,12 +370,22 @@ const NavigationUI = () => {
                                 onClick={() => handleRoomClick('contact')}
                                 aria-label="Teleport to Contact room"
                             />
-                            
+                            <button
+                                type="button"
+                                className="map-hover-zone zone-studio"
+                                onMouseEnter={() => setHoveredRoom('about')}
+                                onMouseLeave={() => setHoveredRoom(null)}
+                                onFocus={() => setHoveredRoom('about')}
+                                onBlur={() => setHoveredRoom(null)}
+                                onClick={() => handleRoomClick('about')}
+                                aria-label="Teleport to About room"
+                            />
 
                             {/* Permanent Map Text Labels */}
-                            <div className="map-room-label about">ABOUT</div>
+                            <div className="map-room-label about" style={{ top: '35%', left: '30%' }}>EDUCATION</div>
                             <div className="map-room-label gallery">THE<br />GALLERY</div>
                             <div className="map-room-label contact">CONTACT</div>
+                            <div className="map-room-label studio" style={{ top: '65%', left: '72%' }}>ABOUT</div>
                             
 
                             {/* Pin slot markers - 4 locations */}

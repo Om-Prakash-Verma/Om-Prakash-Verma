@@ -1,21 +1,16 @@
 import { useScene } from '../../context/SceneContext';
-import { useGalleryProjects, useStudioContent, useAwards } from '../../hooks/useSanityData';
+import { useGalleryProjects } from '../../hooks/useSanityData';
 import '../../styles/components/ScreenReaderOverlay.scss';
 
 /**
- * ScreenReaderOverlay — A7 Accessibility
+ * ScreenReaderOverlay — Accessibility Layer
  * 
  * Invisible HTML layer providing screen reader access to 3D canvas content.
- * Contains buttons/links matching interactive 3D elements (doors, rooms).
  * Visually hidden via .sr-only but fully accessible to assistive tech.
  */
 const ScreenReaderOverlay = () => {
     const { hasEntered, isInRoom, currentRoom, teleportTo, requestExit } = useScene();
-    
-    // Pobieranie danych do wygenerowania niewidocznego HTML-a dla SEO / robotów
     const projects = useGalleryProjects();
-    const studio = useStudioContent();
-    const awards = useAwards();
 
     return (
         <div className="sr-overlay" role="complementary" aria-label="Accessible navigation for 3D portfolio">
@@ -26,11 +21,11 @@ const ScreenReaderOverlay = () => {
 
             {/* Main accessible navigation */}
             <nav id="sr-main-nav" className="sr-only" aria-label="Portfolio rooms">
-                <h1>ITom — Creative Developer Portfolio</h1>
+                <h1>Om Prakash Verma — Creative Developer & Systems Engineer</h1>
                 <h2>Portfolio Navigation</h2>
 
                 {!hasEntered && (
-                    <p>Welcome to ITom's interactive 3D portfolio. Click or press Enter on the doors to enter.</p>
+                    <p>Welcome to Om Prakash Verma's interactive 3D portfolio. Click or press Enter on the doors to enter.</p>
                 )}
 
                 {hasEntered && !isInRoom && (
@@ -38,21 +33,25 @@ const ScreenReaderOverlay = () => {
                         <p>You are in the corridor. Choose a room to explore:</p>
                         <ul>
                             <li>
-                                <button onClick={() => teleportTo('about')} type="button">
-                                    About — My story, skills, and journey
+                                <button onClick={() => teleportTo('gallery')} type="button">
+                                    The Gallery — 12 Engineering & AI Projects
                                 </button>
                             </li>
                             <li>
-                                <button onClick={() => teleportTo('gallery')} type="button">
-                                    The Gallery — My projects and work
+                                <button onClick={() => teleportTo('about')} type="button">
+                                    About — Story, philosophy, and skills
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => teleportTo('education')} type="button">
+                                    Education — B.Tech CSE, ABES College & Core Systems
                                 </button>
                             </li>
                             <li>
                                 <button onClick={() => teleportTo('contact')} type="button">
-                                    Contact — Get in touch with me
+                                    Contact — Get in touch via Email, GitHub & LinkedIn
                                 </button>
                             </li>
-                            
                         </ul>
                     </>
                 )}
@@ -62,76 +61,66 @@ const ScreenReaderOverlay = () => {
                         <p>
                             You are in the {currentRoom === 'about' ? 'About' :
                                 currentRoom === 'gallery' ? 'Gallery' :
-                                    currentRoom === 'contact' ? 'Contact' :
-                                         currentRoom} room.
+                                    currentRoom === 'education' ? 'Education' :
+                                        currentRoom === 'contact' ? 'Contact' : currentRoom} room.
                         </p>
                         <button onClick={requestExit} type="button">
                             Go back to corridor
                         </button>
 
-                        {/* Room-specific content descriptions */}
-                        {currentRoom === 'about' && (
-                            <div aria-label="About room content">
-                                <h3>About Me</h3>
-                                <p>This room contains my personal story, awards, journey milestones, and technology skills displayed as interactive balloons.</p>
-                                
-                                {awards && (
-                                    <section>
-                                        <h4>My Awards</h4>
-                                        <ul>
-                                            {awards.sotd && awards.sotd.items && awards.sotd.items.map((a, i) => (
-                                                <li key={i}>{a.label} - {a.date} {a.url && <a href={a.url}>View</a>}</li>
-                                            ))}
-                                            {awards.sotm && awards.sotm.items && awards.sotm.items.map((a, i) => (
-                                                <li key={i}>{a.label} - {a.date} {a.url && <a href={a.url}>View</a>}</li>
-                                            ))}
-                                            {awards.other && awards.other.items && awards.other.items.map((a, i) => (
-                                                <li key={i}>{a.label} - {a.date} {a.url && <a href={a.url}>View</a>}</li>
-                                            ))}
-                                        </ul>
-                                    </section>
-                                )}
-                            </div>
-                        )}
+                        {/* Room specific content */}
                         {currentRoom === 'gallery' && (
-                            <div aria-label="Gallery room content">
-                                <h3>My Projects</h3>
-                                <p>Browse through my portfolio projects displayed on paper cards. Click on a project card to see details and visit the live site.</p>
-                                
-                                {projects && projects.length > 0 && (
-                                    <ul>
-                                        {projects.map((p, i) => (
-                                            <li key={i}>
-                                                <h4>{p.title}</h4>
-                                                <p>{p.description}</p>
-                                                {p.url && <a href={p.url}>Visit {p.title}</a>}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
+                            <div aria-label="Gallery projects list">
+                                <h3>Featured Projects</h3>
+                                <ul>
+                                    {projects && projects.map((p, i) => (
+                                        <li key={i}>
+                                            <h4>{p.title}</h4>
+                                            <p>{p.description}</p>
+                                            {p.url && <a href={p.url}>View project live</a>}
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         )}
+
+                        {currentRoom === 'about' && (
+                            <div aria-label="About section">
+                                <h3>About Om Prakash Verma</h3>
+                                <p>Software Developer and Systems Engineer. An engineer by curiosity, a developer by passion, and a builder by nature.</p>
+                            </div>
+                        )}
+
+                        {currentRoom === 'education' && (
+                            <div aria-label="Education section">
+                                <h3>Education & Academic Foundation</h3>
+                                <p>B.Tech in Computer Science & Engineering (2022 - 2026), ABES Engineering College, AKTU, India.</p>
+                                <p>Focused on Data Structures, Algorithms, Operating Systems, Compilers, and Distributed Systems.</p>
+                            </div>
+                        )}
+
                         {currentRoom === 'contact' && (
-                            <div aria-label="Contact room content">
+                            <div aria-label="Contact options">
                                 <h3>Contact Me</h3>
-                                <p>Find my social media links displayed as floating barrels. Click to visit my profiles on LinkedIn, GitHub, and other platforms.</p>
+                                <p>Connect with Om Prakash Verma on LinkedIn, GitHub, or directly via email at omprakash.verma.dev@gmail.com.</p>
                             </div>
                         )}
-                        
 
                         {/* Quick navigation to other rooms */}
                         <h3>Quick Navigation</h3>
                         <ul>
+                            {currentRoom !== 'gallery' && (
+                                <li><button onClick={() => teleportTo('gallery')} type="button">Go to Gallery</button></li>
+                            )}
                             {currentRoom !== 'about' && (
                                 <li><button onClick={() => teleportTo('about')} type="button">Go to About</button></li>
                             )}
-                            {currentRoom !== 'gallery' && (
-                                <li><button onClick={() => teleportTo('gallery')} type="button">Go to Gallery</button></li>
+                            {currentRoom !== 'education' && (
+                                <li><button onClick={() => teleportTo('education')} type="button">Go to Education</button></li>
                             )}
                             {currentRoom !== 'contact' && (
                                 <li><button onClick={() => teleportTo('contact')} type="button">Go to Contact</button></li>
                             )}
-                            
                         </ul>
                     </>
                 )}

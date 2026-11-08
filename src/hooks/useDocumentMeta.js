@@ -3,28 +3,33 @@ import { useScene } from '../context/SceneContext';
 import { GLOBAL_INFO } from '../data/portfolioData';
 
 /**
- * useDocumentMeta — Dynamic Meta Tags & Virtual Routing (History API)
+ * useDocumentMeta â€” Dynamic Meta Tags & Virtual Routing (History API)
  */
 
 const ROOM_META = {
     null: {
         path: '/',
-        title: `${GLOBAL_INFO.name} — Creative 3D Portfolio`,
+        title: `${GLOBAL_INFO.name} â€” Creative 3D Portfolio`,
         description: GLOBAL_INFO.siteDescription,
     },
     about: {
         path: '/about',
-        title: `About Me — ${GLOBAL_INFO.name}`,
+        title: `About Me â€” ${GLOBAL_INFO.name}`,
         description: GLOBAL_INFO.aboutMe,
+    },
+    education: {
+        path: '/education',
+        title: `Education & Systems â€” ${GLOBAL_INFO.name}`,
+        description: `Academic background and engineering foundations of ${GLOBAL_INFO.name} â€” B.Tech Computer Science & Engineering, ABES Engineering College.`,
     },
     gallery: {
         path: '/gallery',
-        title: `Gallery & Projects — ${GLOBAL_INFO.name}`,
+        title: `Gallery & Projects â€” ${GLOBAL_INFO.name}`,
         description: 'Browse the interactive 3D gallery of software engineering, AI reasoning, and systems projects.',
     },
     contact: {
         path: '/contact',
-        title: `Contact — ${GLOBAL_INFO.name}`,
+        title: `Contact â€” ${GLOBAL_INFO.name}`,
         description: `Get in touch with ${GLOBAL_INFO.name}. Find social links, GitHub repositories, and contact information.`,
     },
 };
@@ -33,6 +38,7 @@ const ROOM_META = {
 const PATH_TO_ROOM = {
     '/': null,
     '/about': 'about',
+    '/education': 'education',
     '/gallery': 'gallery',
     '/contact': 'contact',
 };

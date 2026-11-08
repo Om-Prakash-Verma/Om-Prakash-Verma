@@ -229,17 +229,9 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
                         scrollProgressRef={scrollProgressRef}
                     />
 
-                    {/* === AWARDS MILESTONE === */}
-                    <AwardsMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 55)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
+                    
 
-                    {/* === JOURNEY MILESTONE === */}
-                    <JourneyMilestone
-                        z={-(cycleIndex * STORY_CYCLE_LENGTH + 95)}
-                        scrollProgressRef={scrollProgressRef}
-                    />
+                    
 
                     {/* === SKILLS MILESTONE === */}
 
