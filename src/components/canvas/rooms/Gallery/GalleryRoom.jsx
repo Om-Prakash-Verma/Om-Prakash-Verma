@@ -293,31 +293,43 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
         });
     }, [projectTextures, backTextureRaw, overlayTextureRaw]);
 
-    // Function to scroll to a specific project index
+    // Function to scroll to a specific project index in the 3D ring
     const scrollToIndex = (index, onComplete) => {
-        const totalWidth = PROJECT_COUNT * GAP;
-        const targetScrollValue = index * GAP;
+        const total = projects.length || PROJECT_COUNT;
         const currentScrollValue = currentScroll.current;
 
-        let diff = targetScrollValue - currentScrollValue;
-        const halfWidth = totalWidth / 2;
-        while (diff > halfWidth) diff -= totalWidth;
-        while (diff < -halfWidth) diff += totalWidth;
+        // Find shortest path around the ring
+        let diff = ((index - currentScrollValue) % total + total) % total;
+        if (diff > total / 2) diff -= total;
 
         const finalTarget = currentScrollValue + diff;
 
         gsap.to(targetScroll, {
             current: finalTarget,
-            duration: 0.5,
-            ease: 'power2.inOut'
+            duration: 0.6,
+            ease: 'power2.out'
         });
 
         gsap.to(currentScroll, {
             current: finalTarget,
-            duration: 0.5,
-            ease: 'power2.inOut',
+            duration: 0.6,
+            ease: 'power2.out',
             onComplete: onComplete
         });
+    };
+
+    const handlePrev = (e) => {
+        e?.stopPropagation?.();
+        const nextTarget = Math.round(targetScroll.current) - 1;
+        gsap.to(targetScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
+        gsap.to(currentScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
+    };
+
+    const handleNext = (e) => {
+        e?.stopPropagation?.();
+        const nextTarget = Math.round(targetScroll.current) + 1;
+        gsap.to(targetScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
+        gsap.to(currentScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
     };
 
     // --- INTERACTION ---
@@ -332,7 +344,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 if (!showRoom || selectedCard !== null || globalIsAnimating || isTransitioning) return;
                 const orig = e.event;
                 orig.preventDefault();
-                targetScroll.current += orig.deltaY * 0.005;
+                targetScroll.current += orig.deltaY * 0.0025;
             },
             onPress: (e) => {
                 if (!showRoom || selectedCard !== null || globalIsAnimating || isTransitioning) return;
@@ -347,7 +359,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 if (orig.touches && orig.touches.length === 1) {
                     const deltaX = lastTouchX.current - orig.touches[0].clientX;
                     lastTouchX.current = orig.touches[0].clientX;
-                    targetScroll.current += deltaX * 0.008;
+                    targetScroll.current += deltaX * 0.005;
                 }
             }
         });
@@ -501,7 +513,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                     <primitive object={materials.threshold} />
                 </mesh>
 
-                {/* === OPTION A: 3D ARCHITECTURAL SHOWCASE CARDS === */}
+                {/* === OPTION 1: 3D CYLINDRICAL RING CAROUSEL === */}
                 <group position={[0, 1.55, -3.72]}>
                     {/* Project Cards */}
                     {projects.map((project, i) => (
@@ -510,7 +522,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                             index={i}
                             ref={el => cardRefs.current[i] = el}
                             project={project}
-                            total={PROJECT_COUNT}
+                            total={projects.length}
                             currentScroll={currentScroll}
                             isSelected={selectedCard === i}
                             scrollToIndex={scrollToIndex}
@@ -518,6 +530,15 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                             isMobile={!canHover}
                         />
                     ))}
+
+                    {/* 3D Rotunda Carousel Navigation Bar */}
+                    <GalleryNavigation
+                        currentScroll={currentScroll}
+                        total={projects.length}
+                        projects={projects}
+                        onPrev={handlePrev}
+                        onNext={handleNext}
+                    />
                 </group>
 
                 {/* === SCENERY LAYERS === */}
@@ -724,23 +745,53 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
     const titleLength = project.title ? project.title.length : 10;
     const titleFontSize = titleLength > 16 ? 0.14 : titleLength > 12 ? 0.16 : 0.20;
 
-    // Carousel position along horizontal rail
+    // 3D Cylindrical Ring positioning & perspective
     useFrame((state) => {
         if (!cardGroupRef.current) return;
-        const targetX = (index - currentScroll.current) * GAP;
-        cardGroupRef.current.position.x = THREE.MathUtils.lerp(cardGroupRef.current.position.x, targetX, 0.15);
 
-        // Subtle floating breath on active / centered card
-        const distFromCenter = Math.abs(cardGroupRef.current.position.x);
-        const isNearCenter = distFromCenter < 1.6;
+        const RADIUS = 4.8;
+        const ANGLE_STEP = (Math.PI * 2) / total;
+
+        let diff = ((index - currentScroll.current) % total + total) % total;
+        if (diff > total / 2) diff -= total;
+
+        // Culling: hide cards behind viewer or beyond the amphitheater arc
+        const isVisible = Math.abs(diff) < 2.6;
+        cardGroupRef.current.visible = isVisible;
+        if (!isVisible) return;
+
+        const phi = diff * ANGLE_STEP;
+        const targetX = Math.sin(phi) * RADIUS;
+        const targetZ = (Math.cos(phi) - 1) * (RADIUS * 0.70);
+        const targetRotY = -phi * 0.75;
+
+        // Smooth positional & rotational tracking
+        cardGroupRef.current.position.x = THREE.MathUtils.lerp(cardGroupRef.current.position.x, targetX, 0.18);
+        cardGroupRef.current.position.z = THREE.MathUtils.lerp(cardGroupRef.current.position.z, targetZ, 0.18);
+        cardGroupRef.current.rotation.y = THREE.MathUtils.lerp(cardGroupRef.current.rotation.y, targetRotY, 0.18);
+
+        // Active center card elevation & breath
+        const isNearCenter = Math.abs(diff) < 0.45;
         const breath = Math.sin(state.clock.elapsedTime * 1.5 + index * 0.4) * 0.015;
 
-        cardGroupRef.current.position.y = (isNearCenter ? 0.05 : 0) + breath;
-        cardGroupRef.current.position.z = isNearCenter ? 0.08 : 0;
+        const targetY = (isNearCenter ? 0.05 : -Math.abs(diff) * 0.06) + breath;
+        cardGroupRef.current.position.y = THREE.MathUtils.lerp(cardGroupRef.current.position.y, targetY, 0.18);
 
-        const targetScale = isNearCenter ? 1.04 : 0.92;
-        cardGroupRef.current.scale.lerp(_tempScale.set(targetScale, targetScale, 1), 0.1);
+        const targetScale = isNearCenter ? 1.05 : Math.max(0.78, 1.0 - Math.abs(diff) * 0.10);
+        cardGroupRef.current.scale.lerp(_tempScale.set(targetScale, targetScale, 1), 0.15);
     });
+
+    const handleCardClick = (e) => {
+        e.stopPropagation();
+        let diff = ((index - currentScroll.current) % total + total) % total;
+        if (diff > total / 2) diff -= total;
+
+        if (Math.abs(diff) > 0.45) {
+            scrollToIndex?.(index);
+        } else {
+            handleInspect(e);
+        }
+    };
 
     const handleInspect = (e) => {
         e.stopPropagation();
@@ -775,8 +826,8 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
     return (
         <group
             ref={cardGroupRef}
-            position={[(index - currentScroll.current) * GAP, 0, -3.6]}
-            onClick={handleInspect}
+            position={[0, 0, 0]}
+            onClick={handleCardClick}
             onPointerOver={(e) => {
                 e.stopPropagation();
                 setHovered(true);
@@ -971,6 +1022,120 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
     );
 }));
 ProjectCard.displayName = 'ArchitecturalProjectCard';
+
+// ============================================
+// 🧭 3D ROTUNDA CAROUSEL NAVIGATION CONTROLS
+// Tactile Prev/Next buttons with live real-time index pill
+// ============================================
+const NavButton = ({ label, position, onClick }) => {
+    const [hovered, setHovered] = useState(false);
+    return (
+        <group
+            position={position}
+            onClick={onClick}
+            onPointerOver={(e) => {
+                e.stopPropagation();
+                setHovered(true);
+                document.body.style.cursor = 'pointer';
+            }}
+            onPointerOut={() => {
+                setHovered(false);
+                document.body.style.cursor = 'auto';
+            }}
+            scale={hovered ? [1.06, 1.06, 1] : [1, 1, 1]}
+        >
+            <mesh position={[0, 0, 0]}>
+                <planeGeometry args={[0.75, 0.28]} />
+                <meshBasicMaterial color={hovered ? '#1a1a1a' : '#ffffff'} side={THREE.DoubleSide} />
+            </mesh>
+            <lineSegments position={[0, 0, 0.01]}>
+                <edgesGeometry args={[new THREE.PlaneGeometry(0.75, 0.28)]} />
+                <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
+            </lineSegments>
+            <Text
+                font={CABIN_SKETCH}
+                fontSize={0.11}
+                color={hovered ? '#ffffff' : '#1a1a1a'}
+                position={[0, 0, 0.02]}
+                anchorX="center"
+                anchorY="middle"
+                letterSpacing={0.04}
+            >
+                {label}
+            </Text>
+        </group>
+    );
+};
+
+const NavIndicator = ({ currentScroll, total, projects }) => {
+    const textRef = useRef();
+    const lastIndex = useRef(-1);
+
+    useFrame(() => {
+        if (!textRef.current || !total) return;
+        const raw = Math.round(currentScroll.current);
+        const activeIdx = ((raw % total) + total) % total;
+        if (activeIdx !== lastIndex.current) {
+            lastIndex.current = activeIdx;
+            const p = projects[activeIdx];
+            const title = p?.title ? p.title.replace(/[^\w\s-]/g, '').trim() : `PROJECT ${activeIdx + 1}`;
+            textRef.current.text = `${String(activeIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}  •  ${title}`;
+        }
+    });
+
+    return (
+        <Text
+            ref={textRef}
+            font={CABIN_SKETCH}
+            fontSize={0.105}
+            color="#1a1a1a"
+            position={[0, 0, 0.02]}
+            anchorX="center"
+            anchorY="middle"
+            letterSpacing={0.03}
+        >
+            01 / 12
+        </Text>
+    );
+};
+
+const GalleryNavigation = ({ currentScroll, total, projects, onPrev, onNext }) => {
+    return (
+        <group position={[0, -1.25, 0.05]}>
+            {/* Prev Button */}
+            <NavButton label="‹ PREV" position={[-1.45, 0, 0]} onClick={onPrev} />
+
+            {/* Center Active Project Status Pill */}
+            <group position={[0, 0, 0]}>
+                <mesh position={[0, 0, 0]}>
+                    <planeGeometry args={[1.9, 0.28]} />
+                    <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} />
+                </mesh>
+                <lineSegments position={[0, 0, 0.01]}>
+                    <edgesGeometry args={[new THREE.PlaneGeometry(1.9, 0.28)]} />
+                    <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
+                </lineSegments>
+                <NavIndicator currentScroll={currentScroll} total={total} projects={projects} />
+            </group>
+
+            {/* Next Button */}
+            <NavButton label="NEXT ›" position={[1.45, 0, 0]} onClick={onNext} />
+
+            {/* Interaction Hint */}
+            <Text
+                font={CABIN_REGULAR}
+                fontSize={0.08}
+                color="#777777"
+                position={[0, -0.22, 0.02]}
+                anchorX="center"
+                anchorY="middle"
+                letterSpacing={0.05}
+            >
+                DRAG / SCROLL TO BROWSE • CLICK CARD TO INSPECT
+            </Text>
+        </group>
+    );
+};
 
 
 const RightSideHouses = ({ texture, baseWidth, baseHeight, cropAmount }) => {
