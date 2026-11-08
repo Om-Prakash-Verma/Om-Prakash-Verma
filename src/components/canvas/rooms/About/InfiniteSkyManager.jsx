@@ -255,7 +255,10 @@ const InfiniteSkyManager = ({ scrollProgressRef }) => {
 const IntroMilestone = ({ z, scrollProgressRef }) => {
     // Load avatar texture
     const avatarTexture = useLoader(THREE.TextureLoader, '/textures/about/awatarnachmurce.webp');
-    const { camera, viewport } = useThree();
+    const { camera, viewport, size } = useThree();
+    const aspect = size.width / (size.height || 1);
+    const isMobile = size.width < 640 || aspect < 0.65;
+    const isTablet = (size.width >= 640 && size.width < 1024) || (aspect >= 0.65 && aspect < 1.15);
     const isTouch = isTouchDevice();
 
     // Refs for all animated elements
@@ -267,12 +270,12 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
     const motto2Ref = useRef();
 
     // Base positions
-    const baseY = 2;
+    const baseY = isMobile ? 1.7 : 2;
 
     // Calculate aspect ratio
     // LEGACY FIX: Use original dimensions (2816x1536) to prevent stretching
     const legacyAspectRatio = 2816 / 1536; 
-    const avatarWidth = 6; // Zwiększony rozmiar awatara na chmurce
+    const avatarWidth = isMobile ? 3.6 : isTablet ? 4.8 : 6;
     const avatarHeight = avatarWidth / legacyAspectRatio;
 
     // Animation: floating + spread apart when close
@@ -340,8 +343,8 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
             {/* Main title - Name (spreads left) */}
             <Text
                 ref={titleRef}
-                position={[0, 5, 0.1]}
-                fontSize={0.8}
+                position={[0, isMobile ? 4.1 : 5, 0.1]}
+                fontSize={isMobile ? 0.44 : isTablet ? 0.62 : 0.8}
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
@@ -353,8 +356,8 @@ const IntroMilestone = ({ z, scrollProgressRef }) => {
             {/* Subtitle - Brand (spreads right) */}
             <Text
                 ref={brandRef}
-                position={[0, 4.3, 0.1]}
-                fontSize={0.45}
+                position={[0, isMobile ? 3.6 : 4.3, 0.1]}
+                fontSize={isMobile ? 0.24 : isTablet ? 0.35 : 0.45}
                 color="#4a4a4a"
                 anchorX="center"
                 anchorY="middle"
@@ -834,7 +837,12 @@ const AwardsMilestone = ({ z, scrollProgressRef }) => {
  * UO Island (left) and Freelance Island (right) floating in clouds
  */
 const JourneyMilestone = ({ z, scrollProgressRef }) => {
-    const { camera, viewport } = useThree();
+    const { camera, viewport, size } = useThree();
+    const aspect = size.width / (size.height || 1);
+    const isMobile = size.width < 640 || aspect < 0.65;
+    const isTablet = (size.width >= 640 && size.width < 1024) || (aspect >= 0.65 && aspect < 1.15);
+    const islandX = isMobile ? 1.45 : isTablet ? 2.6 : 4.0;
+    const islandScale = isMobile ? 0.56 : isTablet ? 0.80 : 1.0;
     const { openOverlay } = useScene();
     const isTouch = isTouchDevice();
     const groupRef = useRef();
@@ -1000,45 +1008,48 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
 
             {/* === SCHOOLING FOUNDATION PLAQUE (Prominent, High Center - Above Paper Airplane) === */}
             <group
-                position={[0, 3.65, 0.25]}
+                position={[0, isMobile ? 3.55 : 3.65, 0.25]}
                 onClick={handleSchoolClick}
                 onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
                 onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
             >
                 <mesh position={[0, 0, -0.01]}>
-                    <planeGeometry args={[7.8, 0.72]} />
+                    <planeGeometry args={[isMobile ? 3.6 : isTablet ? 5.6 : 7.8, isMobile ? 0.88 : 0.72]} />
                     <meshBasicMaterial color="#ffffff" transparent opacity={0.96} side={THREE.DoubleSide} />
                 </mesh>
                 <lineSegments>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(7.8, 0.72)]} />
+                    <edgesGeometry args={[new THREE.PlaneGeometry(isMobile ? 3.6 : isTablet ? 5.6 : 7.8, isMobile ? 0.88 : 0.72)]} />
                     <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
                 </lineSegments>
                 <Text
                     font="/fonts/CabinSketch-Bold.ttf"
-                    fontSize={0.24}
+                    fontSize={isMobile ? 0.14 : isTablet ? 0.18 : 0.24}
                     color="#111111"
-                    position={[0, 0.12, 0.01]}
+                    position={[0, isMobile ? 0.16 : 0.12, 0.01]}
                     anchorX="center"
                     anchorY="middle"
                 >
-                    🏫 FOUNDATION: SHREE JAIN VIDYALAYA, KOLKATA (2012 - 2023)
+                    {isMobile ? "🏫 SHREE JAIN VIDYALAYA (2012-2023)" : "🏫 FOUNDATION: SHREE JAIN VIDYALAYA, KOLKATA (2012 - 2023)"}
                 </Text>
                 <Text
                     font="/fonts/CabinSketch-Regular.ttf"
-                    fontSize={0.17}
+                    fontSize={isMobile ? 0.105 : isTablet ? 0.13 : 0.17}
                     color="#444444"
-                    position={[0, -0.13, 0.01]}
+                    position={[0, isMobile ? -0.16 : -0.13, 0.01]}
                     anchorX="center"
                     anchorY="middle"
+                    textAlign="center"
+                    maxWidth={isMobile ? 3.4 : undefined}
                 >
-                    Class 10: 76.5% • Class 12: 68.4% (Science PCM) • [ Click to View Record ↗ ]
+                    {isMobile ? "Class 10: 76.5% • Class 12: 68.4% (Science PCM)\n[ Click to View Record ↗ ]" : "Class 10: 76.5% • Class 12: 68.4% (Science PCM) • [ Click to View Record ↗ ]"}
                 </Text>
             </group>
 
             {/* === ABES EC ISLAND (Left) === */}
             <group
                 ref={uoRef}
-                position={[-4.0, -0.7, 0]}
+                position={[-islandX, isMobile ? -0.3 : -0.7, 0]}
+                scale={[islandScale, islandScale, 1]}
                 onClick={handleAbesClick}
                 onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
                 onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
@@ -1119,7 +1130,8 @@ const JourneyMilestone = ({ z, scrollProgressRef }) => {
             {/* === BUILDER / SOFTWARE ISLAND (Right) === */}
             <group
                 ref={freelanceRef}
-                position={[4.0, -1.5, 0.5]}
+                position={[islandX, isMobile ? -1.0 : -1.5, 0.5]}
+                scale={[islandScale, islandScale, 1]}
                 onClick={handleBuilderClick}
                 onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
                 onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}
@@ -1565,7 +1577,10 @@ const SkillBalloon = ({ config, revealFactorRef, spreadFactorRef, timeRef }) => 
 };
 
 const SkillsMilestone = ({ z, scrollProgressRef }) => {
-    const { camera, viewport } = useThree();
+    const { camera, viewport, size } = useThree();
+    const aspect = size.width / (size.height || 1);
+    const isMobile = size.width < 640 || aspect < 0.65;
+    const isTablet = (size.width >= 640 && size.width < 1024) || (aspect >= 0.65 && aspect < 1.15);
     const { openOverlay } = useScene();
     const isTouch = isTouchDevice();
     const groupRef = useRef();
@@ -1644,12 +1659,15 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
         });
     };
 
+    const plaqueX = isTablet ? 2.5 : 3.3;
+    const plaqueScale = isMobile ? 0.68 : isTablet ? 0.82 : 1.0;
+
     return (
         <group ref={groupRef} position={[0, 0, z]}>
             {/* Title */}
             <Text
-                position={[0, 6.2, 0.5]}
-                fontSize={1.2}
+                position={[0, isMobile ? 5.2 : 6.2, 0.5]}
+                fontSize={isMobile ? 0.75 : 1.2}
                 color="#1a1a1a"
                 anchorX="center"
                 anchorY="middle"
@@ -1660,14 +1678,16 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
 
             {/* Subtitle */}
             <Text
-                position={[0, 5.4, 0.5]}
-                fontSize={0.34}
+                position={[0, isMobile ? 4.6 : 5.4, 0.5]}
+                fontSize={isMobile ? 0.22 : 0.34}
                 color="#555555"
                 anchorX="center"
                 anchorY="middle"
                 font="/fonts/CabinSketch-Regular.ttf"
+                maxWidth={isMobile ? 3.4 : undefined}
+                textAlign="center"
             >
-                Click balloons to pop & reveal • Full-Stack, Systems & AI Stack
+                {isMobile ? "Tap balloons to pop & reveal • Full-Stack, Systems & AI" : "Click balloons to pop & reveal • Full-Stack, Systems & AI Stack"}
             </Text>
 
             {/* === FLOATING BALLOONS === */}
@@ -1683,7 +1703,7 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
 
             {/* === COMPREHENSIVE TECH STACK PLAQUES (Below balloons) === */}
             {/* Plaque 1: Core Languages & AI */}
-            <group position={[-3.3, -1.8, 0.2]}>
+            <group position={[isMobile ? 0 : -plaqueX, isMobile ? -1.3 : -1.8, 0.2]} scale={[plaqueScale, plaqueScale, 1]}>
                 <mesh position={[0, 0, -0.01]}>
                     <planeGeometry args={[5.2, 1.0]} />
                     <meshBasicMaterial color="#ffffff" transparent opacity={0.9} side={THREE.DoubleSide} />
@@ -1715,7 +1735,7 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
             </group>
 
             {/* Plaque 2: 3D & Systems Infra */}
-            <group position={[3.3, -1.8, 0.2]}>
+            <group position={[isMobile ? 0 : plaqueX, isMobile ? -2.2 : -1.8, 0.2]} scale={[plaqueScale, plaqueScale, 1]}>
                 <mesh position={[0, 0, -0.01]}>
                     <planeGeometry args={[5.2, 1.0]} />
                     <meshBasicMaterial color="#ffffff" transparent opacity={0.9} side={THREE.DoubleSide} />
@@ -1748,7 +1768,8 @@ const SkillsMilestone = ({ z, scrollProgressRef }) => {
 
             {/* Plaque 3: Interactive Resume Scroll */}
             <group
-                position={[0, -3.1, 0.3]}
+                position={[0, isMobile ? -3.0 : -3.1, 0.3]}
+                scale={isMobile ? [0.75, 0.75, 1] : [1, 1, 1]}
                 onClick={handleResumeClick}
                 onPointerOver={() => { if (!isTouch) document.body.style.cursor = 'pointer'; }}
                 onPointerOut={() => { if (!isTouch) document.body.style.cursor = 'auto'; }}

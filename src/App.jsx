@@ -24,6 +24,7 @@ posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
 
 // Lazy load the heavy 3D experience
 const Experience = lazy(() => import('./components/canvas/Experience'));
+import ResponsiveCamera from './components/canvas/ResponsiveCamera';
 
 import './styles/main.scss';
 
@@ -175,6 +176,7 @@ function AppContent() {
             >
               <color attach="background" args={['#fafafa']} />
               <fog attach="fog" args={['#fafafa', 15, 50]} />
+              <ResponsiveCamera />
 
               {/* Scale performance down if fps drops */}
               <PerformanceMonitor

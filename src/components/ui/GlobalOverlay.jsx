@@ -212,8 +212,8 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
     const cardStyle = isMobile ? {
         // MOBILE: Karta na dole
         width: '90%',
-        maxHeight: '60vh',
-        bottom: '10rem', // <--- FLUID: WPROWADZONE PRZEZ UZYTKOWNIKA
+        maxHeight: '76vh',
+        bottom: '2rem',
         left: '50%',
         transform: isOpen ? 'translate(-50%, 0) rotate(-1deg)' : 'translate(-50%, 120%) rotate(10deg)',
         opacity: isOpen ? 1 : 0,

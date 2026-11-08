@@ -86,6 +86,11 @@ const BIRD_HEIGHT = 0.35;
 const RIGHT_CROP_AMOUNT = 0.2;
 
 const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
+    const { size, viewport } = useThree();
+    const aspect = size.width / (size.height || 1);
+    const isMobileScreen = size.width < 640 || aspect < 0.65;
+    const isTabletScreen = (size.width >= 640 && size.width < 1024) || (aspect >= 0.65 && aspect < 1.15);
+
     const { openOverlay, isTeleporting } = useScene();
     const { showTutorial, unlockAchievement, hidePopup } = useAchievements();
     const { globalVolume, isMuted } = useAudio();
@@ -361,6 +366,14 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                     lastTouchX.current = orig.touches[0].clientX;
                     targetScroll.current += deltaX * 0.005;
                 }
+            },
+            onRelease: () => {
+                if (!showRoom || selectedCard !== null || globalIsAnimating || isTransitioning) return;
+                gsap.to(targetScroll, {
+                    current: Math.round(targetScroll.current),
+                    duration: 0.35,
+                    ease: "power2.out"
+                });
             }
         });
 
@@ -514,7 +527,7 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                 </mesh>
 
                 {/* === OPTION 1: 3D CYLINDRICAL RING CAROUSEL (Elevated in open sky) === */}
-                <group position={[0, 2.45, -3.65]}>
+                <group position={[0, isMobileScreen ? 2.20 : 2.45, -3.65]}>
                     {/* Project Cards */}
                     {projects.map((project, i) => (
                         <ProjectCard
@@ -527,7 +540,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                             isSelected={selectedCard === i}
                             scrollToIndex={scrollToIndex}
                             onClick={handleCardClick}
-                            isMobile={!canHover}
+                            isMobile={isMobileScreen}
+                            isTablet={isTabletScreen}
                         />
                     ))}
 
@@ -538,6 +552,8 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                         projects={projects}
                         onPrev={handlePrev}
                         onNext={handleNext}
+                        isMobile={isMobileScreen}
+                        isTablet={isTabletScreen}
                     />
                 </group>
 
@@ -708,7 +724,7 @@ const FlyingBird = ({ texture }) => {
 const CABIN_SKETCH = '/fonts/CabinSketch-Bold.ttf';
 const CABIN_REGULAR = '/fonts/CabinSketch-Regular.ttf';
 
-const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isSelected, scrollToIndex, onClick, isMobile }, ref) => {
+const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isSelected, scrollToIndex, onClick, isMobile, isTablet }, ref) => {
     const cardGroupRef = useRef();
     const hazeRef = useRef();
     const paperAudioRef = useRef();
@@ -750,7 +766,7 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
     useFrame((state) => {
         if (!cardGroupRef.current) return;
 
-        const RADIUS = 5.8;
+        const RADIUS = isMobile ? 3.8 : isTablet ? 4.8 : 5.8;
         const ANGLE_STEP = (Math.PI * 2) / total;
 
         let diff = ((index - currentScroll.current) % total + total) % total;
@@ -778,7 +794,10 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
         const targetY = (isNearCenter ? 0.05 : -Math.abs(diff) * 0.05) + breath;
         cardGroupRef.current.position.y = THREE.MathUtils.lerp(cardGroupRef.current.position.y, targetY, 0.18);
 
-        const targetScale = isNearCenter ? 1.05 : Math.max(0.74, 1.0 - Math.abs(diff) * 0.14);
+        const heroScale = isMobile ? 0.74 : isTablet ? 0.88 : 1.05;
+        const minSideScale = isMobile ? 0.52 : isTablet ? 0.64 : 0.74;
+        const scaleFalloff = isMobile ? 0.16 : 0.14;
+        const targetScale = isNearCenter ? heroScale : Math.max(minSideScale, heroScale * (1.0 - Math.abs(diff) * scaleFalloff));
         cardGroupRef.current.scale.lerp(_tempScale.set(targetScale, targetScale, 1), 0.15);
 
         // Depth haze: subtly softens peripheral cards so the hero card takes center stage
@@ -1083,7 +1102,7 @@ const NavButton = ({ label, position, onClick }) => {
     );
 };
 
-const NavIndicator = ({ currentScroll, total, projects }) => {
+const NavIndicator = ({ currentScroll, total, projects, isMobile }) => {
     const textRef = useRef();
     const lastIndex = useRef(-1);
 
@@ -1095,7 +1114,10 @@ const NavIndicator = ({ currentScroll, total, projects }) => {
             lastIndex.current = activeIdx;
             const p = projects[activeIdx];
             const title = p?.title ? p.title.replace(/[^\w\s-]/g, '').trim() : `PROJECT ${activeIdx + 1}`;
-            textRef.current.text = `${String(activeIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}  •  ${title}`;
+            const label = isMobile
+                ? `${String(activeIdx + 1).padStart(2, '0')}/${String(total).padStart(2, '0')} • ${title.slice(0, 9)}`
+                : `${String(activeIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}  •  ${title}`;
+            textRef.current.text = label;
         }
     });
 
@@ -1103,7 +1125,7 @@ const NavIndicator = ({ currentScroll, total, projects }) => {
         <Text
             ref={textRef}
             font={CABIN_SKETCH}
-            fontSize={0.105}
+            fontSize={isMobile ? 0.095 : 0.105}
             color="#1a1a1a"
             position={[0, 0, 0.02]}
             anchorX="center"
@@ -1115,48 +1137,52 @@ const NavIndicator = ({ currentScroll, total, projects }) => {
     );
 };
 
-const GalleryNavigation = ({ currentScroll, total, projects, onPrev, onNext }) => {
+const GalleryNavigation = ({ currentScroll, total, projects, onPrev, onNext, isMobile, isTablet }) => {
+    const btnOffsetX = isMobile ? 0.90 : isTablet ? 1.15 : 1.40;
+    const navScale = isMobile ? 0.76 : isTablet ? 0.88 : 1.0;
+    const centerPillWidth = isMobile ? 1.25 : isTablet ? 1.55 : 1.90;
+
     return (
-        <group position={[0, -1.35, 0.08]}>
+        <group position={[0, isMobile ? -1.15 : -1.35, 0.08]} scale={[navScale, navScale, 1]}>
             {/* Prev Button */}
-            <NavButton label="‹ PREV" position={[-1.40, 0, 0]} onClick={onPrev} />
+            <NavButton label="‹ PREV" position={[-btnOffsetX, 0, 0]} onClick={onPrev} />
 
             {/* Center Active Project Status Pill */}
             <group position={[0, 0, 0]}>
                 <mesh position={[0, 0, 0]}>
-                    <planeGeometry args={[1.9, 0.28]} />
+                    <planeGeometry args={[centerPillWidth, 0.28]} />
                     <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} />
                 </mesh>
                 <lineSegments position={[0, 0, 0.01]}>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(1.9, 0.28)]} />
+                    <edgesGeometry args={[new THREE.PlaneGeometry(centerPillWidth, 0.28)]} />
                     <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
                 </lineSegments>
-                <NavIndicator currentScroll={currentScroll} total={total} projects={projects} />
+                <NavIndicator currentScroll={currentScroll} total={total} projects={projects} isMobile={isMobile} />
             </group>
 
             {/* Next Button */}
-            <NavButton label="NEXT ›" position={[1.40, 0, 0]} onClick={onNext} />
+            <NavButton label="NEXT ›" position={[btnOffsetX, 0, 0]} onClick={onNext} />
 
             {/* Interaction Hint with solid opaque backing */}
             <group position={[0, -0.28, 0]}>
                 <mesh position={[0, 0, 0]}>
-                    <planeGeometry args={[2.5, 0.20]} />
+                    <planeGeometry args={[isMobile ? 2.1 : 2.5, 0.20]} />
                     <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} />
                 </mesh>
                 <lineSegments position={[0, 0, 0.01]}>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(2.5, 0.20)]} />
+                    <edgesGeometry args={[new THREE.PlaneGeometry(isMobile ? 2.1 : 2.5, 0.20)]} />
                     <lineBasicMaterial color="#cccccc" linewidth={1} />
                 </lineSegments>
                 <Text
                     font={CABIN_REGULAR}
-                    fontSize={0.075}
+                    fontSize={isMobile ? 0.068 : 0.075}
                     color="#555555"
                     position={[0, 0, 0.02]}
                     anchorX="center"
                     anchorY="middle"
                     letterSpacing={0.04}
                 >
-                    DRAG / SCROLL TO BROWSE • CLICK CARD TO INSPECT
+                    {isMobile ? "SWIPE TO BROWSE • TAP TO INSPECT" : "DRAG / SCROLL TO BROWSE • CLICK CARD TO INSPECT"}
                 </Text>
             </group>
         </group>
