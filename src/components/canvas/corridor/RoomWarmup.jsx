@@ -3,7 +3,6 @@ import { useFrame, useThree } from '@react-three/fiber';
 
 // Eagerly import all room components
 import GalleryRoom from '../rooms/Gallery/GalleryRoom';
-import StudioRoom from '../rooms/Studio/StudioRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
 import { isSanityDataLoaded } from '../../../hooks/useSanityData';
@@ -89,11 +88,6 @@ const RoomWarmup = ({ onWarmupComplete, isLowTier }) => {
             <Suspense fallback={null}>
                 <group position={[-20, 0, 0]}>
                     <GalleryRoom showRoom={true} onReady={noop} isExiting={false} isWarmup={true} />
-                </group>
-            </Suspense>
-            <Suspense fallback={null}>
-                <group position={[20, 0, 0]}>
-                    <StudioRoom showRoom={true} onReady={noop} isExiting={false} isWarmup={true} />
                 </group>
             </Suspense>
             <Suspense fallback={null}>

@@ -291,10 +291,9 @@ export const PRELOAD_ALL = [
 ];
 
 
-// Textures loaded via useLoader(TextureLoader) - about, studio
+// Textures loaded via useLoader(TextureLoader) - about
 export const PRELOAD_LOADER = [
     ...ABOUT_TEXTURES,
-    ...STUDIO_TEXTURES,
 ];
 
 /**

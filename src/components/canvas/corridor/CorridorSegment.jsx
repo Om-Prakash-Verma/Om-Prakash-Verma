@@ -54,15 +54,6 @@ const CorridorSegment = ({
                 color: '#f5efe6'
             },
             {
-                id: `studio-${segmentIndex}`,
-                roomId: 'studio',
-                relativeZ: -32,
-                side: 'right',
-                label: 'THE STUDIO',
-                icon: '▶',
-                color: '#e6f5ef'
-            },
-            {
                 id: `about-${segmentIndex}`,
                 roomId: 'about',
                 relativeZ: -48,

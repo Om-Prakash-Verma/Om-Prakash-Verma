@@ -52,11 +52,7 @@ const ScreenReaderOverlay = () => {
                                     Contact — Get in touch with me
                                 </button>
                             </li>
-                            <li>
-                                <button onClick={() => teleportTo('studio')} type="button">
-                                    The Studio — Technologies and experience
-                                </button>
-                            </li>
+                            
                         </ul>
                     </>
                 )}
@@ -67,7 +63,7 @@ const ScreenReaderOverlay = () => {
                             You are in the {currentRoom === 'about' ? 'About' :
                                 currentRoom === 'gallery' ? 'Gallery' :
                                     currentRoom === 'contact' ? 'Contact' :
-                                        currentRoom === 'studio' ? 'Studio' : currentRoom} room.
+                                         currentRoom} room.
                         </p>
                         <button onClick={requestExit} type="button">
                             Go back to corridor
@@ -121,24 +117,7 @@ const ScreenReaderOverlay = () => {
                                 <p>Find my social media links displayed as floating barrels. Click to visit my profiles on LinkedIn, GitHub, and other platforms.</p>
                             </div>
                         )}
-                        {currentRoom === 'studio' && (
-                            <div aria-label="Studio room content">
-                                <h3>The Studio</h3>
-                                <p>Explore my experience and skills on rotating monitors. Click a monitor to read detailed information about my work.</p>
-
-                                {studio && studio.length > 0 && (
-                                    <ul>
-                                        {studio.map((s, i) => (
-                                            <li key={i}>
-                                                <h4>{s.title} ({s.platform})</h4>
-                                                <p>{s.description}</p>
-                                                {s.url && <a href={s.url}>View content</a>}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </div>
-                        )}
+                        
 
                         {/* Quick navigation to other rooms */}
                         <h3>Quick Navigation</h3>
@@ -152,9 +131,7 @@ const ScreenReaderOverlay = () => {
                             {currentRoom !== 'contact' && (
                                 <li><button onClick={() => teleportTo('contact')} type="button">Go to Contact</button></li>
                             )}
-                            {currentRoom !== 'studio' && (
-                                <li><button onClick={() => teleportTo('studio')} type="button">Go to Studio</button></li>
-                            )}
+                            
                         </ul>
                     </>
                 )}

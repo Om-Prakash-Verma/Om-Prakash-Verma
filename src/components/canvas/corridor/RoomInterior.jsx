@@ -5,7 +5,6 @@ import * as THREE from 'three';
 
 // Eagerly import room components - textures are preloaded during the preloader phase
 import GalleryRoom from '../rooms/Gallery/GalleryRoom';
-import StudioRoom from '../rooms/Studio/StudioRoom';
 import AboutRoom from '../rooms/About/AboutRoom';
 import ContactRoom from '../rooms/Contact/ContactRoom';
 
@@ -199,13 +198,7 @@ const RoomInterior = memo(({ label, showRoom, onReady, isExiting }) => {
                                 <GalleryRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
                             </Suspense>
                         </group>
-                    ) : label === 'THE STUDIO' ? (
-                        // === NEW STUDIO ROOM ===
-                        <group position={[0, -0.5, -corridorDepth]}>
-                            <Suspense fallback={null}>
-                                <StudioRoom showRoom={showRoom} onReady={onReady} isExiting={isExiting} />
-                            </Suspense>
-                        </group>
+
                     ) : label === 'THE ABOUT' ? (
                         // === NEW ABOUT ROOM ===
                         <group position={[0, -0.5, -corridorDepth]}>
