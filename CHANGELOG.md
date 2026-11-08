@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0] - 2026-11-08
+### Added
+- **The Workshop (Featured Projects Section):**
+  - Integrated 12 real engineering projects curated from Om's repositories across AI, Edge & Full-Stack, and Creative/Mobile domains.
+  - Interactive tactile filter tabs: `Flagship Core`, `All Systems`, `AI & Algorithms`, `Edge & Full-Stack`, `Creative & Mobile`.
+  - Tactile project cards highlighting engineering metrics (e.g., *32k Thinking Budget*, *NP-Complete Backtracking Matrix*, *3072-D Vector Geometry*, *15ms Edge Cache*).
+  - Built compliant native `<dialog>` "Inspect Architecture" modal with data pipeline diagrams, technical decisions, and full tech stacks complying with modern web modal dialog guidelines.
+
 ## [0.3.0] - 2026-11-08
 ### Added
 - **Unconstrained Free-Floating 3D Mascot ("Spark"):**

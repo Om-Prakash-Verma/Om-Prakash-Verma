@@ -1,5 +1,6 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Projects from './components/Projects';
 
 export default function App() {
   return (
@@ -11,6 +12,9 @@ export default function App() {
       <main className="flex-1">
         {/* Hero Section */}
         <Hero />
+
+        {/* Featured Projects & Architecture Workshop */}
+        <Projects />
       </main>
 
       {/* Footer minimal teaser while we build subsequent sections */}

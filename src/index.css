@@ -34,6 +34,17 @@
 }
 
 /* Tactile / Claymorphism Utilities */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgba(3, 4, 7, 0.85);
+  backdrop-filter: blur(12px);
+}
+
 .clay-card {
   background: linear-gradient(135deg, rgba(26, 30, 42, 0.8) 0%, rgba(15, 17, 24, 0.95) 100%);
   box-shadow: 
