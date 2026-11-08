@@ -14,7 +14,7 @@ import GlobalOverlay from './components/ui/GlobalOverlay';
 import ScreenReaderOverlay from './components/ui/ScreenReaderOverlay';
 import { useDocumentMeta } from './hooks/useDocumentMeta';
 import posthog from 'posthog-js';
-import { loadSanityData } from './hooks/useSanityData';
+
 
 // Initialize PostHog
 posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
@@ -225,7 +225,7 @@ export default function App() {
   // This ensures they are in the network waterfall during the initial loading phase.
   useEffect(() => {
     // Eagerly preload Sanity CMS data and images
-    loadSanityData();
+
 
     const filteredImages = filterTexturesByDevice(IMAGE_ASSETS, supportsHover);
     // console.log(`[Preload] Triggering browser-level image preloads for ${filteredImages.length} assets.`);

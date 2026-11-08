@@ -1,11 +1,5 @@
-import { createClient } from '@sanity/client';
-
-const sanityClient = createClient({
-    projectId: 'p6mxvprp',
-    dataset: 'production',
-    useCdn: true,
-    apiVersion: '2024-03-01',
-});
+import { GLOBAL_INFO, GALLERY_PROJECTS, AWARDS_DATA, FAQ_LIST } from './src/data/portfolioData.js';
+import { CONTENT_DATA } from './src/components/canvas/rooms/Studio/contentData.js';
 
 // Tech stack filename -> human-readable name mapping for JSON-LD
 const TECH_STACK_NAMES = {
@@ -41,20 +35,16 @@ function buildJsonLd(globalInfo, projects, studio, awards, faqList) {
     // --- 1. Person: Central node of the Knowledge Graph ---
     const person = {
         '@type': 'Person',
-        '@id': 'https://itomdev.com/#person',
-        name: 'Tomasz Szmajda',
-        alternateName: ['ITom', 'ITom Dev', 'Tomasz ITom Szmajda'],
-        url: 'https://itomdev.com',
-        jobTitle: 'Creative Frontend Developer',
-        description: globalInfo?.aboutMe || 'Creative developer specializing in 3D web experiences.',
+        '@id': 'https://github.com/Om-Prakash-Verma#person',
+        name: globalInfo?.name || 'Om Prakash Verma',
+        alternateName: ['Om Prakash Verma', 'Om Prakash'],
+        url: globalInfo?.githubUrl || 'https://github.com/Om-Prakash-Verma',
+        jobTitle: 'Software Developer & Systems Engineer',
+        description: globalInfo?.aboutMe || 'Creative developer and systems engineer specializing in 3D web experiences.',
         knowsAbout: ['React', 'Three.js', 'JavaScript', 'TypeScript', 'GSAP', 'Next.js', 'WebGL', '3D Graphics', 'Web Development'],
         sameAs: [
             globalInfo?.linkedinUrl,
             globalInfo?.githubUrl,
-            globalInfo?.instagramUrl,
-            globalInfo?.xUrl,
-            globalInfo?.tiktokUrl,
-            globalInfo?.youtubeUrl
         ].filter(Boolean)
     };
     graph.push(person);
@@ -62,11 +52,11 @@ function buildJsonLd(globalInfo, projects, studio, awards, faqList) {
     // --- 2. WebSite ---
     const website = {
         '@type': 'WebSite',
-        '@id': 'https://itomdev.com/#website',
-        url: 'https://itomdev.com',
-        name: globalInfo?.siteTitle || 'Tomasz "ITom" Szmajda | Creative 3D Portfolio',
-        description: globalInfo?.siteDescription || 'Interactive 3D Developer Portfolio by Tomasz Szmajda',
-        publisher: { '@id': 'https://itomdev.com/#person' }
+        '@id': 'https://github.com/Om-Prakash-Verma#website',
+        url: 'https://github.com/Om-Prakash-Verma',
+        name: globalInfo?.siteTitle || 'Om Prakash Verma | Creative 3D Portfolio',
+        description: globalInfo?.siteDescription || 'Interactive 3D Developer Portfolio by Om Prakash Verma',
+        publisher: { '@id': 'https://github.com/Om-Prakash-Verma#person' }
     };
     graph.push(website);
 
@@ -304,21 +294,18 @@ function buildLlmsTxt(globalInfo, projects, studio, awards, faqList) {
 export function generateSeoHtml() {
     let cachedLlmsContent = '';
 
-    async function getLlmsContent() {
+    function getLlmsContent() {
         if (!cachedLlmsContent) {
-            try {
-                const [globalInfo, projects, studio, awards, faqList] = await Promise.all([
-                    sanityClient.fetch(`*[_id == "globalInfo"][0]`),
-                    sanityClient.fetch(`*[_type == "galleryProject"]`),
-                    sanityClient.fetch(`*[_type == "studioItem"]`),
-                    sanityClient.fetch(`*[_type == "awardCertificate"]`),
-                    sanityClient.fetch(`*[_type == "faq"]`)
-                ]);
-                cachedLlmsContent = buildLlmsTxt(globalInfo, projects, studio, awards, faqList);
-            } catch (e) {
-                console.error('SEO Plugin Error: Failed to fetch Sanity data for llms.txt', e);
-                cachedLlmsContent = `# Tomasz Szmajda\n> Creative Developer\n`;
-            }
+            const globalInfo = GLOBAL_INFO;
+            const projects = GALLERY_PROJECTS;
+            const studio = CONTENT_DATA;
+            const awards = [
+                ...AWARDS_DATA.sotd.items.map(i => ({ ...i, category: 'sotd' })),
+                ...AWARDS_DATA.sotm.items.map(i => ({ ...i, category: 'sotm' })),
+                ...AWARDS_DATA.other.items.map(i => ({ ...i, category: 'other' })),
+            ];
+            const faqList = FAQ_LIST;
+            cachedLlmsContent = buildLlmsTxt(globalInfo, projects, studio, awards, faqList);
         }
         return cachedLlmsContent;
     }
@@ -342,19 +329,20 @@ export function generateSeoHtml() {
         // This hook runs when Vite generates or serves index.html
         async transformIndexHtml(html) {
             try {
-                // Fetch all data in parallel
-                const [globalInfo, projects, studio, awards, faqList] = await Promise.all([
-                    sanityClient.fetch(`*[_id == "globalInfo"][0]`),
-                    sanityClient.fetch(`*[_type == "galleryProject"]`),
-                    sanityClient.fetch(`*[_type == "studioItem"] { ..., "thumbnailUrl": frontTexture.asset->url }`),
-                    sanityClient.fetch(`*[_type == "awardCertificate"]`),
-                    sanityClient.fetch(`*[_type == "faq"]`)
-                ]);
+                // Use local hardcoded portfolio data (offline & instant)
+                const globalInfo = GLOBAL_INFO;
+                const projects = GALLERY_PROJECTS;
+                const studio = CONTENT_DATA;
+                const awards = [
+                    ...AWARDS_DATA.sotd.items.map(i => ({ ...i, category: 'sotd' })),
+                    ...AWARDS_DATA.sotm.items.map(i => ({ ...i, category: 'sotm' })),
+                    ...AWARDS_DATA.other.items.map(i => ({ ...i, category: 'other' })),
+                ];
+                const faqList = FAQ_LIST;
 
-                // Fallback values if globalInfo is not yet created in Sanity
-                const siteTitle = globalInfo?.siteTitle || 'ITom - Creative Developer';
-                const siteDescription = globalInfo?.siteDescription || 'Interactive 3D portfolio of a creative web developer.';
-                const aboutMe = globalInfo?.aboutMe || 'I am a creative developer specializing in 3D web experiences.';
+                const siteTitle = globalInfo?.siteTitle || 'Om Prakash Verma - Creative Developer';
+                const siteDescription = globalInfo?.siteDescription || 'Interactive 3D portfolio of Om Prakash Verma.';
+                const aboutMe = globalInfo?.aboutMe || 'I am a creative developer specializing in 3D web experiences and systems architecture.';
 
                 // Cache llms.txt content for later bundle emission
                 cachedLlmsContent = buildLlmsTxt(globalInfo, projects, studio, awards, faqList);
