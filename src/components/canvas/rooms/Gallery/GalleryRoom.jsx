@@ -323,20 +323,6 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
         });
     };
 
-    const handlePrev = (e) => {
-        e?.stopPropagation?.();
-        const nextTarget = Math.round(targetScroll.current) - 1;
-        gsap.to(targetScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
-        gsap.to(currentScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
-    };
-
-    const handleNext = (e) => {
-        e?.stopPropagation?.();
-        const nextTarget = Math.round(targetScroll.current) + 1;
-        gsap.to(targetScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
-        gsap.to(currentScroll, { current: nextTarget, duration: 0.5, ease: 'power2.out' });
-    };
-
     // --- INTERACTION ---
     const lastTouchX = useRef(0);
     useEffect(() => {
@@ -544,17 +530,6 @@ const GalleryRoom = ({ showRoom, onReady, isExiting, isWarmup }) => {
                             isTablet={isTabletScreen}
                         />
                     ))}
-
-                    {/* 3D Rotunda Carousel Navigation Bar */}
-                    <GalleryNavigation
-                        currentScroll={currentScroll}
-                        total={projects.length}
-                        projects={projects}
-                        onPrev={handlePrev}
-                        onNext={handleNext}
-                        isMobile={isMobileScreen}
-                        isTablet={isTabletScreen}
-                    />
                 </group>
 
                 {/* === SCENERY LAYERS === */}
@@ -1057,138 +1032,6 @@ const ProjectCard = memo(forwardRef(({ index, project, currentScroll, total, isS
     );
 }));
 ProjectCard.displayName = 'ArchitecturalProjectCard';
-
-// ============================================
-// 🧭 3D ROTUNDA CAROUSEL NAVIGATION CONTROLS
-// Tactile Prev/Next buttons with live real-time index pill
-// ============================================
-const NavButton = ({ label, position, onClick }) => {
-    const [hovered, setHovered] = useState(false);
-    return (
-        <group
-            position={position}
-            onClick={onClick}
-            onPointerOver={(e) => {
-                e.stopPropagation();
-                setHovered(true);
-                document.body.style.cursor = 'pointer';
-            }}
-            onPointerOut={() => {
-                setHovered(false);
-                document.body.style.cursor = 'auto';
-            }}
-            scale={hovered ? [1.06, 1.06, 1] : [1, 1, 1]}
-        >
-            <mesh position={[0, 0, 0]}>
-                <planeGeometry args={[0.75, 0.28]} />
-                <meshBasicMaterial color={hovered ? '#1a1a1a' : '#ffffff'} side={THREE.DoubleSide} />
-            </mesh>
-            <lineSegments position={[0, 0, 0.01]}>
-                <edgesGeometry args={[new THREE.PlaneGeometry(0.75, 0.28)]} />
-                <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
-            </lineSegments>
-            <Text
-                font={CABIN_SKETCH}
-                fontSize={0.11}
-                color={hovered ? '#ffffff' : '#1a1a1a'}
-                position={[0, 0, 0.02]}
-                anchorX="center"
-                anchorY="middle"
-                letterSpacing={0.04}
-            >
-                {label}
-            </Text>
-        </group>
-    );
-};
-
-const NavIndicator = ({ currentScroll, total, projects, isMobile }) => {
-    const textRef = useRef();
-    const lastIndex = useRef(-1);
-
-    useFrame(() => {
-        if (!textRef.current || !total) return;
-        const raw = Math.round(currentScroll.current);
-        const activeIdx = ((raw % total) + total) % total;
-        if (activeIdx !== lastIndex.current) {
-            lastIndex.current = activeIdx;
-            const p = projects[activeIdx];
-            const title = p?.title ? p.title.replace(/[^\w\s-]/g, '').trim() : `PROJECT ${activeIdx + 1}`;
-            const label = isMobile
-                ? `${String(activeIdx + 1).padStart(2, '0')}/${String(total).padStart(2, '0')} • ${title.slice(0, 9)}`
-                : `${String(activeIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}  •  ${title}`;
-            textRef.current.text = label;
-        }
-    });
-
-    return (
-        <Text
-            ref={textRef}
-            font={CABIN_SKETCH}
-            fontSize={isMobile ? 0.095 : 0.105}
-            color="#1a1a1a"
-            position={[0, 0, 0.02]}
-            anchorX="center"
-            anchorY="middle"
-            letterSpacing={0.03}
-        >
-            01 / 12
-        </Text>
-    );
-};
-
-const GalleryNavigation = ({ currentScroll, total, projects, onPrev, onNext, isMobile, isTablet }) => {
-    const btnOffsetX = isMobile ? 0.90 : isTablet ? 1.15 : 1.40;
-    const navScale = isMobile ? 0.76 : isTablet ? 0.88 : 1.0;
-    const centerPillWidth = isMobile ? 1.25 : isTablet ? 1.55 : 1.90;
-
-    return (
-        <group position={[0, isMobile ? -1.15 : -1.35, 0.08]} scale={[navScale, navScale, 1]}>
-            {/* Prev Button */}
-            <NavButton label="‹ PREV" position={[-btnOffsetX, 0, 0]} onClick={onPrev} />
-
-            {/* Center Active Project Status Pill */}
-            <group position={[0, 0, 0]}>
-                <mesh position={[0, 0, 0]}>
-                    <planeGeometry args={[centerPillWidth, 0.28]} />
-                    <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} />
-                </mesh>
-                <lineSegments position={[0, 0, 0.01]}>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(centerPillWidth, 0.28)]} />
-                    <lineBasicMaterial color="#1a1a1a" linewidth={1.5} />
-                </lineSegments>
-                <NavIndicator currentScroll={currentScroll} total={total} projects={projects} isMobile={isMobile} />
-            </group>
-
-            {/* Next Button */}
-            <NavButton label="NEXT ›" position={[btnOffsetX, 0, 0]} onClick={onNext} />
-
-            {/* Interaction Hint with solid opaque backing */}
-            <group position={[0, -0.28, 0]}>
-                <mesh position={[0, 0, 0]}>
-                    <planeGeometry args={[isMobile ? 2.1 : 2.5, 0.20]} />
-                    <meshBasicMaterial color="#ffffff" side={THREE.DoubleSide} />
-                </mesh>
-                <lineSegments position={[0, 0, 0.01]}>
-                    <edgesGeometry args={[new THREE.PlaneGeometry(isMobile ? 2.1 : 2.5, 0.20)]} />
-                    <lineBasicMaterial color="#cccccc" linewidth={1} />
-                </lineSegments>
-                <Text
-                    font={CABIN_REGULAR}
-                    fontSize={isMobile ? 0.068 : 0.075}
-                    color="#555555"
-                    position={[0, 0, 0.02]}
-                    anchorX="center"
-                    anchorY="middle"
-                    letterSpacing={0.04}
-                >
-                    {isMobile ? "SWIPE TO BROWSE • TAP TO INSPECT" : "DRAG / SCROLL TO BROWSE • CLICK CARD TO INSPECT"}
-                </Text>
-            </group>
-        </group>
-    );
-};
-
 
 const RightSideHouses = ({ texture, baseWidth, baseHeight, cropAmount }) => {
     // Clone texture to allow independent UV manipulation
