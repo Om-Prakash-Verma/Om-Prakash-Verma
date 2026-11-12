@@ -1,4 +1,3 @@
-# ⚡ OM PRAKASH VERMA
 <!-- NEURAL // ENGINEERING OS -->
 
 <div align="center">
