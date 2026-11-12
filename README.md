@@ -76,7 +76,7 @@ To run this application natively on your local machine:
 
 ## 🤝 Contributing & Feedback
 
-All PRs improving the shader physics, 3D math logic, or component memoization runtimes are welcome. Please refer to our new `.github` Issue and Pull Request templates when submitting!
+All PRs improving the shader physics, 3D math logic, or component memoization runtimes are welcome.
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingRoom`)
