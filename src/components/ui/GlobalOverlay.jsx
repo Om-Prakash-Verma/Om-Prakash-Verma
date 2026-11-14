@@ -209,6 +209,7 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
 
     // --- KONFIGURACJA STYLU KARTKI (POZYCJA) ---
     // Używamy % lub vw/vh dla fluid-responsywności.
+    const isCardLeft = content.cardPosition === 'left';
     const cardStyle = isMobile ? {
         // MOBILE: Karta na dole
         width: '90%',
@@ -218,10 +219,20 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
         transform: isOpen ? 'translate(-50%, 0) rotate(-1deg)' : 'translate(-50%, 120%) rotate(10deg)',
         opacity: isOpen ? 1 : 0,
         color: '#1a1a1a',
+    } : isCardLeft ? {
+        // DESKTOP: Karta po lewej (np. dla College / Degree)
+        width: 'clamp(280px, 30vw, 450px)',
+        left: 'clamp(2rem, 12vw, 20rem)',
+        right: 'auto',
+        top: '50%',
+        transform: isOpen ? 'translateY(-50%) rotate(-1deg)' : 'translate(-150%, -50%) rotate(-15deg)',
+        opacity: isOpen ? 1 : 0,
+        color: '#1a1a1a',
     } : {
-        // DESKTOP: Karta po prawej
-        width: 'clamp(280px, 30vw, 450px)', // <--- FLUID
-        right: 'clamp(2rem, 12vw, 20rem)', // <--- FLUID: scales with viewport
+        // DESKTOP: Karta po prawej (np. dla Schooling / standard)
+        width: 'clamp(280px, 30vw, 450px)',
+        right: 'clamp(2rem, 12vw, 20rem)',
+        left: 'auto',
         top: '50%',
         transform: isOpen ? 'translateY(-50%) rotate(1deg)' : 'translate(150%, -50%) rotate(15deg)',
         opacity: isOpen ? 1 : 0,
@@ -237,6 +248,7 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
     });
 
     // --- KONFIGURACJA MASKI (SPOTLIGHT - CZARNA DZIURA) ---
+    const isSpotlightRight = content.spotlightPosition === 'right' || isCardLeft;
     const maskStyle = (content.layout === 'certificate_grid') ? {
         maskImage: 'none',
         WebkitMaskImage: 'none'
@@ -244,9 +256,12 @@ const ContentCard = ({ content, isOpen, onClose, isMobile }) => {
         // Mobile: Monitor jest na górze (50% szerokości, 25% wysokości od góry)
         maskImage: 'radial-gradient(circle at 50% 25%, transparent 0%, transparent 15%, black 40%)',
         WebkitMaskImage: 'radial-gradient(circle at 50% 25%, transparent 0%, transparent 15%, black 40%)'
+    } : isSpotlightRight ? {
+        // Desktop: Spotlight po prawej (69% szerokości od lewej, 50% wysokości)
+        maskImage: 'radial-gradient(circle at 69% 50%, transparent 0%, transparent 12%, black 35%)',
+        WebkitMaskImage: 'radial-gradient(circle at 69% 50%, transparent 0%, transparent 12%, black 35%)'
     } : {
-        // Desktop: Monitor jest po lewej (31% szerokości od lewej, 50% wysokości)
-        // WPROWADZONE PRZEZ UZYTKOWNIKA 31%
+        // Desktop: Spotlight po lewej (31% szerokości od lewej, 50% wysokości)
         maskImage: 'radial-gradient(circle at 31% 50%, transparent 0%, transparent 12%, black 35%)',
         WebkitMaskImage: 'radial-gradient(circle at 31% 50%, transparent 0%, transparent 12%, black 35%)'
     };
